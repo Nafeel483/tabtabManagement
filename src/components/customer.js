@@ -569,6 +569,10 @@ class Customer extends React.Component {
 
                 <TableCell align="left"></TableCell>
                 <TableCell align="left"></TableCell>
+                <TableCell align="left"></TableCell>
+                <TableCell align="left"></TableCell>
+                <TableCell align="left"></TableCell>
+
               </TableRow>
               <TableBody>
                 {filterResultCustomers.map(user => (
@@ -627,6 +631,21 @@ class Customer extends React.Component {
                           View
                        </Button>
                       </Link>
+                    </TableCell>
+                    <TableCell align="left">
+                        <Button variant="contained" color="secondary" >
+                          Delete
+                       </Button>
+                    </TableCell>
+                    <TableCell align="left">
+                        <Button variant="contained" color="primary" >
+                          Suspend
+                       </Button>
+                    </TableCell>
+                    <TableCell align="left">
+                        <Button variant="contained" color="primary" >
+                          Cancel
+                       </Button>
                     </TableCell>
                   </TableRow>
                 ))}

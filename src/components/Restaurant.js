@@ -1,4 +1,4 @@
- 
+
 import React from 'react';
 
 import SearchIcon from '@material-ui/icons/Search';
@@ -23,7 +23,7 @@ import { restaurantPath } from '../utils/img_link';
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import axios from "axios"
-import Switch from '@material-ui/core/Switch';  
+import Switch from '@material-ui/core/Switch';
 import { userContext } from '../utils/userContext';
 import moment from 'moment';
 
@@ -33,7 +33,7 @@ import {
   getRestaurantByIdUsers,
   listRestaurantCount
 } from '../utils/restaurantContext';
-  
+
 import { getRestaurantReadyToGetPaid } from '../utils/StatContext';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -55,7 +55,7 @@ const IOSSwitch = withStyles(theme => ({
       transform: 'translateX(16px)',
       color: theme.palette.common.white,
       '& + $track': {
-        backgroundColor:theme.palette.common.blue,
+        backgroundColor: theme.palette.common.blue,
         opacity: 1,
         border: 'none',
       },
@@ -112,7 +112,7 @@ const styles = theme => ({
       marginTop: theme.spacing(2),
     },
   },
- 
+
   table: {
     width: 1100
   },
@@ -124,11 +124,11 @@ const styles = theme => ({
     fontSize: 14,
   },
 
-  TableRowDesign:{
+  TableRowDesign: {
     "&:hover": {
-      backgroundColor: "#eee", cursor:"pointer"
+      backgroundColor: "#eee", cursor: "pointer"
     },
-},
+  },
   root: {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.background.default,
@@ -136,13 +136,13 @@ const styles = theme => ({
   },
   paperModal: {
     position: 'absolute',
-    marginLeft:"20%",
-    marginTop:"5%",
+    marginLeft: "20%",
+    marginTop: "5%",
     width: '60%',
     height: 700,
     backgroundColor: "#fff",
     border: 'none',
-    boxShadow:"#eee",
+    boxShadow: "#eee",
     padding: theme.spacing(2, 4, 3),
   },
   search: {
@@ -166,7 +166,7 @@ const styles = theme => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: '#FFF',
-    elevation:6,
+    elevation: 6,
     '&:hover': {
       backgroundColor: fade('#FFF', 0.8),
     },
@@ -245,8 +245,8 @@ class Restaurant extends React.Component {
       dataPaymentToPaid: []
     }
   }
-  
-  
+
+
   getRestaurantsDetails = (user) => {
     this.setState({
       currentUser: user
@@ -278,7 +278,7 @@ class Restaurant extends React.Component {
         isLogin: false
       })
     }
-    
+
     if (JSON.parse(user).data.userTypeID == 1) {
       let restaurants = await listRestaurantContext(20, 19);
       if (restaurants.length > 0) {
@@ -289,7 +289,7 @@ class Restaurant extends React.Component {
       }
 
       let countRestaurant = await listRestaurantCount();
-      if (countRestaurant.length>0) {
+      if (countRestaurant.length > 0) {
         this.setState({
           countRestaurant: countRestaurant[0].restaurantLength
         }, () => {
@@ -299,11 +299,11 @@ class Restaurant extends React.Component {
 
       let dataPaymentToPaid = await getRestaurantReadyToGetPaid(JSON.parse(user).token)
       // Sort payment who's grander than 0 $ 
-     let sortPayement =  dataPaymentToPaid.sort((a,b)=> b.diference - a.diference)
+      let sortPayement = dataPaymentToPaid.sort((a, b) => b.diference - a.diference)
       this.setState({
         dataPaymentToPaid: sortPayement
       })
-  
+
     } else {
 
       let dataPaymentToPaid = await getRestaurantReadyToGetPaid(JSON.parse(user).token)
@@ -318,24 +318,24 @@ class Restaurant extends React.Component {
         })
       }
     }
-  } 
-
-  getPaginationRestaurant = async ( amount , newPage) => {
-    let restaurants = await listRestaurantContext(amount, 19 * newPage);
-      if (restaurants.length > 0) {
-        this.setState({
-          restaurants: restaurants,
-          showProgress: false
-        })
-      }
   }
-  
+
+  getPaginationRestaurant = async (amount, newPage) => {
+    let restaurants = await listRestaurantContext(amount, 19 * newPage);
+    if (restaurants.length > 0) {
+      this.setState({
+        restaurants: restaurants,
+        showProgress: false
+      })
+    }
+  }
+
   // Library code 
   handleChangePage = (event, newPage) => {
     this.setState({
       setPage: newPage
     });
-    this.getPaginationRestaurant( 20 , parseInt(newPage))
+    this.getPaginationRestaurant(20, parseInt(newPage))
   };
 
   handleChangeRowsPerPage = event => {
@@ -347,106 +347,106 @@ class Restaurant extends React.Component {
   handleInputChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
-  
+
   onSearch = async () => {
-  
+
     let data = {
       'restaurant': this.state.search,
       'adminRestID': this.state.user.data.id_user,
       'userTypeID': this.state.user.data.userTypeID
     }
     axios
-    .post(`${urlFunction()}/restaurant/search`, data )
+      .post(`${urlFunction()}/restaurant/search`, data)
       .then((res) => {
-      if (res.data.length > 0) {
-        this.setState({
-          showProgress: false,
-          restaurants: res.data
-        })
-      } else {
+        if (res.data.length > 0) {
+          this.setState({
+            showProgress: false,
+            restaurants: res.data
+          })
+        } else {
           alert("Can't find any restaurant at this name")
           this.setState({
             showProgress: false,
-            findData:false
+            findData: false
           })
-      }
-     
-    })
-    .catch((error) => {
-      this.setState({
-        showProgress: false,
+        }
+
       })
-      console.log(error)
-    })
+      .catch((error) => {
+        this.setState({
+          showProgress: false,
+        })
+        console.log(error)
+      })
 
-}
-  
- handleChangeIOS = name => event => {
-   this.setState({ ...this.state, [name]: event.target.checked });
-};
-
- groupByrestaurant = (arry) => {
-  let group = [];
-  arry.forEach((restaurant, ind) => { 
-    if (!group[restaurant.name_restaurant]) {
-      group[restaurant.name_restaurant] = {
-      data:[]
-    }
-    group[restaurant.name_restaurant].data.push(restaurant);
   }
-  });
-  return Object.values(group);
-}
 
-dateDiff(date1, date2){
-  var diff = {}                           // Initialisation du retour
-  var tmp = date2 - date1;
+  handleChangeIOS = name => event => {
+    this.setState({ ...this.state, [name]: event.target.checked });
+  };
 
-  tmp = Math.floor(tmp/1000);             // Nombre de secondes entre les 2 dates
-  diff.sec = tmp % 60;                    // Extraction du nombre de secondes
+  groupByrestaurant = (arry) => {
+    let group = [];
+    arry.forEach((restaurant, ind) => {
+      if (!group[restaurant.name_restaurant]) {
+        group[restaurant.name_restaurant] = {
+          data: []
+        }
+        group[restaurant.name_restaurant].data.push(restaurant);
+      }
+    });
+    return Object.values(group);
+  }
 
-  tmp = Math.floor((tmp-diff.sec)/60);    // Nombre de minutes (partie entière)
-  diff.min = tmp % 60;                    // Extraction du nombre de minutes
+  dateDiff(date1, date2) {
+    var diff = {}                           // Initialisation du retour
+    var tmp = date2 - date1;
 
-  tmp = Math.floor((tmp-diff.min)/60);    // Nombre d'heures (entières)
-  diff.hour = tmp % 24;                   // Extraction du nombre d'heures
-   
-  tmp = Math.floor((tmp-diff.hour)/24);   // Nombre de jours restants
-  diff.day = tmp;
-   
-  return diff;
-}
+    tmp = Math.floor(tmp / 1000);             // Nombre de secondes entre les 2 dates
+    diff.sec = tmp % 60;                    // Extraction du nombre de secondes
 
-dataDifferenceForPayment = (pData) => {
-  // should take the date of last payment
-  if (pData != null) {
-    let last_date = new Date(pData);
-    let currentDate = new Date();
-    let diffObject = this.dateDiff(last_date, currentDate);
+    tmp = Math.floor((tmp - diff.sec) / 60);    // Nombre de minutes (partie entière)
+    diff.min = tmp % 60;                    // Extraction du nombre de minutes
 
-    if (diffObject.day > 15) {
-      return 'Pay urgently'
-    } else if (diffObject.day <= 1) {
-      return `First time paid need date of last orders ..!`
+    tmp = Math.floor((tmp - diff.min) / 60);    // Nombre d'heures (entières)
+    diff.hour = tmp % 24;                   // Extraction du nombre d'heures
+
+    tmp = Math.floor((tmp - diff.hour) / 24);   // Nombre de jours restants
+    diff.day = tmp;
+
+    return diff;
+  }
+
+  dataDifferenceForPayment = (pData) => {
+    // should take the date of last payment
+    if (pData != null) {
+      let last_date = new Date(pData);
+      let currentDate = new Date();
+      let diffObject = this.dateDiff(last_date, currentDate);
+
+      if (diffObject.day > 15) {
+        return 'Pay urgently'
+      } else if (diffObject.day <= 1) {
+        return `First time paid need date of last orders ..!`
+      } else {
+        return `${Math.abs(diffObject.day - 15)} Day(s)`
+      }
     } else {
-      return `${ Math.abs(diffObject.day - 15)} Day(s)`
+      return 'Not pay yet'
     }
-  } else {
-    return 'Not pay yet'
   }
-}
 
-render() {
-    if (this.state.isLogin == false ) {
+  render() {
+    if (this.state.isLogin == false) {
       return <Redirect to='/' />
     }
-  
-    let { userTypeID,countRestaurant,search,open , close, restaurants , AlertTitle, successOperation,snackbarOpen} = this.state
+
+    let { userTypeID, countRestaurant, search, open, close, restaurants, AlertTitle, successOperation, snackbarOpen } = this.state
     const { classes } = this.props;
 
     return (
-      <div>  
-      <TableContainer style={{
+      <div>
+        <TableContainer style={{
           marginTop: 80,
           paddingLeft: 20,
           paddingRight: 20,
@@ -454,62 +454,62 @@ render() {
           height: window.innerHeight - 140,
         }}>
           <div
-           style={{
-            display: "flex",
-            flexDirection: "row",
+            style={{
+              display: "flex",
+              flexDirection: "row",
               alignItems: "center",
-            justifyContent:"space-between"
-          }}>         
+              justifyContent: "space-between"
+            }}>
             <h2> Restaurants</h2>
             <Link to={'/form_restaurant'}
               style={{
-               textDecoration:"none"
+                textDecoration: "none"
               }}>
-                <Button variant="contained" color="primary">
+              <Button variant="contained" color="primary">
                 Add Restaurant
               </Button>
-              </Link>
+            </Link>
           </div>
           <div
-              style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent:"space-between"
-              }}>
-          <div
             style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between"
+            }}>
+            <div
+              style={{
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
-            }}
-          >
-          <div className={classes.search1}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-              <InputBase
-                type="text"
-                name="search"
-          
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput1,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
-                onChange={this.handleInputChange}
-                
-            />
-          
-            </div>
-            <Button variant="contained" color="primary"
-              onClick={this.onSearch}
+              }}
             >
-              SEARCH 
+              <div className={classes.search1}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  type="text"
+                  name="search"
+
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput1,
+                  }}
+                  inputProps={{ 'aria-label': 'search' }}
+                  onChange={this.handleInputChange}
+
+                />
+
+              </div>
+              <Button variant="contained" color="primary"
+                onClick={this.onSearch}
+              >
+                SEARCH
             </Button>
-          </div>
-          {/* 
+            </div>
+            {/* 
             <FormControlLabel
               label ="FILTER"
                 control={
@@ -522,209 +522,247 @@ render() {
             /> */}
           </div>
 
-          {this.state.showProgress == true ? 
-              <LinearProgress />
+          {this.state.showProgress == true ?
+            <LinearProgress />
             : null
           }
 
           {/* Restaurant need attention to send payment */}
-            <ExpansionPanel
+          <ExpansionPanel
             style={{
               marginBottom: 20,
             }}
             defaultExpanded={true}>
             <ExpansionPanelSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header">
-                <Typography className={classes.heading}> <h3> Restaurant need to process payment  </h3> </Typography>
-           
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header">
+              <Typography className={classes.heading}> <h3> Restaurant need to process payment  </h3> </Typography>
+
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-          
-              <Table 
-              component={Paper} aria-label="customized table">  
+
+              <Table
+                component={Paper} aria-label="customized table">
                 <TableRow style={{
-                      backgroundColor:"#fff"
-                    }}> 
-                      <TableCell> <b> Process payment for </b> </TableCell>
-                      <TableCell>  </TableCell>
-                      <TableCell>  </TableCell>
-                      <TableCell>  </TableCell>
-                    </TableRow>
-                      
-                    <TableRow style={{
-                        backgroundColor:"#eeefff"
-                      }}> 
-                      <TableCell>  Name </TableCell>
-                      <TableCell align="left">Adress</TableCell>
-                      <TableCell align="left">Amount </TableCell>
-                      <TableCell align="left">Last payment due </TableCell>
-                      <TableCell align="left">Day left to pay</TableCell>
-                      <TableCell align="left">Actions</TableCell>
-                    </TableRow>
-                    <TableBody>
-                      {this.state.dataPaymentToPaid.map(resto => (          
-                        <TableRow className={classes.TableRowDesign}
-                          onClick={this.getRestaurantsDetails.bind(this, resto)}
-                          key={resto.id_restaurant}
-                          style={{
-                            backgroundColor: '#fff'
-                          }}>
-                          <TableCell>
-                            <div style={{
-                              display: "flex",
-                              alignItems: "center"
-                            }}>
-                              <Avatar style={{ width: 60, height: 60 }}>
-                                <img src={`${restaurantPath}${resto.logo_restaurant}` 
-                                } 
-                                style={{ width: 60, height: 60 }}/>
-                              </Avatar>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  marginLeft: 8,
-                                }}>
-                                {resto.name_restaurant} <br/>
-                                {resto.email_restaurant}
-                                {resto.tel_restaurant}
-                              </div>
-
-                            </div>
-                          </TableCell>
-
-                     
-                          <TableCell align="left">{resto.adresse_restaurant} </TableCell>
-                          <TableCell align="left"> ${resto.diference} USD </TableCell>
-                          <TableCell align="left">
-                            {
-                              moment(resto.last_date_payment).format('DD/MM/YYYY') == "Invalid date" ?
-                              "Not pay yet " :
-                              moment(resto.last_date_payment).format('DD/MM/YYYY')
-                            }
-                          </TableCell>
-                          <TableCell align="left"> {
-                            this.dataDifferenceForPayment(resto.last_date_payment)
-                          }
-                          </TableCell>
-                          <TableCell align="left">
-                            {this.state.userTypeID == 1 ?
-                              <Link to={
-                                  `/create_invoice/${resto.id_restaurant}`
-                                }>
-                                  <Button variant="outlined" color="primary">
-                                    View 
-                                  </Button>
-                                </Link> :
-                                <Link to={
-                                  `/restaurant_details/${resto.id_restaurant}`
-                                }>
-                                  <Button variant="outlined" color="primary">
-                                    View
-                                  </Button>
-                              </Link>
-                            }
-                          </TableCell>    
-                        </TableRow>
-                        ))}
-                      </TableBody>
-                  </Table>                  
-             
-            </ExpansionPanelDetails>     
-            </ExpansionPanel> 
-          <div>
-        <Table 
-        component={Paper} aria-label="customized table">
-      
-        <TableRow style={{
-          backgroundColor:"#fff"
-        }}> 
-          <TableCell> <b>Restaurants list</b> </TableCell>
-          <TableCell>  </TableCell>
-          <TableCell>  </TableCell>
-          <TableCell>  </TableCell>
-        </TableRow>
-          
-        <TableRow style={{
-            backgroundColor:"#eeefff"
-          }}> 
-          <TableCell>  Name </TableCell>
-          <TableCell align="left">Adress</TableCell>
-          <TableCell align="left">Phone number</TableCell>
-
-          <TableCell align="left">Actions</TableCell>
-        </TableRow>
-        <TableBody>
-          {restaurants.map(resto => (
-            
-            <TableRow className={classes.TableRowDesign}
-              onClick={this.getRestaurantsDetails.bind(this, resto)}
-              key={resto.id_restaurant}>
-              <TableCell>
-                <div style={{
-                  display: "flex",
-                  alignItems: "center",
+                  backgroundColor: "#fff"
                 }}>
-                  <Avatar style={{ width: 60, height: 60 }}>
-                    <img src={`${restaurantPath}${resto.logo_restaurant}` 
-                    } 
-                    style={{ width: 60, height: 60 }}/>
-                  </Avatar>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginLeft: 8,
-                    }}>
-                    {resto.name_restaurant} <br/>
-                    {resto.email_restaurant}
-                  </div>
-                </div>
-          </TableCell>
+                  <TableCell> <b> Process payment for </b> </TableCell>
+                  <TableCell>  </TableCell>
+                  <TableCell>  </TableCell>
+                  <TableCell>  </TableCell>
+                </TableRow>
 
-          <TableCell align="left">{resto.adresse_restaurant} </TableCell>
-          <TableCell align="left">{resto.tel_restaurant}</TableCell>
-              <TableCell align="left">
-                <Link to={
-                  `/restaurant_details/${resto.id_restaurant}`
-                }>
-                  <Button variant="outlined" color="primary">
-                  View
+                <TableRow style={{
+                  backgroundColor: "#eeefff"
+                }}>
+                  <TableCell>  Name </TableCell>
+                  <TableCell align="left">Adress</TableCell>
+                  <TableCell align="left">Amount </TableCell>
+                  <TableCell align="left">Last payment due </TableCell>
+                  <TableCell align="left">Day left to pay</TableCell>
+                  <TableCell align="left">Actions</TableCell>
+                </TableRow>
+                <TableBody>
+                  {this.state.dataPaymentToPaid.map(resto => (
+                    <TableRow className={classes.TableRowDesign}
+                      onClick={this.getRestaurantsDetails.bind(this, resto)}
+                      key={resto.id_restaurant}
+                      style={{
+                        backgroundColor: '#fff'
+                      }}>
+                      <TableCell>
+                        <div style={{
+                          display: "flex",
+                          alignItems: "center"
+                        }}>
+                          <Avatar style={{ width: 60, height: 60 }}>
+                            <img src={`${restaurantPath}${resto.logo_restaurant}`
+                            }
+                              style={{ width: 60, height: 60 }} />
+                          </Avatar>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              marginLeft: 8,
+                            }}>
+                            {resto.name_restaurant} <br />
+                            {resto.email_restaurant}
+                            {resto.tel_restaurant}
+                          </div>
+
+                        </div>
+                      </TableCell>
+
+
+                      <TableCell align="left">{resto.adresse_restaurant} </TableCell>
+                      <TableCell align="left"> ${resto.diference} USD </TableCell>
+                      <TableCell align="left">
+                        {
+                          moment(resto.last_date_payment).format('DD/MM/YYYY') == "Invalid date" ?
+                            "Not pay yet " :
+                            moment(resto.last_date_payment).format('DD/MM/YYYY')
+                        }
+                      </TableCell>
+                      <TableCell align="left"> {
+                        this.dataDifferenceForPayment(resto.last_date_payment)
+                      }
+                      </TableCell>
+                      <TableCell align="left">
+                        {this.state.userTypeID == 1 ?
+                          <Link to={
+                            `/create_invoice/${resto.id_restaurant}`
+                          }>
+                            <Button variant="outlined" color="primary">
+                              View
+                                  </Button>
+                          </Link> :
+                          <Link to={
+                            `/restaurant_details/${resto.id_restaurant}`
+                          }>
+                            <Button variant="outlined" color="primary">
+                              View
+                                  </Button>
+
+                          </Link>
+                        }
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+          <div>
+            <Table
+              component={Paper} aria-label="customized table">
+
+              <TableRow style={{
+                backgroundColor: "#fff"
+              }}>
+                <TableCell> <b>Restaurants list</b> </TableCell>
+                <TableCell>  </TableCell>
+                <TableCell>  </TableCell>
+                <TableCell>  </TableCell>
+              </TableRow>
+
+              <TableRow style={{
+                backgroundColor: "#eeefff"
+              }}>
+                <TableCell>  Name </TableCell>
+                <TableCell align="left">Adress</TableCell>
+                <TableCell align="left">Phone number</TableCell>
+
+                <TableCell align="left">Actions</TableCell>
+                {userTypeID == 1 ? <>
+                  <TableCell align="left"></TableCell>
+                  <TableCell align="left"></TableCell>
+                  <TableCell align="left"></TableCell>
+                </> :
+                  <>
+                    <TableCell align="left">Closing Time</TableCell>
+                    <TableCell align="left">Opening Time</TableCell>
+                  </>
+                }
+
+              </TableRow>
+              <TableBody>
+                {restaurants.map(resto => (
+
+                  <TableRow className={classes.TableRowDesign}
+                    onClick={this.getRestaurantsDetails.bind(this, resto)}
+                    key={resto.id_restaurant}>
+                    <TableCell>
+                      <div style={{
+                        display: "flex",
+                        alignItems: "center",
+                      }}>
+                        <Avatar style={{ width: 60, height: 60 }}>
+                          <img src={`${restaurantPath}${resto.logo_restaurant}`
+                          }
+                            style={{ width: 60, height: 60 }} />
+                        </Avatar>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            marginLeft: 8,
+                          }}>
+                          {resto.name_restaurant} <br />
+                          {resto.email_restaurant}
+                        </div>
+                      </div>
+                    </TableCell>
+
+                    <TableCell align="left">{resto.adresse_restaurant} </TableCell>
+                    <TableCell align="left">{resto.tel_restaurant}</TableCell>
+                    <TableCell align="left">
+                      <Link to={
+                        `/restaurant_details/${resto.id_restaurant}`
+                      }>
+                        <Button variant="outlined" color="primary">
+                          View
                 </Button>
-              </Link> 
-          </TableCell>    
-        </TableRow>
-        ))}
-      </TableBody>
-      </Table>
-       
+                      </Link>
+                    </TableCell>
+                    {userTypeID == 1 ? <>
+                      <TableCell align="left">
+                        <Button variant="contained" color="secondary" >
+                          Delete
+                       </Button>
+                      </TableCell>
+                      <TableCell align="left">
+                        <Button variant="contained" color="primary" >
+                          Suspend
+                       </Button>
+                      </TableCell>
+                      <TableCell align="left">
+                        <Button variant="contained" color="primary" >
+                          Cancel
+                       </Button>
+                      </TableCell>
+                    </> :
+                      <>
+                      <TableCell align="left">
+                         11:49PM
+                        </TableCell>
+                        <TableCell align="left">
+                         10:49AM
+                        </TableCell>
+                      </>
+                    }
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+
           </div>
 
         </TableContainer>
         {userTypeID == 1 ?
-        <TablePagination
-          rowsPerPageOptions={[20]}
-          component="div"
-          count={Math.ceil(countRestaurant / 20)}
-          rowsPerPage={1}
-          page={this.state.setPage }
-          backIconButtonProps={{
-            "aria-label": "Previous Page"
-          }}
-          nextIconButtonProps={{
-            "aria-label": "Next Page"
-          }}
-          onChangePage={this.handleChangePage}
-          onChangeRowsPerPage={this.handleChangeRowsPerPage}
+          <TablePagination
+            rowsPerPageOptions={[20]}
+            component="div"
+            count={Math.ceil(countRestaurant / 20)}
+            rowsPerPage={1}
+            page={this.state.setPage}
+            backIconButtonProps={{
+              "aria-label": "Previous Page"
+            }}
+            nextIconButtonProps={{
+              "aria-label": "Next Page"
+            }}
+            onChangePage={this.handleChangePage}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
           />
-          :null}
-    
+          : null}
+
       </div>
     )
   }
 
 }
 
-export default   withStyles(styles)(Restaurant);
+export default withStyles(styles)(Restaurant);
