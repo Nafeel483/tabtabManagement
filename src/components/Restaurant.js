@@ -656,11 +656,7 @@ class Restaurant extends React.Component {
                 <TableCell align="left">Phone number</TableCell>
 
                 <TableCell align="left">Actions</TableCell>
-                {userTypeID == 1 ? <>
-                  <TableCell align="left"></TableCell>
-                  <TableCell align="left"></TableCell>
-                  <TableCell align="left"></TableCell>
-                </> :
+                {userTypeID != 1 &&
                   <>
                     <TableCell align="left">Closing Time</TableCell>
                     <TableCell align="left">Opening Time</TableCell>
@@ -707,23 +703,7 @@ class Restaurant extends React.Component {
                 </Button>
                       </Link>
                     </TableCell>
-                    {userTypeID == 1 ? <>
-                      <TableCell align="left">
-                        <Button variant="contained" color="secondary" >
-                          Delete
-                       </Button>
-                      </TableCell>
-                      <TableCell align="left">
-                        <Button variant="contained" color="primary" >
-                          Suspend
-                       </Button>
-                      </TableCell>
-                      <TableCell align="left">
-                        <Button variant="contained" color="primary" >
-                          Cancel
-                       </Button>
-                      </TableCell>
-                    </> :
+                    {userTypeID != 1 && 
                       <>
                       <TableCell align="left">
                          11:49PM

@@ -1,0 +1,20 @@
+.MainContainer{
+    align-self: center;
+    background-color: #fff;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    font-size: 15px;
+    margin-bottom: 20px;
+    width: 70%;
+    margin-left: 15%;
+}
+.MainContainer1{
+    align-self: center;
+    /* background-color: #fff;
+    border: 1px solid #dadce0; */
+    border-radius: 8px;
+    font-size: 15px;
+    margin-bottom: 20px;
+    width: 70%;
+    margin-left: 15%;
+}

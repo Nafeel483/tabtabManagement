@@ -191,6 +191,9 @@ export class UserList extends Component {
                 <TableCell align="left">Phone number</TableCell>
 
                 <TableCell align="left">Actions</TableCell>
+                <TableCell align="left"></TableCell>
+                <TableCell align="left"></TableCell>
+                <TableCell align="left"></TableCell>
               </TableRow>
               <TableBody>
                 {this.props.customerOwner.map(user => (
@@ -231,6 +234,21 @@ export class UserList extends Component {
                           View
                     </Button>
                       </Link>
+                    </TableCell>
+                    <TableCell align="left">
+                        <Button variant="contained" color="secondary" >
+                          Delete
+                       </Button>
+                    </TableCell>
+                    <TableCell align="left">
+                        <Button variant="contained" color="primary" >
+                          Suspend
+                       </Button>
+                    </TableCell>
+                    <TableCell align="left">
+                        <Button variant="contained" color="primary" >
+                          Cancel
+                       </Button>
                     </TableCell>
                   </TableRow>
                 ))}

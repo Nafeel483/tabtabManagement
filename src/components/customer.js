@@ -19,7 +19,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
 // Dialog
-import {Button,Tabs,Tab} from '@material-ui/core/';
+import { Button, Tabs, Tab } from '@material-ui/core/';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -28,15 +28,17 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Link } from 'react-router-dom';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import { userContext, getUserOwnerRestaurant,
-  getUserCount,getUserAll  } from '../utils/userContext';
+import {
+  userContext, getUserOwnerRestaurant,
+  getUserCount, getUserAll
+} from '../utils/userContext';
 import { withStyles } from '@material-ui/core/styles';
 import { urlFunction } from '../utils/urls';
 import { profilePath } from '../utils/img_link';
 
 import axios from "axios"
 import { Redirect } from 'react-router-dom';
-import Switch from '@material-ui/core/Switch';  
+import Switch from '@material-ui/core/Switch';
 import UserList from './Cards/UserList';
 
 function Alert(props) {
@@ -59,11 +61,11 @@ const styles = theme => ({
     fontSize: 14,
   },
 
-  TableRowDesign:{
+  TableRowDesign: {
     "&:hover": {
-      backgroundColor: "#eee", cursor:"pointer"
+      backgroundColor: "#eee", cursor: "pointer"
     },
-},
+  },
   root: {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.background.default,
@@ -71,8 +73,8 @@ const styles = theme => ({
   },
   paperModal: {
     position: 'absolute',
-    marginLeft:"20%",
-    marginTop:"5%",
+    marginLeft: "20%",
+    marginTop: "5%",
     width: '60%',
     height: 700,
     backgroundColor: "#fff",
@@ -99,7 +101,7 @@ const styles = theme => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: '#FFF',
-    elevation:6,
+    elevation: 6,
     '&:hover': {
       backgroundColor: fade('#FFF', 0.8),
     },
@@ -114,7 +116,7 @@ const styles = theme => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: '#FFF',
-    elevation:6,
+    elevation: 6,
     '&:hover': {
       backgroundColor: fade('#FFF', 0.8),
     },
@@ -151,7 +153,7 @@ const styles = theme => ({
       marginLeft: theme.spacing(3),
       width: 'auto',
     },
-   
+
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 7),
@@ -183,7 +185,7 @@ const IOSSwitch = withStyles(theme => ({
       transform: 'translateX(16px)',
       color: theme.palette.common.white,
       '& + $track': {
-        backgroundColor:theme.palette.common.blue,
+        backgroundColor: theme.palette.common.blue,
         opacity: 1,
         border: 'none',
       },
@@ -224,34 +226,34 @@ const IOSSwitch = withStyles(theme => ({
 });
 
 
-class Customer extends React.Component {  
-   constructor(props) {
-     super(props);
-     this.state = {
-       customer: [],
-       filterResultCustomers:[],
-       restaurants: [],
-       customerOwner: [],
-       open: false,
-       openDialog: false,
-       successOperation: null,
-       snackbarOpen: false,
-       currentUser: {},
-       currentRestaurant: {},
-       setPage: 1,
-       setRowsPerPage: 1,
-       countUser: 0,
-       valueTabs: 0,
-       restaurant_search_value: '',
-        customerToCsv: []
+class Customer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      customer: [],
+      filterResultCustomers: [],
+      restaurants: [],
+      customerOwner: [],
+      open: false,
+      openDialog: false,
+      successOperation: null,
+      snackbarOpen: false,
+      currentUser: {},
+      currentRestaurant: {},
+      setPage: 1,
+      setRowsPerPage: 1,
+      countUser: 0,
+      valueTabs: 0,
+      restaurant_search_value: '',
+      customerToCsv: []
     }
   }
-  
+
   handleValueTabs = (event, valueTabs) => {
     this.setState({ valueTabs: valueTabs });
   }
 
-	componentDidMount = async () => {
+  componentDidMount = async () => {
     let user = await userContext();
     if (user != null) {
       this.setState({
@@ -266,18 +268,18 @@ class Customer extends React.Component {
     }
     let countUser = await getUserCount();
     this.setState({
-      countUser:countUser[0].userDataLength 
+      countUser: countUser[0].userDataLength
     }, () => {
-        // console.log("CountUser", countUser[0].userDataLength )
+      // console.log("CountUser", countUser[0].userDataLength )
     })
 
     // Call user
     let customer = await getUserAll(20, 19);
-    
-    let customerToCsv =[];
-      for(let cus in customer) {
-        delete customer[cus].password_user;
-        customerToCsv.push(customer[cus])
+
+    let customerToCsv = [];
+    for (let cus in customer) {
+      delete customer[cus].password_user;
+      customerToCsv.push(customer[cus])
     }
 
     if (customer.length > 0) {
@@ -285,7 +287,7 @@ class Customer extends React.Component {
         customer: customer,
         filterResultCustomers: customer,
         showProgress: false,
-        customerToCsv:  customerToCsv
+        customerToCsv: customerToCsv
       })
     }
 
@@ -297,19 +299,19 @@ class Customer extends React.Component {
         customerOwner: customerOwner,
         showProgress: false
       })
-    } 
+    }
     // console.log("Customer owner ", customerOwner)
   }
 
-  getPaginationUser = async ( amount , newPage )  => {
+  getPaginationUser = async (amount, newPage) => {
     let customer = await getUserAll(amount, 19 * newPage);
-      if (customer.length > 0) {
-        this.setState({
-          customer: customer,
-          filterResultCustomers: customer,
-          showProgress: false
-        })
-      }
+    if (customer.length > 0) {
+      this.setState({
+        customer: customer,
+        filterResultCustomers: customer,
+        showProgress: false
+      })
+    }
   }
 
   // library code 
@@ -317,7 +319,7 @@ class Customer extends React.Component {
     this.setState({
       setPage: newPage
     });
-    this.getPaginationUser( 20 , parseInt(newPage))
+    this.getPaginationUser(20, parseInt(newPage))
   };
 
   handleChangeRowsPerPage = event => {
@@ -331,58 +333,58 @@ class Customer extends React.Component {
     this.setState({
       currentUser: user
     })
-  
+
     this.handleOpen()
   }
 
-  currentRestaurant =(restaurant) => {
+  currentRestaurant = (restaurant) => {
     this.setState({
       currentRestaurant: restaurant
     })
-  
+
     this.handleOpenDialog();
   }
 
   handleOpen = () => {
     this.setState({
-       open:!this.state.open
+      open: !this.state.open
     })
   };
-  
+
   handleOpenDialog = () => {
     this.setState({
-      openDialog:!this.state.openDialog
+      openDialog: !this.state.openDialog
     })
   }
 
   agreeToSetRestaurant = () => {
-      let data = {
-        id_restaurant: this.state.currentRestaurant.id_restaurant,
-        user_id: this.state.currentUser.id_user,
-        currentUser: this.state.currentUser,
-        currentRestaurant: this.state.currentRestaurant,
-      }
-      axios.post(`${urlFunction()}/restaurant/setAdmin` , data, {
-        headers : {
-          Authorization  : 'bearer ' + this.state.user.token,
-        },
-      }).then(res => {
-        this.handleOpenDialog()
-        this.getPaginationUser(19,20)
-        this.setState({
-          successOperation: true,
-          snackbarOpen:true
-        })
-        
-      }).catch(err => {
-        console.log("error", err)
-        this.setState({ })
+    let data = {
+      id_restaurant: this.state.currentRestaurant.id_restaurant,
+      user_id: this.state.currentUser.id_user,
+      currentUser: this.state.currentUser,
+      currentRestaurant: this.state.currentRestaurant,
+    }
+    axios.post(`${urlFunction()}/restaurant/setAdmin`, data, {
+      headers: {
+        Authorization: 'bearer ' + this.state.user.token,
+      },
+    }).then(res => {
+      this.handleOpenDialog()
+      this.getPaginationUser(19, 20)
+      this.setState({
+        successOperation: true,
+        snackbarOpen: true
       })
+
+    }).catch(err => {
+      console.log("error", err)
+      this.setState({})
+    })
   }
-  
+
   handleCloseSnackbar = () => {
     this.setState({
-      snackbarOpen:!this.state.snackbarOpen
+      snackbarOpen: !this.state.snackbarOpen
     })
   }
 
@@ -392,10 +394,10 @@ class Customer extends React.Component {
 
   onSearch = async () => {
     let data = { 'user_name': this.state.search }
-      axios
-      .post(`${urlFunction()}/users/search`, data )
-        .then((res) => {
-          console.log("ress")
+    axios
+      .post(`${urlFunction()}/users/search`, data)
+      .then((res) => {
+        console.log("ress")
         if (res.data.length > 0) {
           this.setState({
             showProgress: false,
@@ -417,12 +419,12 @@ class Customer extends React.Component {
 
   onSearchRestaurant = async () => {
     let data = { 'restaurant': this.state.restaurant_search_value }
-    
-      axios
-      .post(`${urlFunction()}/restaurant/search`, data )
-        .then((res) => {
-          console.log("Res of search", { "v":this.state.restaurant_search_value, 'result': res})
-  
+
+    axios
+      .post(`${urlFunction()}/restaurant/search`, data)
+      .then((res) => {
+        console.log("Res of search", { "v": this.state.restaurant_search_value, 'result': res })
+
         if (res.data.length > 0) {
           this.setState({
             showProgress: false,
@@ -440,16 +442,39 @@ class Customer extends React.Component {
         console.log(error)
       })
   }
+  deleteCustomer = (user) => {
 
+    let data = {
+      email: user.email_user
+    }
+    axios.post(`http://3.17.175.93:3001/api/v2/admin/user/delete`, data, {
+      headers: {
+        Authorization: 'bearer ' + this.state.user.token,
+      },
+    }).then(res => {
+      console.log("Yes Deleted User is: ", res)
+        window.location.reload(true);
+      
+      this.setState({
+        showProgress: false,
+      })
+
+    }).catch(err => {
+      console.log("error", err)
+      this.setState({
+        showProgress: false,
+      })
+    })
+  }
   render() {
-    let { countUser,customer,open , close,restaurants ,AlertTitle,successOperation,snackbarOpen, filterResultCustomers} = this.state
+    let { countUser, customer, open, close, restaurants, AlertTitle, successOperation, snackbarOpen, filterResultCustomers } = this.state
     const { classes } = this.props;
-    if (this.state.isLogin == false ) {
-      return  <Redirect to='/' />
+    if (this.state.isLogin == false) {
+      return <Redirect to='/' />
     }
     return (
       <div>
-      <TableContainer style={{
+        <TableContainer style={{
           marginTop: 80,
           paddingLeft: 20,
           paddingRight: 20,
@@ -457,85 +482,85 @@ class Customer extends React.Component {
           height: window.innerHeight - 140,
         }}>
           <div
-           style={{
-            display: "flex",
-            flexDirection: "row",
+            style={{
+              display: "flex",
+              flexDirection: "row",
               alignItems: "center",
-            justifyContent:"space-between"
+              justifyContent: "space-between"
             }}>
-        
+
             <h2> Customers</h2>
             <Link to={'/add_customer'}
-                style={{
-                  textDecoration:"none"
-                }}
-              >
-                <Button variant="contained" color="primary">
-                  Add Customer
+              style={{
+                textDecoration: "none"
+              }}
+            >
+              <Button variant="contained" color="primary">
+                Add Customer
                 </Button>
-              </Link>
-            </div>
-          
+            </Link>
+          </div>
+
           <div
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent:"space-between"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between"
             }}>
             <div
-            style={{
+              style={{
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
-            }}
-          >
-          <div className={classes.search2}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-                placeholder="Search…"
-                name="search"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput1,
               }}
-                inputProps={{ 'aria-label': 'search' }}
-                onChange={this.handleInputChange}
-            />
-          
-            </div>
-              
-          <Button variant="contained" color="primary"
-                onClick={this.onSearch}
-                >
-                SEARCH 
-            </Button>
-              
-          </div>
-       
-  
-        </div>
-  
+            >
+              <div className={classes.search2}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search…"
+                  name="search"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput1,
+                  }}
+                  inputProps={{ 'aria-label': 'search' }}
+                  onChange={this.handleInputChange}
+                />
 
-        <Tabs
+              </div>
+
+              <Button variant="contained" color="primary"
+                onClick={this.onSearch}
+              >
+                SEARCH
+            </Button>
+
+            </div>
+
+
+          </div>
+
+
+          <Tabs
             value={this.state.valueTabs}
             onChange={this.handleValueTabs}
             indicatorColor="primary"
-            textColor="primary" 
+            textColor="primary"
           >
 
-          <Tab label="Customers" />
-          <Tab label="Owner restaurant" />
-          
+            <Tab label="Customers" />
+            <Tab label="Owner restaurant" />
+
           </Tabs>
           {this.state.valueTabs == 0 ? (
-          <>
-            <Table component={Paper} aria-label="customized table">
-              <TableRow style={{
-                backgroundColor: "#fff"
-              }}>
+            <>
+              <Table component={Paper} aria-label="customized table">
+                <TableRow style={{
+                  backgroundColor: "#fff"
+                }}>
                   <TableCell> <b>Customers list</b> </TableCell>
                   <TableCell>
                   </TableCell>
@@ -543,135 +568,135 @@ class Customer extends React.Component {
                   </TableCell>
                   <TableCell>
                   </TableCell>
-                  
+
                   <TableCell>
                     <Button variant="contained" color="secondary">
                       <CSVLink
                         data={filterResultCustomers}
                         style={{
                           color: "#fff",
-                          listStyleType:'#fff'
-                      }}
+                          listStyleType: '#fff'
+                        }}
                       > Download CSV </CSVLink>
                     </Button>
-                   
+
                   </TableCell>
-                  
-                
-              </TableRow>
-            
-              <TableRow style={{
-                backgroundColor: "#eeefff"
-              }}>
-                <TableCell>  Name </TableCell>
-                <TableCell align="left">Email</TableCell>
-                <TableCell align="left">Phone number</TableCell>
 
-                <TableCell align="left"></TableCell>
-                <TableCell align="left"></TableCell>
-                <TableCell align="left"></TableCell>
-                <TableCell align="left"></TableCell>
-                <TableCell align="left"></TableCell>
 
-              </TableRow>
-              <TableBody>
-                {filterResultCustomers.map(user => (
-                  <TableRow
-                    className={classes.TableRowDesign}
-               
-                    style={{
-                      backgroundColor: user.restaurant_owner == 1 ? '#eee' : null,
-                    }}>
-                    <TableCell>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                        }}>
-                        
-                        { user.photo_user !='default_profil.png' ?
-                      
-                          <Avatar style={{ width: 60, height: 60 }}>
-                            <img src={`${profilePath}${user.photo_user}`}                          
-                              style={{ width: 60, height: 60 }} />
-                             </Avatar>
-                            :
-                            <Avatar>  
-                              <ImageIcon />
-                          </Avatar>
-                        }
+                </TableRow>
+
+                <TableRow style={{
+                  backgroundColor: "#eeefff"
+                }}>
+                  <TableCell>  Name </TableCell>
+                  <TableCell align="left">Email</TableCell>
+                  <TableCell align="left">Phone number</TableCell>
+
+                  <TableCell align="left"></TableCell>
+                  <TableCell align="left"></TableCell>
+                  <TableCell align="left"></TableCell>
+                  <TableCell align="left"></TableCell>
+                  <TableCell align="left"></TableCell>
+
+                </TableRow>
+                <TableBody>
+                  {filterResultCustomers.map(user => (
+                    <TableRow
+                      className={classes.TableRowDesign}
+
+                      style={{
+                        backgroundColor: user.restaurant_owner == 1 ? '#eee' : null,
+                      }}>
+                      <TableCell>
                         <div
                           style={{
                             display: "flex",
                             alignItems: "center",
-                            marginLeft: 8,
                           }}>
-                          {user.name_user}
+
+                          {user.photo_user != 'default_profil.png' ?
+
+                            <Avatar style={{ width: 60, height: 60 }}>
+                              <img src={`${profilePath}${user.photo_user}`}
+                                style={{ width: 60, height: 60 }} />
+                            </Avatar>
+                            :
+                            <Avatar>
+                              <ImageIcon />
+                            </Avatar>
+                          }
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              marginLeft: 8,
+                            }}>
+                            {user.name_user}
+                          </div>
                         </div>
-                      </div>
-                    </TableCell>
+                      </TableCell>
 
-                    <TableCell align="left"> {user.email_user} </TableCell>
-                    <TableCell align="left"> {user.tel_user} </TableCell>
-                    <TableCell align="left">
+                      <TableCell align="left"> {user.email_user} </TableCell>
+                      <TableCell align="left"> {user.tel_user} </TableCell>
+                      <TableCell align="left">
 
-                      <Button variant="outlined" color="primary"
+                        <Button variant="outlined" color="primary"
                           onClick={() =>
                             this.getUser(user)
                             // user.restaurant_owner == 0 ? this.getUser(user) : 
                             // alert("Already manage a restaurant")
-                    }>
-                      Give admin access
+                          }>
+                          Give admin access
                        </Button>
 
-                    </TableCell>
-                    <TableCell align="left">
-                      <Link to={`customer_details/${user.id_user}`}>
-                        <Button variant="outlined" color="primary">
-                          View
+                      </TableCell>
+                      <TableCell align="left">
+                        <Link to={`customer_details/${user.id_user}`}>
+                          <Button variant="outlined" color="primary">
+                            View
                        </Button>
-                      </Link>
-                    </TableCell>
-                    <TableCell align="left">
-                        <Button variant="contained" color="secondary" >
+                        </Link>
+                      </TableCell>
+                      <TableCell align="left">
+                        <Button variant="contained" color="secondary" onClick={() => { this.deleteCustomer(user) }}>
                           Delete
                        </Button>
-                    </TableCell>
-                    <TableCell align="left">
-                        <Button variant="contained" color="primary" >
+                      </TableCell>
+                      <TableCell align="left">
+                        <Button variant="contained" color="primary" onClick={() => { this.deleteCustomer(user) }}>
                           Suspend
                        </Button>
-                    </TableCell>
-                    <TableCell align="left">
-                        <Button variant="contained" color="primary" >
+                      </TableCell>
+                      <TableCell align="left">
+                        <Button variant="contained" color="primary" onClick={() => { this.deleteCustomer(user) }}>
                           Cancel
                        </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
               <TablePagination
-              rowsPerPageOptions={[20]}
-              component="div"
-              count={Math.ceil(countUser / 20)}
-              rowsPerPage={1}
-              page={this.state.setPage}
-              backIconButtonProps={{
-                "aria-label": "Previous Page"
-              }}
-              nextIconButtonProps={{
-                "aria-label": "Next Page"
-              }}
-              onChangePage={this.handleChangePage}
-              onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                rowsPerPageOptions={[20]}
+                component="div"
+                count={Math.ceil(countUser / 20)}
+                rowsPerPage={1}
+                page={this.state.setPage}
+                backIconButtonProps={{
+                  "aria-label": "Previous Page"
+                }}
+                nextIconButtonProps={{
+                  "aria-label": "Next Page"
+                }}
+                onChangePage={this.handleChangePage}
+                onChangeRowsPerPage={this.handleChangeRowsPerPage}
               />
-           </>      
+            </>
           ) :
-            
-            <UserList customerOwner={this.state.customerOwner}/>
-        
-            }
+
+            <UserList customerOwner={this.state.customerOwner} />
+
+          }
         </TableContainer>
         <Modal
           open={open}
@@ -680,8 +705,8 @@ class Customer extends React.Component {
             boxShadow: '0px 2px 0px 3px #ccc',
           }}
         >
-       
-        <div className={classes.paperModal}
+
+          <div className={classes.paperModal}
             style={{
               boxShadow: '0px 0px 2px #eee',
             }}>
@@ -689,48 +714,48 @@ class Customer extends React.Component {
               backgroundColor: '#0f4c9b',
               padding: 12,
             }}>
-          
-    
-           <div
-            style={{
+
+
+              <div
+                style={{
                   display: "flex",
                   flexDirection: "row",
                   alignItems: "center",
                 }}
               >
-              
-              <div className={classes.search1}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
+
+                <div className={classes.search1}>
+                  <div className={classes.searchIcon}>
+                    <SearchIcon />
+                  </div>
+                  <InputBase
+                    placeholder="Search restaurant by name"
+                    name='restaurant_search_value'
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput1,
+                    }}
+                    inputProps={{ 'aria-label': 'search' }}
+                    onChange={this.handleInputChange}
+                  />
                 </div>
-                <InputBase
-                      placeholder="Search restaurant by name"
-                      name='restaurant_search_value'
-                      classes={{
-                        root: classes.inputRoot,
-                        input: classes.inputInput1,
-                      }}
-                      inputProps={{ 'aria-label': 'search' }}
-                      onChange= {this.handleInputChange}
-                />
-              </div>
-              
-              <Button variant="contained" color="primary"
-                onClick={this.onSearchRestaurant}>
+
+                <Button variant="contained" color="primary"
+                  onClick={this.onSearchRestaurant}>
                   SEARCH
               </Button>
 
-          </div>
-          </div>
+              </div>
+            </div>
             <div>
-            <Typography variant="h5" component="h2"
-              style = {{
-                marginLeft: 32,
-                marginTop: 8,
-                color:'#333'
-              }}> 
-            You're on the way to set a restaurant to {this.state.currentUser.name_user} 
-            </Typography>
+              <Typography variant="h5" component="h2"
+                style={{
+                  marginLeft: 32,
+                  marginTop: 8,
+                  color: '#333'
+                }}>
+                You're on the way to set a restaurant to {this.state.currentUser.name_user}
+              </Typography>
               <List className={classes.rootList}>
                 {
                   restaurants.map(resto => (
@@ -738,22 +763,22 @@ class Customer extends React.Component {
                       className={classes.ListItemStyle}
                       onClick={this.currentRestaurant.bind(this, resto)}
 
-                      >
+                    >
                       <ListItemAvatar>
-                      <Avatar style={{ width: 60, height: 60 }}>
-                        <img src={`http://localhost:3001/api/v2/api/path?img_restaurant=${resto.logo_restaurant}` 
-                        } 
-                        style={{ width: 60, height: 60 }}/>
-                      </Avatar>
-                    
+                        <Avatar style={{ width: 60, height: 60 }}>
+                          <img src={`http://localhost:3001/api/v2/api/path?img_restaurant=${resto.logo_restaurant}`
+                          }
+                            style={{ width: 60, height: 60 }} />
+                        </Avatar>
+
                       </ListItemAvatar>
                       <ListItemText primary={resto.name_restaurant} secondary={resto.adresse_restaurant} />
-                    
+
                     </ListItem>
                   ))
                 }
-                </List>
-              </div>
+              </List>
+            </div>
           </div>
         </Modal>
 
@@ -765,37 +790,37 @@ class Customer extends React.Component {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-        <DialogTitle id="alert-dialog-title"> Give  {this.state.currentUser.name_user} full access  to { this.state.currentRestaurant.name_restaurant}  </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-          Are you really want to set {this.state.currentUser.name_user} as admin of {this.state.currentRestaurant.name_restaurant} restaurant 
+          <DialogTitle id="alert-dialog-title"> Give  {this.state.currentUser.name_user} full access  to {this.state.currentRestaurant.name_restaurant}  </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you really want to set {this.state.currentUser.name_user} as admin of {this.state.currentRestaurant.name_restaurant} restaurant
           </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={this.handleOpenDialog} color="primary">
-            Disagree
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleOpenDialog} color="primary">
+              Disagree
           </Button>
-          <Button onClick={this.agreeToSetRestaurant} color="primary" autoFocus>
-            Agree
+            <Button onClick={this.agreeToSetRestaurant} color="primary" autoFocus>
+              Agree
           </Button>
-        </DialogActions>
+          </DialogActions>
         </Dialog>
-        
+
         {successOperation == true ?
-    
-        <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={this.handleCloseSnackbar}>
-        <Alert onClose={this.handleCloseSnackbar} severity="success">
-          Congrats {this.state.currentRestaurant.name_restaurant} have been set to  {this.state.currentUser.name_user}  {this.state.currentUser.lastname} 
-        </Alert>
-        </Snackbar>
-            : 
-            <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={this.handleCloseSnackbar}>
+
+          <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={this.handleCloseSnackbar}>
+            <Alert onClose={this.handleCloseSnackbar} severity="success">
+              Congrats {this.state.currentRestaurant.name_restaurant} have been set to  {this.state.currentUser.name_user}  {this.state.currentUser.lastname}
+            </Alert>
+          </Snackbar>
+          :
+          <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={this.handleCloseSnackbar}>
             <Alert onClose={this.handleCloseSnackbar} severity="error">
               This is a error message!
             </Alert>
           </Snackbar>
         }
-        
+
       </div>
     )
   }

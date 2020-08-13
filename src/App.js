@@ -23,6 +23,7 @@ import InvoicesDetails from './components/InvoicesDetails';
 import Order_details from './components/Order_details';
 import Report from './components/Report';
 import Photos from './components/Photos';
+import Reviews from './components/review';
 import FormRestaurant from './components/form/FormRestaurant';
 import FormMenu from './components/form/FormMenu';
 import Statistics from './components/Statistics'
@@ -360,7 +361,17 @@ class App extends Component {
             )
           }}
         />
-          
+           <Route
+          exact
+          path='/review'
+          render={() => {
+            return (
+              <Drawer>
+                <Reviews />
+              </Drawer>
+            )
+          }}
+        />
         </React.Fragment>
       </Router>
     )

@@ -31,6 +31,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import AddAPhoto from '@material-ui/icons/AddAPhoto';
+import RateReview from '@material-ui/icons/RateReview';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import RestaurantIcon from '@material-ui/icons/Restaurant';
 import AppsIcon from '@material-ui/icons/Apps';
@@ -268,6 +269,10 @@ const StyledListItem = withStyles({
     {
       name: " Photos", id: 4, icon: <AddAPhoto />,
       link :"photos"
+    },  
+    {
+      name: " Review", id: 4, icon: <RateReview />,
+      link :"review"
     },  
   ]
 
