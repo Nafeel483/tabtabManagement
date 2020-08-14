@@ -453,8 +453,59 @@ class Customer extends React.Component {
       },
     }).then(res => {
       console.log("Yes Deleted User is: ", res)
-        window.location.reload(true);
-      
+      alert("Customer Delete Successfully")
+      window.location.reload(true);
+
+      this.setState({
+        showProgress: false,
+      })
+
+    }).catch(err => {
+      console.log("error", err)
+      this.setState({
+        showProgress: false,
+      })
+    })
+  }
+  Suspend = (user) => {
+
+    let data = {
+      email: user.email_user
+    }
+    axios.post(`http://3.17.175.93:3001/api/v2/admin/user/delete`, data, {
+      headers: {
+        Authorization: 'bearer ' + this.state.user.token,
+      },
+    }).then(res => {
+      console.log("Yes Deleted User is: ", res)
+      alert("Customer Suspend Successfully")
+      window.location.reload(true);
+
+      this.setState({
+        showProgress: false,
+      })
+
+    }).catch(err => {
+      console.log("error", err)
+      this.setState({
+        showProgress: false,
+      })
+    })
+  }
+  CancelUser = (user) => {
+
+    let data = {
+      email: user.email_user
+    }
+    axios.post(`http://3.17.175.93:3001/api/v2/admin/user/delete`, data, {
+      headers: {
+        Authorization: 'bearer ' + this.state.user.token,
+      },
+    }).then(res => {
+      console.log("Yes Deleted User is: ", res)
+      alert("Customer Cancel Successfully")
+      window.location.reload(true);
+
       this.setState({
         showProgress: false,
       })
@@ -663,12 +714,12 @@ class Customer extends React.Component {
                        </Button>
                       </TableCell>
                       <TableCell align="left">
-                        <Button variant="contained" color="primary" onClick={() => { this.deleteCustomer(user) }}>
+                        <Button variant="contained" color="primary" onClick={() => { this.Suspend(user) }}>
                           Suspend
                        </Button>
                       </TableCell>
                       <TableCell align="left">
-                        <Button variant="contained" color="primary" onClick={() => { this.deleteCustomer(user) }}>
+                        <Button variant="contained" color="primary" onClick={() => { this.CancelUser(user) }}>
                           Cancel
                        </Button>
                       </TableCell>

@@ -158,7 +158,6 @@ class Review extends Component {
     })
   }
   handleChange = (event) => {
-    alert(event)
     this.setState({ food: event.target.value });
   };
   _handleChange = (event) => {

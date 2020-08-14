@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/static/css/main.0dcaef0b.chunk.css",
+    "main.js": "/static/js/main.dc29d299.chunk.js",
+    "main.js.map": "/static/js/main.dc29d299.chunk.js.map",
+    "runtime~main.js": "/static/js/runtime~main.2a4364df.js",
+    "runtime~main.js.map": "/static/js/runtime~main.2a4364df.js.map",
+    "static/css/2.141ffaf9.chunk.css": "/static/css/2.141ffaf9.chunk.css",
+    "static/js/2.f68f623a.chunk.js": "/static/js/2.f68f623a.chunk.js",
+    "static/js/2.f68f623a.chunk.js.map": "/static/js/2.f68f623a.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.4771341bf6c166efcb3d132200dafcba.js": "/precache-manifest.4771341bf6c166efcb3d132200dafcba.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.141ffaf9.chunk.css.map": "/static/css/2.141ffaf9.chunk.css.map",
+    "static/css/main.0dcaef0b.chunk.css.map": "/static/css/main.0dcaef0b.chunk.css.map",
+    "static/media/bannane.jpeg": "/static/media/bannane.04bcb2b1.jpeg",
+    "static/media/empty.png": "/static/media/empty.b897f308.png",
+    "static/media/fritay.jpeg": "/static/media/fritay.c62d63c5.jpeg",
+    "static/media/lalo.jpeg": "/static/media/lalo.c50999b6.jpeg",
+    "static/media/logo.png": "/static/media/logo.3e88cad9.png",
+    "static/media/logo.svg": "/static/media/logo.5d5d9eef.svg",
+    "static/media/logo.jpg": "/static/media/logo.d0cbbb00.jpg"
+  }
+}
