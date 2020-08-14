@@ -82,6 +82,7 @@ class Review extends Component {
       food: '',
       experience: '',
       user: '',
+      experience1:""
     }
   }
   componentDidMount = async () => {
@@ -162,6 +163,9 @@ class Review extends Component {
   };
   _handleChange = (event) => {
     this.setState({ experience: event.target.value });
+  };
+  _handleChange1 = (event) => {
+    this.setState({ experience1: event.target.value });
   };
   render() {
     return (
@@ -287,7 +291,7 @@ class Review extends Component {
                 </p>
                 <Radio
                   checked={this.state.experience === 'a'}
-                  onChange={this._handleChange}
+                  onChange={this._handleChange1}
                   value="a"
                   color="primary"
                   name="radio-button-demo"
@@ -295,7 +299,7 @@ class Review extends Component {
                 />
                 <Radio
                   checked={this.state.experience === 'b'}
-                  onChange={this._handleChange}
+                  onChange={this._handleChange1}
                   value="b"
                   color="primary"
                   name="radio-button-demo"
@@ -303,7 +307,7 @@ class Review extends Component {
                 />
                 <Radio
                   checked={this.state.experience === 'c'}
-                  onChange={this._handleChange}
+                  onChange={this._handleChange1}
                   value="c"
                   color="primary"
                   name="radio-button-demo"
@@ -311,7 +315,7 @@ class Review extends Component {
                 />
                 <Radio
                   checked={this.state.experience === 'd'}
-                  onChange={this._handleChange}
+                  onChange={this._handleChange1}
                   value="d"
                   color="primary"
                   name="radio-button-demo"
@@ -319,7 +323,7 @@ class Review extends Component {
                 />
                 <Radio
                   checked={this.state.experience === 'e'}
-                  onChange={this._handleChange}
+                  onChange={this._handleChange1}
                   value="e"
                   color="primary"
                   name="radio-button-demo"
