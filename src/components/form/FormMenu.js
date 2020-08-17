@@ -87,10 +87,10 @@ class FormMenu extends React.Component {
     };
   }
   onselectImage = (item) => {
-    
+
     this.setState({ img_menu: '' })
     this.setState({ imagePreviewUrl: '' })
-      this.setState({ imagesSelectedValue: item })
+    this.setState({ imagesSelectedValue: item })
   }
   setOpen = () => {
     this.setState({
@@ -321,7 +321,7 @@ class FormMenu extends React.Component {
   render() {
     let { classes } = this.props;
     let { imagePreviewUrl, openBackdrop, menus } = this.state;
-
+    console.log("My Menu are", menus)
 
 
     return (

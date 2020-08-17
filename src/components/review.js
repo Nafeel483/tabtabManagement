@@ -290,7 +290,7 @@ class Review extends Component {
                   }}>Not good/ Pa bon
                 </p>
                 <Radio
-                  checked={this.state.experience === 'a'}
+                  checked={this.state.experience1 === 'a'}
                   onChange={this._handleChange1}
                   value="a"
                   color="primary"
@@ -298,7 +298,7 @@ class Review extends Component {
                   inputProps={{ 'aria-label': 'A' }}
                 />
                 <Radio
-                  checked={this.state.experience === 'b'}
+                  checked={this.state.experience1 === 'b'}
                   onChange={this._handleChange1}
                   value="b"
                   color="primary"
@@ -306,7 +306,7 @@ class Review extends Component {
                   inputProps={{ 'aria-label': 'B' }}
                 />
                 <Radio
-                  checked={this.state.experience === 'c'}
+                  checked={this.state.experience11 === 'c'}
                   onChange={this._handleChange1}
                   value="c"
                   color="primary"
@@ -314,7 +314,7 @@ class Review extends Component {
                   inputProps={{ 'aria-label': 'C' }}
                 />
                 <Radio
-                  checked={this.state.experience === 'd'}
+                  checked={this.state.experience1 === 'd'}
                   onChange={this._handleChange1}
                   value="d"
                   color="primary"
@@ -322,7 +322,7 @@ class Review extends Component {
                   inputProps={{ 'aria-label': 'D' }}
                 />
                 <Radio
-                  checked={this.state.experience === 'e'}
+                  checked={this.state.experience1 === 'e'}
                   onChange={this._handleChange1}
                   value="e"
                   color="primary"
