@@ -322,7 +322,9 @@ class FormMenu extends React.Component {
     let { classes } = this.props;
     let { imagePreviewUrl, openBackdrop, menus } = this.state;
     console.log("My Menu are", menus)
+    console.log("My imagePreviewUrl are", imagePreviewUrl)
 
+    
 
     return (
       <div>
