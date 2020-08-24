@@ -443,7 +443,7 @@ class Restaurant extends React.Component {
 
     let { userTypeID, countRestaurant, search, open, close, restaurants, AlertTitle, successOperation, snackbarOpen } = this.state
     const { classes } = this.props;
-
+    console.log(restaurants)
     return (
       <div>
         <TableContainer style={{
@@ -703,13 +703,13 @@ class Restaurant extends React.Component {
                 </Button>
                       </Link>
                     </TableCell>
-                    {userTypeID != 1 && 
+                    {userTypeID != 1 &&
                       <>
-                      <TableCell align="left">
-                         11:49PM
+                        <TableCell align="left">
+                          11:49PM
                         </TableCell>
                         <TableCell align="left">
-                         10:49AM
+                          10:49AM
                         </TableCell>
                       </>
                     }

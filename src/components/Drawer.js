@@ -1,5 +1,5 @@
 import React from 'react';
-import { fade, makeStyles, useTheme,withStyles } from '@material-ui/core/styles';
+import { fade, makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -46,7 +46,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
   isActive: {
     backgroundColor: 'red',
-    display:"none"
+    display: "none"
   },
   root: {
     display: 'flex',
@@ -158,10 +158,10 @@ const useStyles = makeStyles(theme => ({
   details: {
     display: "flex",
     flexDirection: "column",
-    alignItems:"center",
+    alignItems: "center",
     marginLeft: '10%',
-    marginTop:20,
-    textAlign:"center"
+    marginTop: 20,
+    textAlign: "center"
   },
   active: {
     background: "blue",
@@ -169,16 +169,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const StyledListItem = withStyles({
-	root: {
-	  "&$selected": {
-		  borderRight: '8px solid #ccc',
-	  }
-	},
-	selected: {}
+  root: {
+    "&$selected": {
+      borderRight: '8px solid #ccc',
+    }
+  },
+  selected: {}
 })(ListItem);
-  
 
- const DrawerSide = (props) => {
+
+const DrawerSide = (props) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -186,12 +186,12 @@ const StyledListItem = withStyles({
   const [open, setOpen] = React.useState(true);
   const [user, setUser] = React.useState({});
   const [userTypeID, setUserTypeID] = React.useState(2);
-   
+
   // const isMenuOpen = Boolean(anchorEl);
   // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-   React.useEffect(() => {
-    async function getUserInfo() {         
+  React.useEffect(() => {
+    async function getUserInfo() {
       let user = await userContext();
       if (user !== null) {
         setUser(JSON.parse(user))
@@ -201,8 +201,8 @@ const StyledListItem = withStyles({
       }
     }
     getUserInfo();
-   },[])
-  
+  }, [])
+
   function handleProfileMenuOpen(event) {
     setAnchorEl(event.currentTarget);
   }
@@ -215,8 +215,8 @@ const StyledListItem = withStyles({
     setOpen(false);
   }
 
-   function handleDrawerOpen() {
-  
+  function handleDrawerOpen() {
+
     setOpen(true);
   }
 
@@ -232,31 +232,31 @@ const StyledListItem = withStyles({
   const itemClick = (item) => {
     props.history.push(item.el.link);
   }
- 
+
   const menuId = 'primary-search-account-menu';
   const mobileMenuId = 'primary-search-account-menu-mobile';
 
-   let adminType = user.data ? user.data.userTypeID : null;
-   let id_user = user.data ? user.data.id_user : null;
+  let adminType = user.data ? user.data.userTypeID : null;
+  let id_user = user.data ? user.data.id_user : null;
   let pathname = window.location.pathname;
-   
 
-   const menuSuperAdmin = [
+
+  const menuSuperAdmin = [
     {
       name: `Overview`, id: 1, icon: <AppsIcon />,
-      link :"home"
+      link: "home"
     },
     {
-      name: "Restaurants", id: 2, icon: < RestaurantMenuIcon/>,
-      link :"restaurant"
+      name: "Restaurants", id: 2, icon: < RestaurantMenuIcon />,
+      link: "restaurant"
     },
     {
       name: "Manage customer", id: 3, icon: <PersonAddIcon />,
-      link :"customer"
+      link: "customer"
     },
     {
       name: " Payment", id: 4, icon: <CreditCardIcon />,
-      link :"payment"
+      link: "payment"
     },
     // {
     //   name: "Report", id: 5, icon: <TimelineIcon />,
@@ -264,39 +264,43 @@ const StyledListItem = withStyles({
     // },   
     {
       name: "Interest", id: 5, icon: <ClassIcon />,
-      link :"interest"
+      link: "interest"
     },
     {
       name: " Photos", id: 4, icon: <AddAPhoto />,
-      link :"photos"
-    },  
+      link: "photos"
+    },
     {
       name: " Review", id: 4, icon: <RateReview />,
-      link :"review"
-    },  
+      link: "review"
+    },
+    {
+      name: " Service Fee", id: 4, icon: < RestaurantMenuIcon />,
+      link: "ServiceFee"
+    },
   ]
 
   const menuAdmin = [
     {
       name: `Overview`, id: 1, icon: <AppsIcon />,
-      link :"home"
+      link: "home"
     },
     {
-      name: "Restaurants", id: 2, icon: < RestaurantMenuIcon/>,
-      link :"restaurant"
+      name: "Restaurants", id: 2, icon: < RestaurantMenuIcon />,
+      link: "restaurant"
     },
     {
       name: `Bank info`, id: 3, icon: <AccountBalanceIcon />,
-      link :`bank_info/${id_user}`
-    },  
+      link: `bank_info/${id_user}`
+    },
     {
       name: `Profile`, id: 4, icon: <InboxIcon />,
-      link :`customer_details/${id_user}`
-    },  
+      link: `customer_details/${id_user}`
+    },
     {
       name: " Photos", id: 4, icon: <AddAPhoto />,
-      link :"photos"
-    },  
+      link: "photos"
+    },
   ]
 
   return (
@@ -308,7 +312,7 @@ const StyledListItem = withStyles({
           [classes.appBarShift]: open,
         })}
       >
-      <Toolbar>
+        <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -321,7 +325,7 @@ const StyledListItem = withStyles({
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            TapTap Now 
+            TapTap Now
           </Typography>
           <div className={classes.search}>
             {/* 
@@ -358,7 +362,7 @@ const StyledListItem = withStyles({
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-            {/* <AccountCircle /> */}
+              {/* <AccountCircle /> */}
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
@@ -372,7 +376,7 @@ const StyledListItem = withStyles({
               <MoreIcon />
             </IconButton>
           </div>
-       
+
         </Toolbar>
       </AppBar>
 
@@ -393,7 +397,7 @@ const StyledListItem = withStyles({
         <div className={classes.toolbar}>
 
           <img src={logo} alt="Logo"
-            style={{ height: 40, marginLeft: -60, marginRight: 20}}
+            style={{ height: 40, marginLeft: -60, marginRight: 20 }}
           />
 
           <IconButton onClick={handleDrawerClose}>
@@ -409,7 +413,7 @@ const StyledListItem = withStyles({
             className={classes.avatar}
             src={logo}
           />
-          
+
           <Typography
             component="h2"
             gutterBottom
@@ -417,78 +421,78 @@ const StyledListItem = withStyles({
           >
             {user.data ? user.data.email_user : null}
           </Typography>
-      
-        </div>      
-        {  adminType == 1 ? (
-            <List style={{ marginLeft: 5 }} >
-              {menuSuperAdmin.map((el) => (
-                <StyledListItem button key={el.id}
-                    selected={pathname.includes(el.link)}
-                    classes={{ selected: classes.active }}>
-                    <NavLink to={`/${el.link}`}
-                      style={{
-                        textDecoration: 'none',
-                        color:'#333'
-                      }}>
-                    <ListItemIcon> {el.icon}</ListItemIcon>
-                   </NavLink>
-                    <NavLink to={`/${el.link}`}
-                      style={{
-                        textDecoration: 'none',
-                        color:'#333'
-                      }}
-                    >
-                    <ListItemText primary={el.name} />
-                  </NavLink>
-                </StyledListItem>
-              ))
-              }
-            </List>
-        ) : 
-          <List style={{ marginLeft: 5 }}>
-          {menuAdmin.map((el) => (
-            <StyledListItem button key={el.id}
+
+        </div>
+        {adminType == 1 ? (
+          <List style={{ marginLeft: 5 }} >
+            {menuSuperAdmin.map((el) => (
+              <StyledListItem button key={el.id}
                 selected={pathname.includes(el.link)}
                 classes={{ selected: classes.active }}>
                 <NavLink to={`/${el.link}`}
                   style={{
                     textDecoration: 'none',
-                    color:'#333'
+                    color: '#333'
                   }}>
-                <ListItemIcon> {el.icon}</ListItemIcon>
-              </NavLink>
-              <NavLink to={`/${el.link}`}
+                  <ListItemIcon> {el.icon}</ListItemIcon>
+                </NavLink>
+                <NavLink to={`/${el.link}`}
                   style={{
                     textDecoration: 'none',
-                    color:'#333'
+                    color: '#333'
                   }}
                 >
-                <ListItemText primary={el.name} />
-              </NavLink>
-            </StyledListItem>
+                  <ListItemText primary={el.name} />
+                </NavLink>
+              </StyledListItem>
+            ))
+            }
+          </List>
+        ) :
+          <List style={{ marginLeft: 5 }}>
+            {menuAdmin.map((el) => (
+              <StyledListItem button key={el.id}
+                selected={pathname.includes(el.link)}
+                classes={{ selected: classes.active }}>
+                <NavLink to={`/${el.link}`}
+                  style={{
+                    textDecoration: 'none',
+                    color: '#333'
+                  }}>
+                  <ListItemIcon> {el.icon}</ListItemIcon>
+                </NavLink>
+                <NavLink to={`/${el.link}`}
+                  style={{
+                    textDecoration: 'none',
+                    color: '#333'
+                  }}
+                >
+                  <ListItemText primary={el.name} />
+                </NavLink>
+              </StyledListItem>
             ))
             }
           </List>
         }
-      
+
         <ListItem button key="Logout" >
           <ListItemIcon><ExitToAppIcon /></ListItemIcon>
-              <NavLink to={`/logout`}
-                style={{
-                  textDecoration: 'none',
-                  color:'#333'
-                }}
-              >
+          <NavLink to={`/logout`}
+            style={{
+              textDecoration: 'none',
+              color: '#333'
+            }}
+          >
             <ListItemText primary="Logout" />
-            </NavLink>
+          </NavLink>
         </ListItem>
       </Drawer>
 
       <div className="children">
-          {props.children}
+        {props.children}
       </div>
     </div>
   );
- }
+}
 
- export default withRouter(DrawerSide)
+export default withRouter(DrawerSide)

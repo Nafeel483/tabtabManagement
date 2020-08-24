@@ -24,6 +24,8 @@ import Order_details from './components/Order_details';
 import Report from './components/Report';
 import Photos from './components/Photos';
 import Reviews from './components/review';
+import ServiceFee from './components/ServiceFee';
+
 import FormRestaurant from './components/form/FormRestaurant';
 import FormMenu from './components/form/FormMenu';
 import Statistics from './components/Statistics'
@@ -372,6 +374,18 @@ class App extends Component {
             )
           }}
         />
+         <Route
+          exact
+          path='/ServiceFee'
+          render={() => {
+            return (
+              <Drawer>
+                <ServiceFee />
+              </Drawer>
+            )
+          }}
+        />
+        
         </React.Fragment>
       </Router>
     )
