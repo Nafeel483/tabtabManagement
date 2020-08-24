@@ -14,7 +14,7 @@ import Order from './components/orders.js';
 import Account from './components/account.js';
 import Payment from './components/payment.js';
 import Restaurant from './components/Restaurant.js';
-import { BrowserRouter as Router, Route,Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import { withRouter } from 'react-router-dom';
 import Register from './components/Register';
@@ -40,7 +40,7 @@ import BankInfo from './components/form/BankInfo';
 
 class App extends Component {
   constructor(props) {
-    super(props) 
+    super(props)
     this.state = {
       user: {},
       isLogin: false,
@@ -63,333 +63,331 @@ class App extends Component {
   }
 
   render() {
- 
+
     return (
       // console.log("pass user data to the component instead of call it in each component")
       <Router>
-      <React.Fragment>
-       
-        <Route
-          exact
-          path="/restaurant_details/:idRestaurant"
-          render={({ match }) => {
-            return (
-              <React.Fragment>
+        <React.Fragment>
+
+          <Route
+            exact
+            path="/restaurant_details/:idRestaurant"
+            render={({ match }) => {
+              return (
+                <React.Fragment>
+                  <Drawer>
+                    <RestaurantDetails
+                      idRestaurant={match.params.idRestaurant}
+                    />
+                  </Drawer>
+                </React.Fragment>
+              );
+            }}
+          />
+          <Route
+            exact
+            path="/order_details/:idOrder"
+            render={({ match }) => {
+              return (
+                <React.Fragment>
+                  <Drawer >
+                    <Order_details
+                      idOrder={match.params.idOrder}
+                    />
+                  </Drawer>
+                </React.Fragment>
+              );
+            }}
+          />
+
+          <Route
+            exact
+            path="/invoices_details/:idInvoces"
+            render={({ match }) => {
+              return (
+                <React.Fragment>
+                  <Drawer >
+                    <InvoicesDetails
+                      idInvoces={match.params.idInvoces}
+                    />
+                  </Drawer>
+                </React.Fragment>
+              );
+            }}
+          />
+
+          <Route
+            exact
+            path='/edit_restaurant/:idRestaurant'
+            render={({ match }) => {
+              return (
                 <Drawer>
-                  <RestaurantDetails
+                  <EditRestaurant
                     idRestaurant={match.params.idRestaurant}
                   />
                 </Drawer>
-              </React.Fragment>
-            );
-          }}
-        />
-        <Route
-          exact
-          path="/order_details/:idOrder"
-          render={({ match }) => {
-            return (
-              <React.Fragment>
-                <Drawer >
-                  <Order_details
-                    idOrder={match.params.idOrder}
-                  />
-                </Drawer>
-              </React.Fragment>
-            );
-          }}
-        />
+              )
+            }}
+          />
 
-        <Route
-          exact
-          path="/invoices_details/:idInvoces"
-          render={({ match }) => {
-            return (
-              <React.Fragment>
-                <Drawer >
-                  <InvoicesDetails
-                    idInvoces={match.params.idInvoces}
-                  />
-                </Drawer>
-              </React.Fragment>
-            );
-          }}
-        />
-
-        <Route
-          exact
-          path='/edit_restaurant/:idRestaurant'
-          render={({ match }) => {
-            return (
-              <Drawer>
-                <EditRestaurant
-                  idRestaurant={match.params.idRestaurant}
-                />
-              </Drawer>
-            )
-          }}
-        />
-
-        <Route
-          exact
-          path='/edit_menu/:idMenu'
-          render={({ match }) => {
-            return (
-              <Drawer>
-                <EditMenu
-                  idMenu={match.params.idMenu}
-                />
-              </Drawer>
-            )
-          }}
-        />
-
-        <Route
-          exact
-          path='/add_menu/:idRestaurant'
-          render={({ match }) => {
-            return (
-              <Drawer>
-                <FormMenu
-                  idRestaurant={match.params.idRestaurant}
-                />
-              </Drawer>
-            )
-          }}
-        />
-          
-        <Route
-          exact
-          path='/create_invoice/:idRestaurant'
+          <Route
+            exact
+            path='/edit_menu/:idMenu'
             render={({ match }) => {
-            
-            return (
-              <Drawer>
-                <FormInvoice
-                  idRestaurant={match.params.idRestaurant} />
-              </Drawer>
-            )
-          }}
-        />
-    
+              return (
+                <Drawer>
+                  <EditMenu
+                    idMenu={match.params.idMenu}
+                  />
+                </Drawer>
+              )
+            }}
+          />
 
-        <Route
-          exact
-          path='/'
-          render={() => {
-            return <Login />;
-          }}
-        />
+          <Route
+            exact
+            path='/add_menu/:idRestaurant'
+            render={({ match }) => {
+              return (
+                <Drawer>
+                  <FormMenu
+                    idRestaurant={match.params.idRestaurant}
+                  />
+                </Drawer>
+              )
+            }}
+          />
 
-        <Route
-          exact
-          path='/add_customer'
-          render={() => {
-            return (
-              <Drawer>
-                <Register />
-              </Drawer>
-            )
-          }}
-        />
-          
-        <Route
-          exact
-          path='/register'
-          render={() => {
-            return <Register />;
-          }}
-        />
-          
-        <Route
-          exact
-          path='/account'
-          render={() => {
-            return <Account />;
-          }}
-        />
+          <Route
+            exact
+            path='/create_invoice/:idRestaurant'
+            render={({ match }) => {
 
-               
-        <Route
-          exact
-          path='/logout'
-          render={() => {
-            return <Logout />;
-          }}
-        />
+              return (
+                <Drawer>
+                  <FormInvoice
+                    idRestaurant={match.params.idRestaurant} />
+                </Drawer>
+              )
+            }}
+          />
 
-          
-        <Route
-          exact
-          path='/report'
-          render={() => {
-            return (
-              <Drawer>
-                <Report />
-              </Drawer>
-            )
-          }}
-        />
-          
-        <Route
-          exact
-          path='/payment'
-          render={() => {
-            return (
-              <Drawer>
-                <Payment />
-              </Drawer>
-            )
-          }}
-        />
 
-        <Route
-          exact
-          path='/restaurant'
+          <Route
+            exact
+            path='/'
             render={() => {
-            return (
-              <Drawer >
-                <Restaurant />
-              </Drawer>
-            )
-          }}
-        />
+              return <Login />;
+            }}
+          />
 
-        <Route
-          exact
-          path='/home'
-          render={() => {
-            return (
-              <Drawer>
-                <Statistics />
-              </Drawer>
-            )
-          }}
-        />
+          <Route
+            exact
+            path='/add_customer'
+            render={() => {
+              return (
+                <Drawer>
+                  <Register />
+                </Drawer>
+              )
+            }}
+          />
 
-        <Route
-          exact
-          path='/register'
-          render={() => {
-            return <Register />;
-          }}
-        />
-         
-        <Route
-          exact
-          path='/customer'
-          render={() => {
-                
-            return (
-              <Drawer>
-                <Customer />
-              </Drawer>
-            )
-          }}
-        />
+          <Route
+            exact
+            path='/register'
+            render={() => {
+              return <Register />;
+            }}
+          />
 
-        <Route
-          exact
-          path='/customer_details/:iduser'
-          render={({ match }) => {
-            return (
-              <Drawer>
-                <CustomerInfo
-                  iduser={match.params.iduser} />
-              </Drawer>
-            )
-          }}
-        />
-          
-        <Route
-          exact
-          path='/bank_info/:iduser'
-          render={({ match }) => {
-            return (
-              <Drawer>
-                <BankInfo
-                  iduser={match.params.iduser} />
-              </Drawer>
-            )
-          }}
-        />
-            
-        <Route
-          exact
-          path='/menu'
-          render={() => {
-            return (
-              <Drawer
-                type={1}>
-                <Menu />
-              </Drawer>
-            )
-          }}
-        />
+          <Route
+            exact
+            path='/account'
+            render={() => {
+              return <Account />;
+            }}
+          />
 
-        <Route
-          exact
-          path='/interest'
-          render={() => {
-            return (
-              <Drawer
-                type={1}>
-                <Interest />
-              </Drawer>
-            )
-          }}
-        />
-          
-        <Route
-          exact
-          path='/form_restaurant'
-          render={() => {
-            return (
-              <Drawer>
-                <FormRestaurant />
-              </Drawer>
-            )
-          }}
-        />
-          
-        <Route
-          exact
-          path='/photos'
-          render={() => {
-            return (
-              <Drawer>
-                <Photos />
-              </Drawer>
-            )
-          }}
-        />
-           <Route
-          exact
-          path='/review'
-          render={() => {
-            return (
-              <Drawer>
+
+          <Route
+            exact
+            path='/logout'
+            render={() => {
+              return <Logout />;
+            }}
+          />
+
+
+          <Route
+            exact
+            path='/report'
+            render={() => {
+              return (
+                <Drawer>
+                  <Report />
+                </Drawer>
+              )
+            }}
+          />
+
+          <Route
+            exact
+            path='/payment'
+            render={() => {
+              return (
+                <Drawer>
+                  <Payment />
+                </Drawer>
+              )
+            }}
+          />
+
+          <Route
+            exact
+            path='/restaurant'
+            render={() => {
+              return (
+                <Drawer >
+                  <Restaurant />
+                </Drawer>
+              )
+            }}
+          />
+
+          <Route
+            exact
+            path='/home'
+            render={() => {
+              return (
+                <Drawer>
+                  <Statistics />
+                </Drawer>
+              )
+            }}
+          />
+
+          <Route
+            exact
+            path='/register'
+            render={() => {
+              return <Register />;
+            }}
+          />
+
+          <Route
+            exact
+            path='/customer'
+            render={() => {
+
+              return (
+                <Drawer>
+                  <Customer />
+                </Drawer>
+              )
+            }}
+          />
+
+          <Route
+            exact
+            path='/customer_details/:iduser'
+            render={({ match }) => {
+              return (
+                <Drawer>
+                  <CustomerInfo
+                    iduser={match.params.iduser} />
+                </Drawer>
+              )
+            }}
+          />
+
+          <Route
+            exact
+            path='/bank_info/:iduser'
+            render={({ match }) => {
+              return (
+                <Drawer>
+                  <BankInfo
+                    iduser={match.params.iduser} />
+                </Drawer>
+              )
+            }}
+          />
+
+          <Route
+            exact
+            path='/menu'
+            render={() => {
+              return (
+                <Drawer
+                  type={1}>
+                  <Menu />
+                </Drawer>
+              )
+            }}
+          />
+
+          <Route
+            exact
+            path='/interest'
+            render={() => {
+              return (
+                <Drawer
+                  type={1}>
+                  <Interest />
+                </Drawer>
+              )
+            }}
+          />
+
+          <Route
+            exact
+            path='/form_restaurant'
+            render={() => {
+              return (
+                <Drawer>
+                  <FormRestaurant />
+                </Drawer>
+              )
+            }}
+          />
+
+          <Route
+            exact
+            path='/photos'
+            render={() => {
+              return (
+                <Drawer>
+                  <Photos />
+                </Drawer>
+              )
+            }}
+          />
+          <Route
+            exact
+            path='/review'
+            render={() => {
+              return (
                 <Reviews />
-              </Drawer>
-            )
-          }}
-        />
-         <Route
-          exact
-          path='/ServiceFee'
-          render={() => {
-            return (
-              <Drawer>
-                <ServiceFee />
-              </Drawer>
-            )
-          }}
-        />
-        
+              )
+            }}
+          />
+          <Route
+            exact
+            path='/ServiceFee'
+            render={() => {
+              return (
+                <Drawer>
+                  <ServiceFee />
+                </Drawer>
+              )
+            }}
+          />
+
         </React.Fragment>
       </Router>
     )
   }
 }
-    
+
 export default App 

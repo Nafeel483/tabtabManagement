@@ -271,10 +271,6 @@ const DrawerSide = (props) => {
       link: "photos"
     },
     {
-      name: " Review", id: 4, icon: <RateReview />,
-      link: "review"
-    },
-    {
       name: " Service Fee", id: 4, icon: < RestaurantMenuIcon />,
       link: "ServiceFee"
     },

@@ -10,10 +10,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import {
   userContext, getUserOwnerRestaurant,
   getUserCount, getUserAll
 } from '../utils/userContext';
+import { urlFunction } from '../utils/urls';
+
 import './styles.css'
 const styles = theme => ({
   backdrop: {
@@ -82,57 +85,31 @@ class Review extends Component {
       food: '',
       experience: '',
       user: '',
-      experience1:""
+      experience1: "",
+      showProgress: false,
+      serveyList: [],
+      final: ''
     }
   }
   componentDidMount = async () => {
-    let user = await userContext();
-    if (user != null) {
+
+    axios.get(`${urlFunction()}/restaurant/order/getquestions`, {
+
+    }).then(res => {
+      console.log("The Survey: ", res.data)
       this.setState({
-        user: JSON.parse(user),
-        isLogin: true,
+        serveyList: res.data,
       })
-    } else {
-      // back him login
       this.setState({
-        isLogin: false
-      })
-    }
-    let countUser = await getUserCount();
-    this.setState({
-      countUser: countUser[0].userDataLength
-    }, () => {
-      // console.log("CountUser", countUser[0].userDataLength )
-    })
-
-    // Call user
-    let customer = await getUserAll(20, 19);
-
-    let customerToCsv = [];
-    for (let cus in customer) {
-      delete customer[cus].password_user;
-      customerToCsv.push(customer[cus])
-    }
-
-    if (customer.length > 0) {
-      this.setState({
-        customer: customer,
-        filterResultCustomers: customer,
         showProgress: false,
-        customerToCsv: customerToCsv
       })
-    }
 
-
-    // Call customer owner  
-    let customerOwner = await getUserOwnerRestaurant(this.state.user.token);
-    if (customerOwner.length > 0) {
+    }).catch(err => {
+      console.log("error", err)
       this.setState({
-        customerOwner: customerOwner,
-        showProgress: false
+        showProgress: false,
       })
-    }
-    // console.log("Customer owner ", customerOwner)
+    })
   }
   submitSurvey = () => {
     let data = {
@@ -167,7 +144,11 @@ class Review extends Component {
   _handleChange1 = (event) => {
     this.setState({ experience1: event.target.value });
   };
+  handlechangefinal = (event) => {
+    this.setState({ final: event.target.value });
+  }
   render() {
+    console.log("The Survey", this.state)
     return (
       <>
         <TableContainer style={{
@@ -176,6 +157,11 @@ class Review extends Component {
           paddingRight: 20,
           width: window.innerWidth - 300,
         }}>
+          {this.state.showProgress == true ?
+            <LinearProgress />
+            : null
+          }
+          <h1 style={{ color: "#13479e", textAlign: 'center' }}>Review Page</h1>
           <div className='MainContainer'>
             <p
               style={{
@@ -194,7 +180,7 @@ class Review extends Component {
               <p
                 style={{
                   textAlign: "left", fontSize: '16px', fontWeight: '500'
-                }}>Was your food ready on time/ Manje a te prepare le'w rive?</p>
+                }}>{this.state.serveyList?.[0]?.question}</p>
             </div>
             <div style={{ margin: 10, }}>
               <FormControl component="fieldset">
@@ -211,8 +197,8 @@ class Review extends Component {
               <p
                 style={{
                   textAlign: "left", fontSize: '16px', fontWeight: '500'
-                }}>How would you rate your experience/ Koman akey la te ye?
-                </p>
+                }}>{this.state.serveyList?.[1]?.question}
+              </p>
             </div>
             <div style={{ margin: 10, }}>
               <div style={{ display: 'flex', marginLeft: '50px' }}>
@@ -277,8 +263,8 @@ class Review extends Component {
               <p
                 style={{
                   textAlign: "left", fontSize: '16px', fontWeight: '500',
-                }}>How was the food/ Koman manje a te ye?
-                </p>
+                }}>{this.state.serveyList?.[2]?.question}
+              </p>
             </div>
             <div style={{ margin: 10, }}>
               <div style={{ display: 'flex', marginLeft: '50px' }}>
@@ -306,7 +292,7 @@ class Review extends Component {
                   inputProps={{ 'aria-label': 'B' }}
                 />
                 <Radio
-                  checked={this.state.experience11 === 'c'}
+                  checked={this.state.experience1 === 'c'}
                   onChange={this._handleChange1}
                   value="c"
                   color="primary"
@@ -344,13 +330,14 @@ class Review extends Component {
               <p
                 style={{
                   textAlign: "left", fontSize: '16px', fontWeight: '500'
-                }}>Please provide any feedback, add your contact info to be contacted/ Pa le nou de eksperyans ou, kite telefon ou si ou vle nou kontakte'w. Mesi!
-                </p>
+                }}>{this.state.serveyList?.[3]?.question}
+              </p>
             </div>
             <div style={{ margin: 10, }}>
               <form className={useStyles.root} noValidate autoComplete="off">
                 <TextField id="standard-basic" label="" placeholder="Your Answer"
                   style={{ width: '600px' }}
+                  onChange={this.handlechangefinal}
                 />
               </form>
             </div>
