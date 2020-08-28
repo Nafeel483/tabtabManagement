@@ -113,11 +113,13 @@ class Review extends Component {
   }
   submitSurvey = () => {
     let data = {
-      question: ["Was your food ready on time/ Manje a te prepare le'w rive?", "How would you rate your experience/ Koman akey la te ye?",
-        "How was the food/ Koman manje a te ye?", "Please provide any feedback, add your contact info to be contacted/ Pa le nou de eksperyans ou, kite telefon ou si ou vle nou kontakte'w. Mesi!"
-      ]
+      id_question_fk: [this.state.serveyList?.[0]?.id_question, this.state.serveyList?.[1]?.id_question, this.state.serveyList?.[2]?.id_question, this.state.serveyList?.[3]?.id_question
+      ],
+      answer: [this.state.food, this.state.experience, this.state.experience1, this.state.final]
     }
-    axios.post(`http://3.17.175.93:3001/api/v2/admin/restaurant/order/addquestions`, data, {
+    console.log("Yes Deleted User is: ", data)
+
+    axios.post(`http://3.17.175.93:3001/api/v2/admin/restaurant/order/addanswer`, data, {
       headers: {
         Authorization: 'bearer ' + this.state.user.token,
       },
@@ -210,44 +212,44 @@ class Review extends Component {
                   }}>Not good/ Pa bon
                 </p>
                 <Radio
-                  checked={this.state.experience === 'a'}
+                  checked={this.state.experience === '1'}
                   onChange={this._handleChange}
-                  value="a"
+                  value="1"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': 'A' }}
+                  inputProps={{ 'aria-label': '1' }}
                 />
                 <Radio
-                  checked={this.state.experience === 'b'}
+                  checked={this.state.experience === '2'}
                   onChange={this._handleChange}
-                  value="b"
+                  value="2"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': 'B' }}
+                  inputProps={{ 'aria-label': '2' }}
                 />
                 <Radio
-                  checked={this.state.experience === 'c'}
+                  checked={this.state.experience === '3'}
                   onChange={this._handleChange}
-                  value="c"
+                  value="3"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': 'C' }}
+                  inputProps={{ 'aria-label': '3' }}
                 />
                 <Radio
-                  checked={this.state.experience === 'd'}
+                  checked={this.state.experience === '4'}
                   onChange={this._handleChange}
-                  value="d"
+                  value="4"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': 'D' }}
+                  inputProps={{ 'aria-label': '4' }}
                 />
                 <Radio
-                  checked={this.state.experience === 'e'}
+                  checked={this.state.experience === '5'}
                   onChange={this._handleChange}
-                  value="e"
+                  value="5"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': 'E' }}
+                  inputProps={{ 'aria-label': '5' }}
                 />
                 <p
                   style={{
@@ -276,44 +278,44 @@ class Review extends Component {
                   }}>Not good/ Pa bon
                 </p>
                 <Radio
-                  checked={this.state.experience1 === 'a'}
+                  checked={this.state.experience1 === '1'}
                   onChange={this._handleChange1}
-                  value="a"
+                  value="1"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': 'A' }}
+                  inputProps={{ 'aria-label': '1' }}
                 />
                 <Radio
-                  checked={this.state.experience1 === 'b'}
+                  checked={this.state.experience1 === '2'}
                   onChange={this._handleChange1}
-                  value="b"
+                  value="2"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': 'B' }}
+                  inputProps={{ 'aria-label': '2' }}
                 />
                 <Radio
-                  checked={this.state.experience1 === 'c'}
+                  checked={this.state.experience1 === '3'}
                   onChange={this._handleChange1}
-                  value="c"
+                  value="3"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': 'C' }}
+                  inputProps={{ 'aria-label': '3' }}
                 />
                 <Radio
-                  checked={this.state.experience1 === 'd'}
+                  checked={this.state.experience1 === '4'}
                   onChange={this._handleChange1}
-                  value="d"
+                  value="4"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': 'D' }}
+                  inputProps={{ 'aria-label': '4' }}
                 />
                 <Radio
-                  checked={this.state.experience1 === 'e'}
+                  checked={this.state.experience1 === '5'}
                   onChange={this._handleChange1}
-                  value="e"
+                  value="5"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': 'E' }}
+                  inputProps={{ 'aria-label': '5' }}
                 />
                 <p
                   style={{

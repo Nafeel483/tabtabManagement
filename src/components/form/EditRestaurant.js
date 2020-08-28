@@ -118,7 +118,9 @@ class EditRestaurant extends React.Component {
 			open_restaurant: 0,
 			tax: 10,
 			timesOpening: [],
-			daysOfWeeks: daysOfWeeks
+			daysOfWeeks: daysOfWeeks,
+			delivery_service: '',
+			delivery_fee: '',
 		};
 	}
 
@@ -195,7 +197,8 @@ class EditRestaurant extends React.Component {
 		data.append('tax', this.state.tax);
 		data.append('zipcode', this.state.zipcode);
 		data.append('open_restaurant', this.state.open_restaurant);
-	
+		data.append('delivery_service', this.state.delivery_service);
+		data.append('delivery_fee', this.state.delivery_fee);
 		const config = {
 			method  : 'PUT',
 			headers : {
@@ -296,7 +299,7 @@ class EditRestaurant extends React.Component {
 		// Get restaurant by id 
 		let restaurant = await getRestaurantById(this.props.idRestaurant);
 		restaurant = restaurant[0]
-		
+		console.log("My Resturant",restaurant)
 		this.setState({
 			restaurant: restaurant || [],
 			name_restaurant: restaurant.name_restaurant,
@@ -309,7 +312,9 @@ class EditRestaurant extends React.Component {
 			logo_restaurant: restaurant.logo_restaurant,
 			open_restaurant: restaurant.open_restaurant,
 			country: restaurant.countryRestID,
-			tax: restaurant.tax,	
+			tax: restaurant.tax,
+			delivery_service: restaurant.delivery_service?restaurant.delivery_service : '',
+			delivery_fee: restaurant.delivery_fee?restaurant.delivery_fee : "",	
 		})
 		this.getTimeOpening()
 	}
@@ -587,7 +592,35 @@ class EditRestaurant extends React.Component {
 							)}
 							</PlacesAutocomplete>
 														
-							</Grid>												
+							</Grid>	
+							<Grid item xs={6}>
+							<TextField
+								variant="outlined"
+								required
+								fullWidth
+								value={this.state.delivery_service}
+								name="delivery_service"
+								label="Delivery Service"
+								type="text"
+								id="delivery_service"
+								onChange={this.handleInputChange}
+							/>
+							
+						</Grid>
+										
+						<Grid item xs={6}>
+							<TextField
+							variant="outlined"
+							required
+							fullWidth
+							value={this.state.delivery_fee}
+							name="delivery_fee"
+							label="Delivery Fee"
+							type="text"
+							id="delivery_fee"
+							onChange={this.handleInputChange}
+						/>					
+						</Grid>																		
 								<Grid item xs={6}>
 									<input
 										variant="outlined"

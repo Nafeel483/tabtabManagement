@@ -25,7 +25,8 @@ import Report from './components/Report';
 import Photos from './components/Photos';
 import Reviews from './components/review';
 import ServiceFee from './components/ServiceFee';
-
+import OrderReports from './components/Graphs';
+import AlertPage from './components/AlertPage';
 import FormRestaurant from './components/form/FormRestaurant';
 import FormMenu from './components/form/FormMenu';
 import Statistics from './components/Statistics'
@@ -383,7 +384,28 @@ class App extends Component {
               )
             }}
           />
-
+          <Route
+            exact
+            path='/OrderReports'
+            render={() => {
+              return (
+                <Drawer>
+                  <OrderReports />
+                </Drawer>
+              )
+            }}
+          />
+          <Route
+            exact
+            path='/AlertPage'
+            render={() => {
+              return (
+                <Drawer>
+                  <AlertPage />
+                </Drawer>
+              )
+            }}
+          />
         </React.Fragment>
       </Router>
     )

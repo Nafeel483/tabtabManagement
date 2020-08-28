@@ -20,6 +20,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Avatar from '@material-ui/core/Avatar';
 import MenuIcon from '@material-ui/icons/Menu';
+import ShowChart from '@material-ui/icons/ShowChart';
+import Notifications from '@material-ui/icons/Notifications';
+
+
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
@@ -273,6 +277,14 @@ const DrawerSide = (props) => {
     {
       name: " Service Fee", id: 4, icon: < RestaurantMenuIcon />,
       link: "ServiceFee"
+    },
+    {
+      name: "Order Reports", id: 4, icon: < ShowChart />,
+      link: "OrderReports"
+    },
+    {
+      name: "Send Notification", id: 4, icon: <Notifications/>,
+      link: "AlertPage"
     },
   ]
 

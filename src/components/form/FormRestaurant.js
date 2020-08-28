@@ -98,7 +98,9 @@ class FormRestaurant extends React.Component {
 			long_restaurant: '',
 			showSucess: false,
 			openBackdrop: false,
-			user:{}
+			user:{},
+			delivery_service: '',
+			delivery_fee: ''
 		};
 	}
 	 
@@ -171,7 +173,8 @@ class FormRestaurant extends React.Component {
 		data.append('adminRestID', this.state.user.data.id_user);
 		data.append('state', this.state.state);
 		data.append('zipcode', this.state.zipcode);
-
+		data.append('delivery_service', this.state.delivery_service);
+		data.append('delivery_fee', this.state.delivery_fee);
 		const config = {
 			method  : 'POST',
 			headers : {
@@ -198,7 +201,8 @@ class FormRestaurant extends React.Component {
 						lat_restaurant: '',
 						long_restaurant: '',
 						adresse_restaurant:'',
-				
+						delivery_service: '',
+						delivery_fee: '',
 						showProgress: false,
 						error: false,
 						showSucess: true,
@@ -401,7 +405,7 @@ class FormRestaurant extends React.Component {
 							onChange={this.handleInputChange}
 						/>					
 						</Grid>
-
+						
 						<Grid item xs={12}>							
 							<PlacesAutocomplete
 								value={this.state.adresse_restaurant}
@@ -463,7 +467,54 @@ class FormRestaurant extends React.Component {
 					)}
 					</PlacesAutocomplete>
 												
-					</Grid>												
+					</Grid>		
+					<Grid item xs={6}>
+							<TextField
+								variant="outlined"
+								required
+								fullWidth
+								value={this.state.delivery_service}
+								name="delivery_service"
+								label="Delivery Service"
+								type="text"
+								id="delivery_service"
+								onChange={this.handleInputChange}
+							/>
+								{/* <FormControl variant="outlined" style={{
+									width: '100%',
+								}}>
+									<Select
+										style={{
+											width: '100%'
+										}}
+										labelId="delivery_service"
+										id="delivery_service"
+										value={this.state.delivery_service}
+										name="delivery_service"
+											onChange={this.handleInputChange}>
+												<MenuItem  value={'Yes'} >
+												Yes
+												</MenuItem>
+												<MenuItem value={'No'}>
+												No
+												</MenuItem>
+									</Select>
+								</FormControl> */}
+						</Grid>
+										
+						<Grid item xs={6}>
+							<TextField
+							variant="outlined"
+							required
+							fullWidth
+							value={this.state.delivery_fee}
+							name="delivery_fee"
+							label="Delivery Fee"
+							type="text"
+							id="delivery_fee"
+							onChange={this.handleInputChange}
+						/>					
+						</Grid>										
 					<Grid item xs={6}>
 								<input
 									variant="outlined"

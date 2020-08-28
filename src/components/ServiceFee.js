@@ -323,7 +323,7 @@ class ServiceFee extends Component {
               <TableRow style={{
                 backgroundColor: "#eeefff"
               }}>
-                <TableCell>  Resturand ID </TableCell>
+                <TableCell>  Resturant ID </TableCell>
                 <TableCell align="left">Service Fee</TableCell>
 
                 <TableCell align="left">Actions</TableCell>
@@ -351,7 +351,7 @@ class ServiceFee extends Component {
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell align="left">{resto.fee} </TableCell>
+                    <TableCell align="left">{`${resto.fee}$`} </TableCell>
                     <TableCell align="left">
                       <Button variant="contained" color="primary"
                         onClick={() => this.updateFee(resto)}
