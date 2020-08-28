@@ -271,7 +271,8 @@ class Graphs extends Component {
     this.setState({ resturant_id: event.target.value.name_restaurant })
     if (event.target.value.id_restaurant) {
       let data = {
-        zipcode: event.target.value.zipcode != null || event.target.value.zipcode != "null" || event.target.value.zipcode != "" || event.target.value.zipcode != undefined ? event.target.value.zipcode : 34142
+        // zipcode: event.target.value.zipcode != null || event.target.value.zipcode != "null" || event.target.value.zipcode != "" || event.target.value.zipcode != undefined ? event.target.value.zipcode : 34142
+        zipcode: 34142
       }
       axios
         .post(`${urlFunction()}/restaurant/reports/salesbyzip`, data, {
@@ -294,10 +295,11 @@ class Graphs extends Component {
     this.setState({ resturant_id: event.target.value.name_restaurant })
     if (event.target.value.id_restaurant) {
       let data = {
-        state:  "Fl"
+        // state: event.target.value.state != undefined || event.target.value.state != null || event.target.value.state != "null" || event.target.value.state != "" ? event.target.value.state : "Fl"
+        state: "Fl"
       }
       axios
-        .post(`${urlFunction()}/restaurant/reports/salesbyzip`, data, {
+        .post(`${urlFunction()}/restaurant/reports/salesbystate`, data, {
         })
         .then((res) => {
           console.log("salesByZip", res)
@@ -344,21 +346,21 @@ class Graphs extends Component {
         }
       ]
     }
-    
-    // const cityStateData = this.state.sateCityData?.map(value => value.price_order)
-    // const cityStateLabel = this.state.sateCityData?.map(value => value.id_order)
-    // const City_State = {
-    //   labels: cityStateLabel,
-    //   datasets: [
-    //     {
-    //       label: 'City State',
-    //       backgroundColor: 'rgba(75,192,192,1)',
-    //       borderColor: 'rgba(0,0,0,1)',
-    //       borderWidth: 2,
-    //       data: cityStateData
-    //     }
-    //   ]
-    // }
+
+    const cityStateData = this.state.sateCityData?.map(value => value.price_order)
+    const cityStateLabel = this.state.sateCityData?.map(value => value.id_order)
+    const City_State = {
+      labels: cityStateLabel,
+      datasets: [
+        {
+          label: 'City State',
+          backgroundColor: 'rgba(75,192,192,1)',
+          borderColor: 'rgba(0,0,0,1)',
+          borderWidth: 2,
+          data: cityStateData
+        }
+      ]
+    }
     return (
       <>
         <TableContainer style={{
@@ -881,7 +883,7 @@ class Graphs extends Component {
                                         </Select>
                                       </FormControl>
                                       <div style={{ marginLeft: '30px', display: 'flex' }}>
-                                        <h2>Total sales in this Zip code</h2>
+                                        <h2>Total sales in this City/State</h2>
                                         <h2 style={{ marginLeft: '10px' }}>=</h2>
                                         {
                                           this.state.sateCityData.length > 0 &&
@@ -890,7 +892,7 @@ class Graphs extends Component {
                                       </div>
                                     </div>
 
-                                    {/* <Bar
+                                    <Bar
                                       data={City_State}
                                       options={{
                                         title: {
@@ -903,7 +905,7 @@ class Graphs extends Component {
                                           position: 'right'
                                         }
                                       }}
-                                    /> */}
+                                    />
                                   </>
                                 }
                               </>
