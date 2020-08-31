@@ -9,6 +9,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import InputLabel from '@material-ui/core/InputLabel';
+import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -18,7 +19,13 @@ import InputBase from '@material-ui/core/InputBase';
 import { lighten, makeStyles, fade, useTheme } from '@material-ui/core/styles';
 import { urlFunction } from '../utils/urls';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { menuPath } from '../utils/img_link';
 import { Bar } from 'react-chartjs-2';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import {
   userContext, getUserOwnerRestaurant,
   getUserCount, getUserAll
@@ -168,8 +175,10 @@ class Graphs extends Component {
       salesData: [],
       logsData: [],
       salesByZip: [],
-      sateCityData: []
-
+      sateCityData: [],
+      getAllDishes: [],
+      setOpen: false,
+      setDishValue: ''
     }
   }
   updateGraph = (value) => {
@@ -189,6 +198,26 @@ class Graphs extends Component {
     else if (value == 11) {
       this.getAnnualSale()
     }
+    else if (value == 13) {
+      this.getDishes()
+    }
+  }
+  getDishes = () => {
+    this.setState({ showProgress: true })
+    axios
+      .get(`${urlFunction()}/restaurant/reports/getdishes`)
+      .then((res) => {
+        console.log("DOne", res)
+        // window.location.reload(true);
+        this.setState({ showProgress: false })
+        this.setState({ getAllDishes: res.data })
+      })
+      .catch((error) => {
+        this.setState({
+          showProgress: false,
+        })
+        console.log(error)
+      })
   }
   getAnnualSale = async () => {
     this.setState({ showProgress: true })
@@ -315,6 +344,14 @@ class Graphs extends Component {
         })
     }
   }
+  getDishesValue = (value, index) => {
+    this.setState({ setDishValue: value })
+    this.setState({ setOpen: !this.state.setOpen })
+    console.log('The Value is', value)
+  }
+  handleClose = () => {
+    this.setState({ setOpen: !this.state.setOpen })
+  }
   render() {
     const { classes } = this.props;
     const valueData = this.state.salesData?.map(value => value.price_order)
@@ -331,7 +368,7 @@ class Graphs extends Component {
         }
       ]
     }
-    let sum=0
+    let sum = 0
     if (valueData.length > 0) {
       for (let i = 0; i < valueData.length; i++) {
         sum = sum + valueData[i]
@@ -388,8 +425,8 @@ class Graphs extends Component {
               <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(6)}>Reviews</li>
               <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(9)}>Area Zip Code</li>
               <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(10)}>Total Sale by City State</li>
-
               <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(11)}>Call Logs</li>
+              <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(13)}>Report on individual dish- To determine which is best seller on what day of the week</li>
 
             </ul>
           </div>
@@ -518,23 +555,23 @@ class Graphs extends Component {
                   // /3- Average Time of order completion (micro & macro)
                   <>
                     <div style={{ display: 'flex' }}>
-                    <FormControl className={classes.formControl}>
-                      <InputLabel id="demo-customized-select-label">All Resturants</InputLabel>
-                      <Select className={classes.formControl}
+                      <FormControl className={classes.formControl}>
+                        <InputLabel id="demo-customized-select-label">All Resturants</InputLabel>
+                        <Select className={classes.formControl}
 
-                        labelId="demo-customized-select-label"
-                        id="demo-customized-select"
-                        value={this.state.age}
-                        onChange={this.handleChange}
-                        style={{ width: "300px" }}
-                      >
-                        <MenuItem value="All Resturants">
-                        </MenuItem>
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
-                      </Select>
-                    </FormControl>
+                          labelId="demo-customized-select-label"
+                          id="demo-customized-select"
+                          value={this.state.age}
+                          onChange={this.handleChange}
+                          style={{ width: "300px" }}
+                        >
+                          <MenuItem value="All Resturants">
+                          </MenuItem>
+                          <MenuItem value={10}>Ten</MenuItem>
+                          <MenuItem value={20}>Twenty</MenuItem>
+                          <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                      </FormControl>
                       <div style={{ marginLeft: '20px' }}>
                         <div style={{ display: 'flex' }} >
                           <h3>Average Time/order =</h3>
@@ -878,9 +915,82 @@ class Graphs extends Component {
                                   </>
                                 }
                               </>
-                              :
-                              <>
-                              </>
+                              : this.state.graphUpdate == 13 ?
+                                <>
+                                  {
+                                    this.state.getAllDishes.length > 0 &&
+                                    <div style={{
+                                      display: 'flex', alignItems: 'flex-start',
+                                      paddingHorizontal: 12, flexWrap: 'wrap',
+                                    }}>
+                                      {
+                                        this.state.getAllDishes?.map((value, index) => {
+                                          return (
+                                            <div style={{ width: '250px', height: '150px', marginHorizontal: 8, marginBottom: 80, }} onClick={() => this.getDishesValue(value, index)}>
+                                              <div style={{ borderWidth: '1px', borderRadius: '12px', backgroundColor: '#e0e0dc', marginLeft: 20, }}>
+                                                <img src={`${menuPath}${value.img_menu}`}
+                                                  style={{ height: 80, width: '100%', alignSelf: 'center' }}
+                                                />
+                                                <div style={{ margin: '10px' }}>
+                                                  <div style={{ display: 'flex', }}>
+                                                    <h3>Dish Name: </h3>
+                                                    <h4 style={{ marginLeft: '20px' }}>{value.name_menu}</h4>
+                                                  </div>
+                                                  <div style={{ display: 'flex', marginTop: -20 }}>
+                                                    <h3>Sales: </h3>
+                                                    <h4 style={{ marginLeft: '20px' }}>{value.amount_serve}</h4>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          )
+                                        })
+                                      }
+                                    </div>
+                                  }
+                                  <Dialog
+                                    open={this.state.setOpen}
+
+                                    onClose={this.handleClose}
+                                    aria-labelledby="alert-dialog-slide-title"
+                                    aria-describedby="alert-dialog-slide-description"
+                                  >
+                                    <img src={`${menuPath}${this.state.setDishValue.img_menu}`}
+                                      style={{ height: 80, width: '100%', alignSelf: 'center' }}
+                                    />
+                                    <div style={{ margin: '10px' }}>
+                                      <div style={{ display: 'flex', }}>
+                                        <h3>Dish Name: </h3>
+                                        <h4 style={{ marginLeft: '20px' }}>{this.state.setDishValue.name_menu}</h4>
+                                      </div>
+                                      <div style={{ display: 'flex', marginTop: -20 }}>
+                                        <h3>Description: </h3>
+                                        <h4 style={{ marginLeft: '20px' }}>{this.state.setDishValue.description_menu}</h4>
+                                      </div>
+                                      <div style={{ display: 'flex', marginTop: -20 }}>
+                                        <h3>Sales: </h3>
+                                        <h4 style={{ marginLeft: '20px' }}>{this.state.setDishValue.amount_serve}</h4>
+                                      </div>
+                                      <div style={{ display: 'flex', marginTop: -20 }}>
+                                        <h3>Dish Price : </h3>
+                                        <h4 style={{ marginLeft: '20px' }}>{this.state.setDishValue.prix_menu}</h4>
+                                      </div>
+                                      <div style={{ display: 'flex', marginTop: -20 }}>
+                                        <h3>Resturant Menu ID : </h3>
+                                        <h4 style={{ marginLeft: '20px' }}>{this.state.setDishValue.restaurantMenuID}</h4>
+                                      </div>
+                                    </div>
+                                    <DialogActions>
+
+                                      <Button onClick={this.handleClose} color="primary">
+                                        ok
+                                      </Button>
+                                    </DialogActions>
+                                  </Dialog>
+                                </>
+                                :
+                                <>
+                                </>
 
           }
         </TableContainer>
