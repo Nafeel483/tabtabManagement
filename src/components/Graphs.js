@@ -331,7 +331,12 @@ class Graphs extends Component {
         }
       ]
     }
-
+    let sum=0
+    if (valueData.length > 0) {
+      for (let i = 0; i < valueData.length; i++) {
+        sum = sum + valueData[i]
+      }
+    }
     const zipData = this.state.salesByZip?.map(value => value.price_order)
     const zipLabel = this.state.salesByZip?.map(value => value.id_order)
     const Zip_Sales = {
@@ -484,11 +489,11 @@ class Graphs extends Component {
                     <div style={{ marginLeft: '20px' }}>
                       <div style={{ display: 'flex' }} >
                         <h3>TOTAL SALES =</h3>
-                        <h4>10</h4>
+                        <h4>{this.state.salesData.length}</h4>
                       </div>
                       <div style={{ display: 'flex' }} >
                         <h3>TOTAL REVENUE  =</h3>
-                        <h4>$1000</h4>
+                        <h4>{`$${sum != undefined ? sum : '0'}`}</h4>
                       </div>
                     </div>
                   </div>
@@ -512,6 +517,7 @@ class Graphs extends Component {
                 this.state.graphUpdate == 3 ?
                   // /3- Average Time of order completion (micro & macro)
                   <>
+                    <div style={{ display: 'flex' }}>
                     <FormControl className={classes.formControl}>
                       <InputLabel id="demo-customized-select-label">All Resturants</InputLabel>
                       <Select className={classes.formControl}
@@ -529,43 +535,6 @@ class Graphs extends Component {
                         <MenuItem value={30}>Thirty</MenuItem>
                       </Select>
                     </FormControl>
-                    <div style={{ display: 'flex' }}>
-                      <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-customized-select-label">Hour</InputLabel>
-                        <Select className={classes.formControl}
-
-                          labelId="demo-customized-select-label"
-                          id="demo-customized-select"
-                          value={this.state.age}
-                          onChange={this.handleChange}
-                          style={{ width: "300px" }}
-                        >
-                          <MenuItem value="All Resturants">
-                          </MenuItem>
-                          <MenuItem value={10}>Ten</MenuItem>
-                          <MenuItem value={20}>Twenty</MenuItem>
-                          <MenuItem value={30}>Thirty</MenuItem>
-                        </Select>
-                      </FormControl>
-                      <div style={{ marginLeft: "20px" }}>
-                        <FormControl className={classes.formControl}>
-                          <InputLabel id="demo-customized-select-label">12:00</InputLabel>
-                          <Select className={classes.formControl}
-
-                            labelId="demo-customized-select-label"
-                            id="demo-customized-select"
-                            value={this.state.age}
-                            onChange={this.handleChange}
-                            style={{ width: "300px" }}
-                          >
-                            <MenuItem value="All Resturants">
-                            </MenuItem>
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
-                          </Select>
-                        </FormControl>
-                      </div>
                       <div style={{ marginLeft: '20px' }}>
                         <div style={{ display: 'flex' }} >
                           <h3>Average Time/order =</h3>

@@ -34,7 +34,6 @@ export let getUserAll = async (limit, offset) => {
     limit, offset
   }
   let res = await axios.post(`${urlFunction()}/users/pagination`,d);  
-  // let res = await axios.post(`http://3.17.175.93:3001/api/v2/admin/users/pagination`, d)
   let data = res.data
   return data != null ? data : []
 }

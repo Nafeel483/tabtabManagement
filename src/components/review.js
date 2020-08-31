@@ -119,7 +119,7 @@ class Review extends Component {
     }
     console.log("Yes Deleted User is: ", data)
 
-    axios.post(`http://3.17.175.93:3001/api/v2/admin/restaurant/order/addanswer`, data, {
+    axios.post(`http://52.15.48.176:3001/api/v2/admin/restaurant/order/addanswer`, data, {
       headers: {
         Authorization: 'bearer ' + this.state.user.token,
       },
