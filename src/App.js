@@ -27,6 +27,7 @@ import Reviews from './components/review';
 import ServiceFee from './components/ServiceFee';
 import OrderReports from './components/Graphs';
 import AlertPage from './components/AlertPage';
+import Suspend from './components/Suspend';
 import FormRestaurant from './components/form/FormRestaurant';
 import FormMenu from './components/form/FormMenu';
 import Statistics from './components/Statistics'
@@ -402,6 +403,18 @@ class App extends Component {
               return (
                 <Drawer>
                   <AlertPage />
+                </Drawer>
+              )
+            }}
+          />
+
+          <Route
+            exact
+            path='/Suspend'
+            render={() => {
+              return (
+                <Drawer>
+                  <Suspend />
                 </Drawer>
               )
             }}

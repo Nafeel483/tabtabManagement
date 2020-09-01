@@ -275,6 +275,10 @@ const DrawerSide = (props) => {
       link: "photos"
     },
     {
+      name: " Suspend User", id: 4, icon: < PersonAddIcon />,
+      link: "Suspend"
+    },
+    {
       name: " Service Fee", id: 4, icon: < RestaurantMenuIcon />,
       link: "ServiceFee"
     },
@@ -283,7 +287,7 @@ const DrawerSide = (props) => {
       link: "OrderReports"
     },
     {
-      name: "Send Notification", id: 4, icon: <Notifications/>,
+      name: "Send Notification", id: 4, icon: <Notifications />,
       link: "AlertPage"
     },
   ]

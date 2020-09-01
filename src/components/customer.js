@@ -472,7 +472,7 @@ class Customer extends React.Component {
     let data = {
       email: user.email_user
     }
-    axios.post(`http://52.15.48.176:3001/api/v2/admin/user/delete`, data, {
+    axios.post(`http://52.15.48.176:3001/api/v2/admin/user/suspend`, data, {
       headers: {
         Authorization: 'bearer ' + this.state.user.token,
       },

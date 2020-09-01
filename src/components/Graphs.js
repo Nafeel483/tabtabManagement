@@ -171,14 +171,16 @@ class Graphs extends Component {
       showProgress: false,
       reviewData: [],
       restaurants: [],
-      resturant_id: null,
+      resturant_id: '',
       salesData: [],
       logsData: [],
       salesByZip: [],
       sateCityData: [],
       getAllDishes: [],
       setOpen: false,
-      setDishValue: ''
+      setDishValue: '',
+      setOpen1: false,
+      setDishValue1: '',
     }
   }
   updateGraph = (value) => {
@@ -225,7 +227,7 @@ class Graphs extends Component {
     if (restaurants.length > 0) {
       console.log("Resturant", restaurants)
       this.setState({
-        restaurants: restaurants,
+        restaurants: restaurants.sort((a, b) => (a.name_restaurant > b.name_restaurant) ? 1 : -1),
         showProgress: false
       })
     }
@@ -251,6 +253,7 @@ class Graphs extends Component {
     this.setState({ age: event.target.value })
   }
   handleChangeResturant = (event) => {
+    console.log('event.target.value.name_restaurant', event.target.value.name_restaurant)
     this.setState({ resturant_id: event.target.value.name_restaurant })
     if (event.target.value.id_restaurant) {
       let data = {
@@ -297,11 +300,10 @@ class Graphs extends Component {
     }
   }
   handleChangeZipCode = (event) => {
-    this.setState({ resturant_id: event.target.value.name_restaurant })
+    this.setState({ resturant_id: event.target.value.zipcode })
     if (event.target.value.id_restaurant) {
       let data = {
-        // zipcode: event.target.value.zipcode != null || event.target.value.zipcode != "null" || event.target.value.zipcode != "" || event.target.value.zipcode != undefined ? event.target.value.zipcode : 34142
-        zipcode: 34142
+        zipcode: event.target.value.zipcode
       }
       axios
         .post(`${urlFunction()}/restaurant/reports/salesbyzip`, data, {
@@ -321,11 +323,11 @@ class Graphs extends Component {
     }
   }
   handleChangeSalesbyState = (event) => {
-    this.setState({ resturant_id: event.target.value.name_restaurant })
+    this.setState({ resturant_id: event.target.value.state })
     if (event.target.value.id_restaurant) {
       let data = {
-        // state: event.target.value.state != undefined || event.target.value.state != null || event.target.value.state != "null" || event.target.value.state != "" ? event.target.value.state : "Fl"
-        state: "Fl"
+        state: event.target.value.state
+        // state: "Fl"
       }
       axios
         .post(`${urlFunction()}/restaurant/reports/salesbystate`, data, {
@@ -349,8 +351,19 @@ class Graphs extends Component {
     this.setState({ setOpen: !this.state.setOpen })
     console.log('The Value is', value)
   }
+  getDishesValue1 = (value, index) => {
+    this.setState({ setDishValue1: value })
+    this.setState({ setOpen1: !this.state.setOpen1 })
+    console.log('The Value is', value)
+  }
   handleClose = () => {
     this.setState({ setOpen: !this.state.setOpen })
+  }
+  handleClose1 = () => {
+    this.setState({ setOpen1: !this.state.setOpen1 })
+  }
+  renderValue = (value) => {
+    return value;
   }
   render() {
     const { classes } = this.props;
@@ -403,6 +416,14 @@ class Graphs extends Component {
         }
       ]
     }
+    const zipCode = this.state.restaurants.filter((value) => {
+      return value.zipcode != undefined && value.zipcode != null && value.zipcode != 'null'
+    })
+    console.log("this.zipCode", zipCode)
+
+    const stateArea = this.state.restaurants.filter((value) => {
+      return value.state != undefined && value.state != null && value.state != 'null'
+    })
     return (
       <>
         <TableContainer style={{
@@ -417,11 +438,11 @@ class Graphs extends Component {
           }
           <div>
             <ul>
-              <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(1)}>Distance Driving</li>
+              {/* <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(1)}>Distance Driving</li> */}
               <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(2)}>Hourly/Daily/ Weekly/Monthly/Quarterly/ Annual Sales</li>
-              <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(3)}>Average Time of order completion</li>
-              <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(4)}>Average expenses per order</li>
-              <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(5)}>Order Cancellation</li>
+              {/* <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(3)}>Average Time of order completion</li> */}
+              {/* <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(4)}>Average expenses per order</li> */}
+              {/* <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(5)}>Order Cancellation</li> */}
               <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(6)}>Reviews</li>
               <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(9)}>Area Zip Code</li>
               <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(10)}>Total Sale by City State</li>
@@ -469,60 +490,28 @@ class Graphs extends Component {
               this.state.graphUpdate == 2 ?
                 // Hourly/Daily/ Weekly/Monthly/Quarterly/ Annual Sales
                 <>
-                  <FormControl className={classes.formControl}>
-                    <InputLabel id="demo-customized-select-label">Resturants</InputLabel>
-                    <Select className={classes.formControl}
-
-                      labelId="demo-customized-select-label"
-                      id="demo-customized-select"
-                      value={this.state.resturant_id}
-                      onChange={this.handleChangeResturant}
-                      style={{ width: "300px" }}
-                    >
-                      {this.state.restaurants.map(el => (
-                        <MenuItem key={el.id_restaurant} value={el}>
-                          {el.name_restaurant}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
                   <div style={{ display: 'flex' }}>
+
                     <FormControl className={classes.formControl}>
-                      <InputLabel id="demo-customized-select-label">Monthly</InputLabel>
+                      <InputLabel id="demo-customized-select-label">Resturants</InputLabel>
                       <Select className={classes.formControl}
 
                         labelId="demo-customized-select-label"
                         id="demo-customized-select"
-                        value={this.state.age}
-                        onChange={this.handleChange}
+                        value={this.state.resturant_id}
+                        renderValue={() => this.renderValue(this.state.resturant_id)}
+                        onChange={this.handleChangeResturant}
                         style={{ width: "300px" }}
                       >
-                        <MenuItem value="All Resturants">
-                        </MenuItem>
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        {this.state.restaurants.map(el => (
+                          <MenuItem key={el.id_restaurant} value={el}>
+                            {el.name_restaurant}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
-                    <div style={{ marginLeft: "20px" }}>
-                      <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-customized-select-label">Weekly</InputLabel>
-                        <Select className={classes.formControl}
 
-                          labelId="demo-customized-select-label"
-                          id="demo-customized-select"
-                          value={this.state.age}
-                          onChange={this.handleChange}
-                          style={{ width: "300px" }}
-                        >
-                          <MenuItem value="All Resturants">
-                          </MenuItem>
-                          <MenuItem value={10}>Ten</MenuItem>
-                          <MenuItem value={20}>Twenty</MenuItem>
-                          <MenuItem value={30}>Thirty</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>
+
                     <div style={{ marginLeft: '20px' }}>
                       <div style={{ display: 'flex' }} >
                         <h3>TOTAL SALES =</h3>
@@ -680,61 +669,48 @@ class Graphs extends Component {
                       </> :
                       this.state.graphUpdate == 6 ?
                         <>
-                          <div>
-                            <Table
-                              component={Paper} aria-label="customized table">
+                          {this.state.reviewData?.map((resto, index) => {
+                            return (
+                              <div style={{ cursor: 'pointer' }} onClick={() => this.getDishesValue1(resto, index)}>
+                                <Grid container spacing={3}>
+                                  <Grid item xs={12}>
+                                    <Paper className={classes.paper}> <h4>{`Review${index}`}</h4></Paper>
 
-                              <TableRow style={{
-                                backgroundColor: "#fff"
-                              }}>
-                                <TableCell> <b>Review List</b> </TableCell>
-                                <TableCell>  </TableCell>
-                                <TableCell>  </TableCell>
-                                <TableCell>  </TableCell>
-                              </TableRow>
+                                  </Grid>
+                                </Grid>
+                              </div>
+                            )
+                          })
+                          }
+                          <Dialog
+                            open={this.state.setOpen1}
 
-                              <TableRow style={{
-                                backgroundColor: "#eeefff"
-                              }}>
-                                <TableCell>  Question Number </TableCell>
+                            onClose={this.handleClose1}
+                            aria-labelledby="alert-dialog-slide-title"
+                            aria-describedby="alert-dialog-slide-description"
+                          >
 
+                            <div style={{ margin: '10px', width: '700px', height: '100px' }}>
+                              <div style={{ display: 'flex', marginTop: -20 }}>
+                                <h3>ID: </h3>
+                                <h4 style={{ marginLeft: '20px' }}>{this.state.setDishValue1.id_answer}</h4>
+                              </div>
+                              <div style={{ display: 'flex', marginTop: -20 }}>
+                                <h3>Review : </h3>
+                                <h4 style={{ marginLeft: '20px' }}>{this.state.setDishValue1.answer}</h4>
+                              </div>
+                            </div>
+                            <DialogActions>
 
-                                <TableCell align="left">Answers</TableCell>
+                              <Button onClick={this.handleClose1} color="primary">
+                                ok
+                                      </Button>
+                            </DialogActions>
+                          </Dialog>
 
-
-                              </TableRow>
-                              <TableBody>
-                                {this.state.reviewData?.map(resto => (
-
-                                  <TableRow className={classes.TableRowDesign}
-                                    key={resto.id_answer}>
-                                    <TableCell>
-                                      <div style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                      }}>
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            marginLeft: 8,
-                                          }}>
-                                          {resto.id_question_fk}
-                                        </div>
-                                      </div>
-                                    </TableCell>
-                                    <TableCell align="left">
-                                      {resto.answer}
-
-                                    </TableCell>
-                                  </TableRow>
-                                ))}
-                              </TableBody>
-                            </Table>
-
-                          </div>
                         </>
                         : this.state.graphUpdate == 11 ?
+
                           <>
                             <FormControl className={classes.formControl}>
                               <InputLabel id="demo-customized-select-label">Resturants</InputLabel>
@@ -743,6 +719,7 @@ class Graphs extends Component {
                                 labelId="demo-customized-select-label"
                                 id="demo-customized-select"
                                 value={this.state.resturant_id}
+                                renderValue={() => this.renderValue(this.state.resturant_id)}
                                 onChange={this.handleChangeCall}
                                 style={{ width: "300px" }}
                               >
@@ -753,90 +730,96 @@ class Graphs extends Component {
                                 ))}
                               </Select>
                             </FormControl>
-                            {this.state.logsData.length > 0 ?
-                              <div>
-                                <Table
-                                  component={Paper} aria-label="customized table">
+                            {
+                              this.state.resturant_id != '' ?
+                                this.state.logsData.length > 0 ?
+                                  <div>
+                                    <Table
+                                      component={Paper} aria-label="customized table">
 
-                                  <TableRow style={{
-                                    backgroundColor: "#fff"
-                                  }}>
-                                    <TableCell> <b>Calls List</b> </TableCell>
-                                    <TableCell>  </TableCell>
-                                    <TableCell>  </TableCell>
-                                    <TableCell>  </TableCell>
-                                  </TableRow>
+                                      <TableRow style={{
+                                        backgroundColor: "#fff"
+                                      }}>
+                                        <TableCell> <b>Calls List</b> </TableCell>
+                                        <TableCell>  </TableCell>
+                                        <TableCell>  </TableCell>
+                                        <TableCell>  </TableCell>
+                                      </TableRow>
 
-                                  <TableRow style={{
-                                    backgroundColor: "#eeefff"
-                                  }}>
-                                    <TableCell>  Resturant ID </TableCell>
-
-
-                                    <TableCell align="left">User ID</TableCell>
-                                    <TableCell align="left">User Call</TableCell>
-                                    <TableCell align="left">Direction User</TableCell>
+                                      <TableRow style={{
+                                        backgroundColor: "#eeefff"
+                                      }}>
+                                        <TableCell>  Resturant ID </TableCell>
 
 
-                                  </TableRow>
-                                  <TableBody>
-                                    {this.state.logsData?.map(resto => (
+                                        <TableCell align="left">User ID</TableCell>
+                                        <TableCell align="left">User Call</TableCell>
+                                        <TableCell align="left">Direction User</TableCell>
 
-                                      <TableRow className={classes.TableRowDesign}
-                                        key={resto.id_log_call_direction}>
-                                        <TableCell>
-                                          <div style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                          }}>
-                                            <div
-                                              style={{
+
+                                      </TableRow>
+                                      <TableBody>
+                                        {this.state.logsData?.map(resto => (
+
+                                          <TableRow className={classes.TableRowDesign}
+                                            key={resto.id_log_call_direction}>
+                                            <TableCell>
+                                              <div style={{
                                                 display: "flex",
                                                 alignItems: "center",
-                                                marginLeft: 8,
                                               }}>
-                                              {resto.id_restaurant_fk}
-                                            </div>
-                                          </div>
-                                        </TableCell>
-                                        <TableCell align="left">
-                                          {resto.id_user_fk}
+                                                <div
+                                                  style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    marginLeft: 8,
+                                                  }}>
+                                                  {resto.id_restaurant_fk}
+                                                </div>
+                                              </div>
+                                            </TableCell>
+                                            <TableCell align="left">
+                                              {resto.id_user_fk}
 
-                                        </TableCell>
-                                        <TableCell align="left">
-                                          {resto.call_user}
+                                            </TableCell>
+                                            <TableCell align="left">
+                                              {resto.call_user}
 
-                                        </TableCell>
-                                        <TableCell align="left">
-                                          {resto.direction_user}
+                                            </TableCell>
+                                            <TableCell align="left">
+                                              {resto.direction_user}
 
-                                        </TableCell>
-                                      </TableRow>
-                                    ))}
-                                  </TableBody>
-                                </Table>
+                                            </TableCell>
+                                          </TableRow>
+                                        ))}
+                                      </TableBody>
+                                    </Table>
 
-                              </div>
-                              :
-                              <h3>NO Calls Logs</h3>
+                                  </div>
+                                  :
+                                  <h3>NO Call History Against This Resturnats</h3>
+                                :
+                                <>
+                                </>
                             }
                           </>
                           : this.state.graphUpdate == 9 ?
                             <>
                               <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                 <FormControl className={classes.formControl}>
-                                  <InputLabel id="demo-customized-select-label">Resturants</InputLabel>
+                                  <InputLabel id="demo-customized-select-label">ZipCode</InputLabel>
                                   <Select className={classes.formControl}
 
                                     labelId="demo-customized-select-label"
                                     id="demo-customized-select"
                                     value={this.state.resturant_id}
+                                    renderValue={() => this.renderValue(this.state.resturant_id)}
                                     onChange={this.handleChangeZipCode}
                                     style={{ width: "300px" }}
                                   >
-                                    {this.state.restaurants.map(el => (
+                                    {zipCode.map(el => (
                                       <MenuItem key={el.id_restaurant} value={el}>
-                                        {el.name_restaurant}
+                                        {el.zipcode}
                                       </MenuItem>
                                     ))}
                                   </Select>
@@ -850,21 +833,29 @@ class Graphs extends Component {
                                   }
                                 </div>
                               </div>
-
-                              <Bar
-                                data={Zip_Sales}
-                                options={{
-                                  title: {
-                                    display: true,
-                                    text: 'Zip Code',
-                                    fontSize: 20
-                                  },
-                                  legend: {
-                                    display: true,
-                                    position: 'right'
-                                  }
-                                }}
-                              />
+                              {
+                                this.state.resturant_id != '' ?
+                                  this.state.salesByZip.length > 0 ?
+                                    <Bar
+                                      data={Zip_Sales}
+                                      options={{
+                                        title: {
+                                          display: true,
+                                          text: 'Zip Code',
+                                          fontSize: 20
+                                        },
+                                        legend: {
+                                          display: true,
+                                          position: 'right'
+                                        }
+                                      }}
+                                    />
+                                    :
+                                    <h3>No Data against this ZipCode</h3>
+                                  :
+                                  <>
+                                  </>
+                              }
                             </>
                             : this.state.graphUpdate == 10 ?
                               <>
@@ -872,18 +863,19 @@ class Graphs extends Component {
                                   <>
                                     <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                       <FormControl className={classes.formControl}>
-                                        <InputLabel id="demo-customized-select-label">Resturants</InputLabel>
+                                        <InputLabel id="demo-customized-select-label">City/State</InputLabel>
                                         <Select className={classes.formControl}
 
                                           labelId="demo-customized-select-label"
                                           id="demo-customized-select"
                                           value={this.state.resturant_id}
+                                          renderValue={() => this.renderValue(this.state.resturant_id)}
                                           onChange={this.handleChangeSalesbyState}
                                           style={{ width: "300px" }}
                                         >
-                                          {this.state.restaurants.map(el => (
+                                          {stateArea.map(el => (
                                             <MenuItem key={el.id_restaurant} value={el}>
-                                              {el.name_restaurant}
+                                              {el.state}
                                             </MenuItem>
                                           ))}
                                         </Select>
@@ -897,21 +889,30 @@ class Graphs extends Component {
                                         }
                                       </div>
                                     </div>
+                                    {
+                                      this.state.resturant_id != '' ?
+                                        this.state.sateCityData.length > 0 ?
 
-                                    <Bar
-                                      data={City_State}
-                                      options={{
-                                        title: {
-                                          display: true,
-                                          text: 'City State',
-                                          fontSize: 20
-                                        },
-                                        legend: {
-                                          display: true,
-                                          position: 'right'
-                                        }
-                                      }}
-                                    />
+                                          <Bar
+                                            data={City_State}
+                                            options={{
+                                              title: {
+                                                display: true,
+                                                text: 'City State',
+                                                fontSize: 20
+                                              },
+                                              legend: {
+                                                display: true,
+                                                position: 'right'
+                                              }
+                                            }}
+                                          />
+                                          :
+                                          <h3>No Data against this State/City</h3>
+                                        :
+                                        <>
+                                        </>
+                                    }
                                   </>
                                 }
                               </>

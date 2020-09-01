@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-class ServiceFee extends Component {
+class Suspend extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -127,7 +127,7 @@ class ServiceFee extends Component {
         isLogin: false
       })
     }
-    axios.get(`${urlFunction()}/restaurant/payment/admin/getfee`, {
+    axios.get(`${urlFunction()}/user/getsuspendeduser`, {
       headers: {
         Authorization: 'bearer ' + this.state.user.token,
       },
@@ -153,65 +153,32 @@ class ServiceFee extends Component {
   handleInputChangefee = (event) => {
     this.setState({ fee: event.target.value })
   }
-  submit = () => {
-    let data = {
-      id_restaurant_fk: this.state.id_restaurant_fk,
-      fee: this.state.fee,
-    }
-    this.setState({ showProgress: true })
-    axios
-      .post(`${urlFunction()}/restaurant/payment/admin/addfee`, data, {
-        headers: {
-          Authorization: 'bearer ' + this.state.user.token,
-        },
-      })
-      .then((res) => {
-        console.log("DOne", res)
-        // window.location.reload(true);
-        alert("Succesfully Added")
-        this.setState({ showProgress: false })
-        window.location.reload(true);
-      })
-      .catch((error) => {
-        this.setState({
-          showProgress: false,
-        })
-        console.log(error)
-      })
-  }
-  updateResturant = () => {
-    let data = {
-      id_restaurant: this.state.id_restaurant_fk,
-      service_fee: this.state.fee,
-    }
-    this.setState({ showProgress: true })
-    axios
-      .post(`${urlFunction()}/restaurant/payment/admin/updatefee`, data, {
-        headers: {
-          Authorization: 'bearer ' + this.state.user.token,
-        },
-      })
-      .then((res) => {
-        console.log("DOne", res)
-        // window.location.reload(true);
-        alert("Succesfully Updated")
-        this.setState({ showProgress: false })
-        window.location.reload(true);
-      })
-      .catch((error) => {
-        this.setState({
-          showProgress: false,
-        })
-        console.log(error)
-      })
-  }
-  updateFee = (value) => {
-    console.log("The Value: ", value)
-    this.setState({ updateValue: true })
-    this.setState({ id_restaurant_fk: value.id_restaurant })
-    this.setState({ fee: value.service_fee })
 
+  updateResturant = (value) => {
+    let data = {
+      email: value.email_user
+    }
+    axios.post(`${urlFunction()}/user/release`, data, {
+      headers: {
+        Authorization: 'bearer ' + this.state.user.token,
+      },
+    }).then(res => {
+      console.log("Yes Deleted User is: ", res)
+      alert("Customer Release Successfully")
+      window.location.reload(true);
+
+      this.setState({
+        showProgress: false,
+      })
+
+    }).catch(err => {
+      console.log("error", err)
+      this.setState({
+        showProgress: false,
+      })
+    })
   }
+
   render() {
     const { classes } = this.props;
     console.log('my user is', this.state.user)
@@ -227,67 +194,8 @@ class ServiceFee extends Component {
             <LinearProgress />
             : null
           }
-          <h1>Resturant Fee</h1>
-          {
-            this.state.updateValue &&
-            <>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between"
-                }}>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between"
-                  }}
-                >
-                 
-                  <div>
-                    <h4>Service Fee</h4>
-                    <div className={classes.search1}>
+          <h1>Release User</h1>
 
-                      <InputBase
-                        type="text"
-                        name="search"
-                        value={this.state.fee}
-                        placeholder="Service Fee"
-                        classes={{
-                          root: classes.inputRoot,
-                          input: classes.inputInput1,
-                        }}
-                        inputProps={{ 'aria-label': 'search' }}
-                        onChange={this.handleInputChangefee}
-
-                      />
-                    </div>
-                  </div>
-
-                  <Button variant="contained" color="primary" style={{ marginTop: '30px' }}
-                    onClick={this.updateResturant}
-                  >
-                    Update
-                  </Button>
-
-                </div>
-                {/* 
-            <FormControlLabel
-              label ="FILTER"
-                control={
-                  <IOSSwitch
-                    checked={this.state.checkedB}
-                    onChange={this.handleChangeIOS('checkedB')}
-                    value="checkedB"
-                  />
-                }
-            /> */}
-              </div>
-            </>
-          }
           <div>
             <Table
               component={Paper} aria-label="customized table">
@@ -303,8 +211,9 @@ class ServiceFee extends Component {
               <TableRow style={{
                 backgroundColor: "#eeefff"
               }}>
-                <TableCell>  Resturant Name </TableCell>
-                <TableCell align="left">Service Fee</TableCell>
+                <TableCell>  Customer Name </TableCell>
+                <TableCell align="left">Email</TableCell>
+                <TableCell align="left">Phone</TableCell>
 
                 <TableCell align="left">Actions</TableCell>
 
@@ -327,17 +236,18 @@ class ServiceFee extends Component {
                             alignItems: "center",
                             marginLeft: 8,
                           }}>
-                          {resto.name_restaurant}
+                          {resto.name_user}
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell align="left">{`${resto.service_fee}$`} </TableCell>
+                    <TableCell align="left">{resto.email_user} </TableCell>
+                    <TableCell align="left">{resto.tel_user} </TableCell>
                     <TableCell align="left">
                       <Button variant="contained" color="primary"
-                        onClick={() => this.updateFee(resto)}
+                        onClick={() => this.updateResturant(resto)}
                       >
-                        Update
-            </Button>
+                        Release
+                      </Button>
                     </TableCell>
 
                   </TableRow>
@@ -354,4 +264,4 @@ class ServiceFee extends Component {
   }
 };
 
-export default withStyles(styles)(ServiceFee)    
+export default withStyles(styles)(Suspend)    
