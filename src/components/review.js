@@ -115,6 +115,9 @@ class Review extends Component {
     let data = {
       id_question_fk: [this.state.serveyList?.[0]?.id_question, this.state.serveyList?.[1]?.id_question, this.state.serveyList?.[2]?.id_question, this.state.serveyList?.[3]?.id_question
       ],
+      question: ["Was your food ready on time/ Manje a te prepare le'w rive??", "How would you rate your experience/ Koman akey la te ye?", "How was the food/ Koman manje a te ye?",
+        "Please provide any feedback, add your contact info to be contacted/ Pa le nou de eksperyans ou, kite telefon ou si ou vle nou kontakte'w. Mesi!"
+      ],
       answer: [this.state.food, this.state.experience, this.state.experience1, this.state.final]
     }
     console.log("Yes Deleted User is: ", data)
@@ -212,44 +215,44 @@ class Review extends Component {
                   }}>Not good/ Pa bon
                 </p>
                 <Radio
-                  checked={this.state.experience === '1'}
+                  checked={this.state.experience === 'Not Good'}
                   onChange={this._handleChange}
-                  value="1"
+                  value="Not Good"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': '1' }}
+                  inputProps={{ 'aria-label': 'Not Good' }}
                 />
                 <Radio
-                  checked={this.state.experience === '2'}
+                  checked={this.state.experience === 'Best'}
                   onChange={this._handleChange}
-                  value="2"
+                  value="Best"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': '2' }}
+                  inputProps={{ 'aria-label': 'Best' }}
                 />
                 <Radio
-                  checked={this.state.experience === '3'}
+                  checked={this.state.experience === 'Perfect'}
                   onChange={this._handleChange}
-                  value="3"
+                  value="Perfect"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': '3' }}
+                  inputProps={{ 'aria-label': 'Perfect' }}
                 />
                 <Radio
-                  checked={this.state.experience === '4'}
+                  checked={this.state.experience === 'Slightly Good'}
                   onChange={this._handleChange}
-                  value="4"
+                  value="Slightly Good"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': '4' }}
+                  inputProps={{ 'aria-label': 'Slightly Good' }}
                 />
                 <Radio
-                  checked={this.state.experience === '5'}
+                  checked={this.state.experience === 'Bad'}
                   onChange={this._handleChange}
-                  value="5"
+                  value="Bad"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': '5' }}
+                  inputProps={{ 'aria-label': 'Bad' }}
                 />
                 <p
                   style={{
@@ -278,44 +281,44 @@ class Review extends Component {
                   }}>Not good/ Pa bon
                 </p>
                 <Radio
-                  checked={this.state.experience1 === '1'}
+                  checked={this.state.experience1 === 'Not Good'}
                   onChange={this._handleChange1}
-                  value="1"
+                  value="Not Good"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': '1' }}
+                  inputProps={{ 'aria-label': 'Not Good' }}
                 />
                 <Radio
-                  checked={this.state.experience1 === '2'}
+                  checked={this.state.experience1 === 'Best'}
                   onChange={this._handleChange1}
-                  value="2"
+                  value="Best"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': '2' }}
+                  inputProps={{ 'aria-label': 'Best' }}
                 />
                 <Radio
-                  checked={this.state.experience1 === '3'}
+                  checked={this.state.experience1 === 'Perfect'}
                   onChange={this._handleChange1}
-                  value="3"
+                  value="Perfect"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': '3' }}
+                  inputProps={{ 'aria-label': 'Perfect' }}
                 />
                 <Radio
-                  checked={this.state.experience1 === '4'}
+                  checked={this.state.experience1 === 'Slightly Good'}
                   onChange={this._handleChange1}
-                  value="4"
+                  value="Slightly Good"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': '4' }}
+                  inputProps={{ 'aria-label': 'Slightly Good' }}
                 />
                 <Radio
-                  checked={this.state.experience1 === '5'}
+                  checked={this.state.experience1 === 'Bad'}
                   onChange={this._handleChange1}
-                  value="5"
+                  value="Bad"
                   color="primary"
                   name="radio-button-demo"
-                  inputProps={{ 'aria-label': '5' }}
+                  inputProps={{ 'aria-label': 'Bad' }}
                 />
                 <p
                   style={{

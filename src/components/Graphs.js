@@ -373,7 +373,7 @@ class Graphs extends Component {
       labels: labelData,
       datasets: [
         {
-          label: 'Annual Sales',
+          label: 'Annual Sales (X:order_id / Y: order_price)',
           backgroundColor: 'rgba(75,192,192,1)',
           borderColor: 'rgba(0,0,0,1)',
           borderWidth: 2,
@@ -393,7 +393,7 @@ class Graphs extends Component {
       labels: zipLabel,
       datasets: [
         {
-          label: 'Zip Code',
+          label: 'Zip Code (X:order_id / Y: order_price)',
           backgroundColor: 'rgba(75,192,192,1)',
           borderColor: 'rgba(0,0,0,1)',
           borderWidth: 2,
@@ -408,7 +408,7 @@ class Graphs extends Component {
       labels: cityStateLabel,
       datasets: [
         {
-          label: 'City State',
+          label: 'City State (X:order_id / Y: order_price)',
           backgroundColor: 'rgba(75,192,192,1)',
           borderColor: 'rgba(0,0,0,1)',
           borderWidth: 2,
@@ -490,7 +490,7 @@ class Graphs extends Component {
               this.state.graphUpdate == 2 ?
                 // Hourly/Daily/ Weekly/Monthly/Quarterly/ Annual Sales
                 <>
-                  <div style={{ display: 'flex' }}>
+                  <div style={{ display: 'flex', marginTop: '40px' }}>
 
                     <FormControl className={classes.formControl}>
                       <InputLabel id="demo-customized-select-label">Resturants</InputLabel>
@@ -514,11 +514,11 @@ class Graphs extends Component {
 
                     <div style={{ marginLeft: '20px' }}>
                       <div style={{ display: 'flex' }} >
-                        <h3>TOTAL SALES =</h3>
+                        <h4>TOTAL SALES =</h4>
                         <h4>{this.state.salesData.length}</h4>
                       </div>
                       <div style={{ display: 'flex' }} >
-                        <h3>TOTAL REVENUE  =</h3>
+                        <h4>TOTAL REVENUE  =</h4>
                         <h4>{`$${sum != undefined ? sum : '0'}`}</h4>
                       </div>
                     </div>
@@ -671,13 +671,15 @@ class Graphs extends Component {
                         <>
                           {this.state.reviewData?.map((resto, index) => {
                             return (
-                              <div style={{ cursor: 'pointer' }} onClick={() => this.getDishesValue1(resto, index)}>
-                                <Grid container spacing={3}>
-                                  <Grid item xs={12}>
-                                    <Paper className={classes.paper}> <h4>{`Review${index}`}</h4></Paper>
-
+                              <div style={{ cursor: 'pointer', marginTop: '40px' }} onClick={() => this.getDishesValue1(resto, index)}>
+                                {
+                                  resto.id_question_fk == 5 || resto.id_question_fk == 6 || resto.id_question_fk == 7 || resto.id_question_fk == 8 &&
+                                  <Grid container spacing={3}>
+                                    <Grid item xs={12}>
+                                      <Paper className={classes.paper}> <h4>{`Review`}</h4></Paper>
+                                    </Grid>
                                   </Grid>
-                                </Grid>
+                                }
                               </div>
                             )
                           })
@@ -690,10 +692,18 @@ class Graphs extends Component {
                             aria-describedby="alert-dialog-slide-description"
                           >
 
-                            <div style={{ margin: '10px', width: '700px', height: '100px' }}>
+                            <div style={{ margin: '10px', width: '900px', height: '100px' }}>
                               <div style={{ display: 'flex', marginTop: -20 }}>
                                 <h3>ID: </h3>
                                 <h4 style={{ marginLeft: '20px' }}>{this.state.setDishValue1.id_answer}</h4>
+                              </div>
+                              <div style={{ display: 'flex', marginTop: -20 }}>
+                                <h3>Question: </h3>
+                                <h4 style={{ marginLeft: '20px' }}>{this.state.setDishValue1.id_question_fk == 5 ? "Was your food ready on time/ Manje a te prepare le'w rive?" :
+                                  this.state.setDishValue1.id_question_fk == 6 ? "How would you rate your experience/ Koman akey la te ye?" :
+                                    this.state.setDishValue1.id_question_fk == 7 ? "How was the food/ Koman manje a te ye?" :
+                                      "Please provide any feedback, add your contact info to be contacted/ Pa le nou de eksperyans ou, kite telefon ou si ou vle nou kontakte'w. Mesi!"
+                                }</h4>
                               </div>
                               <div style={{ display: 'flex', marginTop: -20 }}>
                                 <h3>Review : </h3>
@@ -712,100 +722,103 @@ class Graphs extends Component {
                         : this.state.graphUpdate == 11 ?
 
                           <>
-                            <FormControl className={classes.formControl}>
-                              <InputLabel id="demo-customized-select-label">Resturants</InputLabel>
-                              <Select className={classes.formControl}
+                            <div style={{ marginTop: '40px' }} >
 
-                                labelId="demo-customized-select-label"
-                                id="demo-customized-select"
-                                value={this.state.resturant_id}
-                                renderValue={() => this.renderValue(this.state.resturant_id)}
-                                onChange={this.handleChangeCall}
-                                style={{ width: "300px" }}
-                              >
-                                {this.state.restaurants.map(el => (
-                                  <MenuItem key={el.id_restaurant} value={el}>
-                                    {el.name_restaurant}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl>
-                            {
-                              this.state.resturant_id != '' ?
-                                this.state.logsData.length > 0 ?
-                                  <div>
-                                    <Table
-                                      component={Paper} aria-label="customized table">
+                              <FormControl className={classes.formControl}>
+                                <InputLabel id="demo-customized-select-label">Resturants</InputLabel>
+                                <Select className={classes.formControl}
 
-                                      <TableRow style={{
-                                        backgroundColor: "#fff"
-                                      }}>
-                                        <TableCell> <b>Calls List</b> </TableCell>
-                                        <TableCell>  </TableCell>
-                                        <TableCell>  </TableCell>
-                                        <TableCell>  </TableCell>
-                                      </TableRow>
+                                  labelId="demo-customized-select-label"
+                                  id="demo-customized-select"
+                                  value={this.state.resturant_id}
+                                  renderValue={() => this.renderValue(this.state.resturant_id)}
+                                  onChange={this.handleChangeCall}
+                                  style={{ width: "300px" }}
+                                >
+                                  {this.state.restaurants.map(el => (
+                                    <MenuItem key={el.id_restaurant} value={el}>
+                                      {el.name_restaurant}
+                                    </MenuItem>
+                                  ))}
+                                </Select>
+                              </FormControl>
+                              {
+                                this.state.resturant_id != '' ?
+                                  this.state.logsData.length > 0 ?
+                                    <div>
+                                      <Table
+                                        component={Paper} aria-label="customized table">
 
-                                      <TableRow style={{
-                                        backgroundColor: "#eeefff"
-                                      }}>
-                                        <TableCell>  Resturant ID </TableCell>
+                                        <TableRow style={{
+                                          backgroundColor: "#fff"
+                                        }}>
+                                          <TableCell> <b>Calls List</b> </TableCell>
+                                          <TableCell>  </TableCell>
+                                          <TableCell>  </TableCell>
+                                          <TableCell>  </TableCell>
+                                        </TableRow>
 
-
-                                        <TableCell align="left">User ID</TableCell>
-                                        <TableCell align="left">User Call</TableCell>
-                                        <TableCell align="left">Direction User</TableCell>
+                                        <TableRow style={{
+                                          backgroundColor: "#eeefff"
+                                        }}>
+                                          <TableCell>  Resturant ID </TableCell>
 
 
-                                      </TableRow>
-                                      <TableBody>
-                                        {this.state.logsData?.map(resto => (
+                                          <TableCell align="left">User ID</TableCell>
+                                          <TableCell align="left">User Call</TableCell>
+                                          <TableCell align="left">Direction User</TableCell>
 
-                                          <TableRow className={classes.TableRowDesign}
-                                            key={resto.id_log_call_direction}>
-                                            <TableCell>
-                                              <div style={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                              }}>
-                                                <div
-                                                  style={{
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    marginLeft: 8,
-                                                  }}>
-                                                  {resto.id_restaurant_fk}
+
+                                        </TableRow>
+                                        <TableBody>
+                                          {this.state.logsData?.map(resto => (
+
+                                            <TableRow className={classes.TableRowDesign}
+                                              key={resto.id_log_call_direction}>
+                                              <TableCell>
+                                                <div style={{
+                                                  display: "flex",
+                                                  alignItems: "center",
+                                                }}>
+                                                  <div
+                                                    style={{
+                                                      display: "flex",
+                                                      alignItems: "center",
+                                                      marginLeft: 8,
+                                                    }}>
+                                                    {resto.id_restaurant_fk}
+                                                  </div>
                                                 </div>
-                                              </div>
-                                            </TableCell>
-                                            <TableCell align="left">
-                                              {resto.id_user_fk}
+                                              </TableCell>
+                                              <TableCell align="left">
+                                                {resto.id_user_fk}
 
-                                            </TableCell>
-                                            <TableCell align="left">
-                                              {resto.call_user}
+                                              </TableCell>
+                                              <TableCell align="left">
+                                                {resto.call_user}
 
-                                            </TableCell>
-                                            <TableCell align="left">
-                                              {resto.direction_user}
+                                              </TableCell>
+                                              <TableCell align="left">
+                                                {resto.direction_user}
 
-                                            </TableCell>
-                                          </TableRow>
-                                        ))}
-                                      </TableBody>
-                                    </Table>
+                                              </TableCell>
+                                            </TableRow>
+                                          ))}
+                                        </TableBody>
+                                      </Table>
 
-                                  </div>
+                                    </div>
+                                    :
+                                    <h3>NO Call History Against This Resturnats</h3>
                                   :
-                                  <h3>NO Call History Against This Resturnats</h3>
-                                :
-                                <>
-                                </>
-                            }
+                                  <>
+                                  </>
+                              }
+                            </div>
                           </>
                           : this.state.graphUpdate == 9 ?
                             <>
-                              <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                              <div style={{ display: 'flex', marginTop: '40px', justifyContent: 'space-around' }}>
                                 <FormControl className={classes.formControl}>
                                   <InputLabel id="demo-customized-select-label">ZipCode</InputLabel>
                                   <Select className={classes.formControl}
@@ -861,7 +874,7 @@ class Graphs extends Component {
                               <>
                                 {this.state.restaurants.length > 0 &&
                                   <>
-                                    <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                                    <div style={{ display: 'flex', marginTop: '40px', justifyContent: 'space-around' }}>
                                       <FormControl className={classes.formControl}>
                                         <InputLabel id="demo-customized-select-label">City/State</InputLabel>
                                         <Select className={classes.formControl}
@@ -922,7 +935,7 @@ class Graphs extends Component {
                                     this.state.getAllDishes.length > 0 &&
                                     <div style={{
                                       display: 'flex', alignItems: 'flex-start',
-                                      paddingHorizontal: 12, flexWrap: 'wrap',
+                                      paddingHorizontal: 12, flexWrap: 'wrap', marginTop: '40px'
                                     }}>
                                       {
                                         this.state.getAllDishes?.map((value, index) => {

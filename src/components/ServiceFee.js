@@ -1,6 +1,8 @@
 
 import React, { Component } from 'react';
 import axios from "axios"
+import SearchIcon from '@material-ui/icons/Search';
+
 import { withStyles } from '@material-ui/core/styles';
 import TableContainer from '@material-ui/core/TableContainer';
 import Table from '@material-ui/core/Table';
@@ -79,6 +81,16 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: fade('#FFF', 0.8),
     },
+    searchIcon: {
+      width: theme.spacing(7),
+      marginLeft: 0,
+      height: '100%',
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
     marginRight: theme.spacing(2),
     marginBottom: theme.spacing(2),
     marginTop: 16,
@@ -108,10 +120,12 @@ class ServiceFee extends Component {
       user: '',
       experience1: "",
       resturantList: [],
+      resturantList1: [],
       id_restaurant_fk: '',
       fee: '',
       showProgress: false,
-      updateValue: false
+      updateValue: false,
+      resturantvalue: '',
     }
   }
   componentDidMount = async () => {
@@ -147,8 +161,17 @@ class ServiceFee extends Component {
       })
     })
   }
+  onSearch = () => {
+    let data = this.state.resturantList.filter((value) => {
+      return (
+        value.name_restaurant == this.state.resturantvalue
+      )
+    })
+    console.log("The Search Value is:", data)
+    this.setState({ resturantList1: data })
+  }
   handleInputChange = (event) => {
-    this.setState({ id_restaurant_fk: event.target.value })
+    this.setState({ resturantvalue: event.target.value })
   }
   handleInputChangefee = (event) => {
     this.setState({ fee: event.target.value })
@@ -229,8 +252,55 @@ class ServiceFee extends Component {
           }
           <h1>Resturant Fee</h1>
           {
-            this.state.updateValue &&
-            <>
+            this.state.updateValue ?
+              <>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between"
+                  }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between"
+                    }}
+                  >
+
+                    <div>
+                      <h4>Service Fee</h4>
+                      <div className={classes.search1}>
+
+                        <InputBase
+                          type="text"
+                          name="search"
+                          value={this.state.fee}
+                          placeholder="Service Fee"
+                          classes={{
+                            root: classes.inputRoot,
+                            input: classes.inputInput1,
+                          }}
+                          inputProps={{ 'aria-label': 'search' }}
+                          onChange={this.handleInputChangefee}
+
+                        />
+                      </div>
+                    </div>
+
+                    <Button variant="contained" color="primary" style={{ marginTop: '30px' }}
+                      onClick={this.updateResturant}
+                    >
+                      Update
+                  </Button>
+
+                  </div>
+
+                </div>
+              </>
+              :
               <div
                 style={{
                   display: "flex",
@@ -243,50 +313,34 @@ class ServiceFee extends Component {
                     display: "flex",
                     flexDirection: "row",
                     alignItems: "center",
-                    justifyContent: "space-between"
                   }}
                 >
-                 
-                  <div>
-                    <h4>Service Fee</h4>
-                    <div className={classes.search1}>
-
-                      <InputBase
-                        type="text"
-                        name="search"
-                        value={this.state.fee}
-                        placeholder="Service Fee"
-                        classes={{
-                          root: classes.inputRoot,
-                          input: classes.inputInput1,
-                        }}
-                        inputProps={{ 'aria-label': 'search' }}
-                        onChange={this.handleInputChangefee}
-
-                      />
+                  <div className={classes.search1}>
+                    <div className={classes.searchIcon}>
+                      {/* <SearchIcon /> */}
                     </div>
+                    <InputBase
+                      type="text"
+                      name="search"
+
+                      placeholder="Search…"
+                      classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput1,
+                      }}
+                      inputProps={{ 'aria-label': 'search' }}
+                      onChange={this.handleInputChange}
+
+                    />
+
                   </div>
-
-                  <Button variant="contained" color="primary" style={{ marginTop: '30px' }}
-                    onClick={this.updateResturant}
+                  <Button variant="contained" color="primary"
+                    onClick={this.onSearch}
                   >
-                    Update
-                  </Button>
-
+                    SEARCH
+            </Button>
                 </div>
-                {/* 
-            <FormControlLabel
-              label ="FILTER"
-                control={
-                  <IOSSwitch
-                    checked={this.state.checkedB}
-                    onChange={this.handleChangeIOS('checkedB')}
-                    value="checkedB"
-                  />
-                }
-            /> */}
               </div>
-            </>
           }
           <div>
             <Table
@@ -310,40 +364,76 @@ class ServiceFee extends Component {
 
 
               </TableRow>
-              <TableBody>
-                {this.state.resturantList.map(resto => (
-                  <TableRow className={classes.TableRowDesign}
-                  // onClick={this.getRestaurantsDetails.bind(this, resto)}
-                  // key={resto.id_restaurant}
-                  >
-                    <TableCell>
-                      <div style={{
-                        display: "flex",
-                        alignItems: "center",
-                      }}>
-                        <div
-                          style={{
+              {
+                this.state.resturantList1.length == 0 ?
+                  <TableBody>
+                    {this.state.resturantList.map(resto => (
+                      <TableRow className={classes.TableRowDesign}
+                      // onClick={this.getRestaurantsDetails.bind(this, resto)}
+                      // key={resto.id_restaurant}
+                      >
+                        <TableCell>
+                          <div style={{
                             display: "flex",
                             alignItems: "center",
-                            marginLeft: 8,
                           }}>
-                          {resto.name_restaurant}
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell align="left">{`${resto.service_fee}$`} </TableCell>
-                    <TableCell align="left">
-                      <Button variant="contained" color="primary"
-                        onClick={() => this.updateFee(resto)}
-                      >
-                        Update
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                marginLeft: 8,
+                              }}>
+                              {resto.name_restaurant}
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell align="left">{`${resto.service_fee}$`} </TableCell>
+                        <TableCell align="left">
+                          <Button variant="contained" color="primary"
+                            onClick={() => this.updateFee(resto)}
+                          >
+                            Update
             </Button>
-                    </TableCell>
+                        </TableCell>
 
-                  </TableRow>
-                ))}
-              </TableBody>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                  :
+                  <TableBody>
+                    {this.state.resturantList1.map(resto => (
+                      <TableRow className={classes.TableRowDesign}
+                      // onClick={this.getRestaurantsDetails.bind(this, resto)}
+                      // key={resto.id_restaurant}
+                      >
+                        <TableCell>
+                          <div style={{
+                            display: "flex",
+                            alignItems: "center",
+                          }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                marginLeft: 8,
+                              }}>
+                              {resto.name_restaurant}
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell align="left">{`${resto.service_fee}$`} </TableCell>
+                        <TableCell align="left">
+                          <Button variant="contained" color="primary"
+                            onClick={() => this.updateFee(resto)}
+                          >
+                            Update
+          </Button>
+                        </TableCell>
 
+                      </TableRow>
+                    ))}
+                  </TableBody>
+              }
 
             </Table>
 
