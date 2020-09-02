@@ -264,7 +264,9 @@ class FormRestaurant extends React.Component {
 			showSucess:!this.state.showSucess
 		})
 	}
-
+	renderValue = (value) => {
+		return value;
+	  }
 	render() {
 		if (this.state.isLogin == false ) {
 			return  <Redirect to='/' />
@@ -469,7 +471,7 @@ class FormRestaurant extends React.Component {
 												
 					</Grid>		
 					<Grid item xs={6}>
-							<TextField
+							{/* <TextField
 								variant="outlined"
 								required
 								fullWidth
@@ -479,7 +481,25 @@ class FormRestaurant extends React.Component {
 								type="text"
 								id="delivery_service"
 								onChange={this.handleInputChange}
-							/>
+							/> */}
+							<FormControl variant="outlined" style={{
+											width: '100%',
+										}}>
+											{/* <InputLabel id="demo-simple-select-label">Country</InputLabel> */}
+											<Select
+												style={{
+													width: '100%'
+												}}
+												labelId="demo-simple-select-label"
+												id="demo-simple-select"
+												value={this.state.delivery_service}
+												name="delivery_service"
+												renderValue={() => this.renderValue(this.state.delivery_service)}
+												onChange={this.handleInputChange}>
+													 <MenuItem value={"Yes"}>yes</MenuItem>
+										<MenuItem value={"NO"}>No</MenuItem>
+											</Select>
+										</FormControl>
 								{/* <FormControl variant="outlined" style={{
 									width: '100%',
 								}}>

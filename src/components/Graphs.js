@@ -489,7 +489,7 @@ class Graphs extends Component {
               {/* <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(5)}>Order Cancellation</li> */}
               <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(6)}>Reviews</li>
               <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(9)}>Area Zip Code</li>
-              <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(10)}>Total Sale by City State</li>
+              <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(10)}>Total Sale by State</li>
               <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(11)}>Call Logs</li>
               <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(13)}>Report on individual dish- To determine which is best seller on what day of the week</li>
 
@@ -600,6 +600,9 @@ class Graphs extends Component {
                             },
                             scales: {
                               yAxes: [{
+                                ticks: {
+                                  beginAtZero: true
+                                },
                                 scaleLabel: {
                                   display: true,
                                   labelString: 'Order Price'
@@ -999,6 +1002,9 @@ class Graphs extends Component {
                                         },
                                         scales: {
                                           yAxes: [{
+                                            ticks: {
+                                              beginAtZero: true
+                                            },
                                             scaleLabel: {
                                               display: true,
                                               labelString: 'Order Price'
@@ -1060,7 +1066,7 @@ class Graphs extends Component {
                                         listMaxHeight={600} //by default 140
                                       />
                                       <div style={{ marginLeft: '30px', display: 'flex' }}>
-                                        <h2>Total sales in this City/State</h2>
+                                        <h2>Total sales in this State</h2>
                                         <h2 style={{ marginLeft: '10px' }}>=</h2>
                                         {
                                           this.state.sateCityData.length > 0 &&
@@ -1077,7 +1083,7 @@ class Graphs extends Component {
                                             options={{
                                               title: {
                                                 display: true,
-                                                text: 'City / State',
+                                                text: 'State',
                                                 fontSize: 20
                                               },
                                               legend: {
@@ -1085,7 +1091,11 @@ class Graphs extends Component {
                                                 position: 'right'
                                               },
                                               scales: {
+
                                                 yAxes: [{
+                                                  ticks: {
+                                                    beginAtZero: true
+                                                  },
                                                   scaleLabel: {
                                                     display: true,
                                                     labelString: 'Order Price'

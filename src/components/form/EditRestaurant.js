@@ -334,14 +334,16 @@ class EditRestaurant extends React.Component {
 			showSucess:!this.state.showSucess
 		})
 	}
-
+	renderValue = (value) => {
+		return value;
+	  }
 	render() {
 		if (this.state.isLogin == false ) {
 			return  <Redirect to='/' />
 		}
 		let { classes, selectedDate } = this.props;
 		let {name_restaurant, tax,open_restaurant,logo_restaurant,user,imagePreviewUrl ,country, countryList,openBackdrop} = this.state;
-		 
+		 console.log('The this.state.delivery_service',this.state.delivery_service)
 		return (	
 			<div>
 				<Backdrop className={classes.backdrop} open={openBackdrop} >
@@ -594,7 +596,7 @@ class EditRestaurant extends React.Component {
 														
 							</Grid>	
 							<Grid item xs={6}>
-							<TextField
+							{/* <TextField
 								variant="outlined"
 								required
 								fullWidth
@@ -604,8 +606,39 @@ class EditRestaurant extends React.Component {
 								type="text"
 								id="delivery_service"
 								onChange={this.handleInputChange}
-							/>
-							
+							/> */}
+							 {/* <FormControl className={classes.formControl}>
+                                        <Select className={classes.formControl}
+
+                                          labelId="demo-customized-select-label"
+                                          id="demo-customized-select"
+                                          value={this.state.delivery_service}
+                                          renderValue={() => this.renderValue(this.state.delivery_service)}
+                                          onChange={this.handleInputChange}
+                                          style={{ width: "300px" }}
+                                        >
+                                          <MenuItem value={"Yes"}>yes</MenuItem>
+										<MenuItem value={"NO"}>No</MenuItem>
+                                        </Select>
+                                      </FormControl> */}
+									  <FormControl variant="outlined" style={{
+											width: '100%',
+										}}>
+											{/* <InputLabel id="demo-simple-select-label">Country</InputLabel> */}
+											<Select
+												style={{
+													width: '100%'
+												}}
+												labelId="demo-simple-select-label"
+												id="demo-simple-select"
+												value={this.state.delivery_service}
+												name="delivery_service"
+												renderValue={() => this.renderValue(this.state.delivery_service)}
+												onChange={this.handleInputChange}>
+													 <MenuItem value={"Yes"}>yes</MenuItem>
+										<MenuItem value={"NO"}>No</MenuItem>
+											</Select>
+										</FormControl>
 						</Grid>
 										
 						<Grid item xs={6}>
