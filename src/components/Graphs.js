@@ -223,7 +223,7 @@ class Graphs extends Component {
         console.log("DOne", res)
         // window.location.reload(true);
         this.setState({ showProgress: false })
-        this.setState({ getAllDishes: res.data })
+        this.setState({ getAllDishes: res.data.sort((a, b) => (a.amount_serve < b.amount_serve) ? 1 : -1) })
       })
       .catch((error) => {
         this.setState({
@@ -409,7 +409,7 @@ class Graphs extends Component {
     }
   }
   render() {
-    console.log("Review Data Length", this.state.reviewAnswers)
+    console.log("Review Data Length", this.state.getAllDishes)
     const { classes } = this.props;
     const valueData = this.state.salesData?.map(value => value.price_order)
     const labelData = this.state.salesData?.map(value => value.id_order)
