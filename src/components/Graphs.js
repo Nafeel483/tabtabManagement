@@ -755,7 +755,9 @@ class Graphs extends Component {
                                 {
                                   <Grid container spacing={3}>
                                     <Grid item xs={12}>
-                                      <Paper className={classes.paper}> <h4>{`Review${index}`}</h4></Paper>
+                                      <Paper style={{ height: 50 }}>
+                                        <h4 style={{ padding: '15px' }}
+                                        >{`Review${index}`}</h4></Paper>
                                     </Grid>
                                   </Grid>
                                 }
