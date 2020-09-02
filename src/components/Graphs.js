@@ -26,6 +26,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Searchable from 'react-searchable-dropdown';
 import {
   userContext, getUserOwnerRestaurant,
   getUserCount, getUserAll
@@ -87,6 +88,11 @@ const styles = theme => ({
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+  paper12: {
+    padding: theme.spacing(2),
+    textAlign: 'left',
     color: theme.palette.text.secondary,
   },
   content: {
@@ -181,6 +187,9 @@ class Graphs extends Component {
       setDishValue: '',
       setOpen1: false,
       setDishValue1: '',
+      reviewDatalength: 3,
+      reviewAnswers: [],
+      reviewQuestion: []
     }
   }
   updateGraph = (value) => {
@@ -223,24 +232,37 @@ class Graphs extends Component {
   }
   getAnnualSale = async () => {
     this.setState({ showProgress: true })
-    let restaurants = await listRestaurantContext(200, 199);
-    if (restaurants.length > 0) {
-      console.log("Resturant", restaurants)
-      this.setState({
-        restaurants: restaurants.sort((a, b) => (a.name_restaurant > b.name_restaurant) ? 1 : -1),
-        showProgress: false
+    axios
+      .get(`${urlFunction()}/restaurant/get/all`)
+      .then((res) => {
+        console.log("Resturants", res)
+        if (res.data.length > 0) {
+          this.setState({
+            restaurants: res.data.sort((a, b) => (a.name_restaurant > b.name_restaurant) ? 1 : -1),
+            showProgress: false
+          })
+        }
       })
-    }
+      .catch((error) => {
+        this.setState({
+          showProgress: false,
+        })
+        console.log(error)
+      })
+
+
   }
   getReviews = () => {
     this.setState({ showProgress: true })
     axios
-      .post(`${urlFunction()}/restaurant/reports/reviews`)
+      // .post(`${urlFunction()}/restaurant/reports/reviews`)
+      .get(`${urlFunction()}/restaurant/order/getanswer2`)
       .then((res) => {
-        console.log("DOne", res)
+        console.log("DOne Reviews", res)
         // window.location.reload(true);
         this.setState({ showProgress: false })
         this.setState({ reviewData: res.data })
+
       })
       .catch((error) => {
         this.setState({
@@ -253,11 +275,11 @@ class Graphs extends Component {
     this.setState({ age: event.target.value })
   }
   handleChangeResturant = (event) => {
-    console.log('event.target.value.name_restaurant', event.target.value.name_restaurant)
-    this.setState({ resturant_id: event.target.value.name_restaurant })
-    if (event.target.value.id_restaurant) {
+    console.log("The Event is", event)
+    this.setState({ resturant_id: event.label })
+    if (event.value) {
       let data = {
-        rest_id_fk: event.target.value.id_restaurant
+        rest_id_fk: event.value
       }
       axios
         .post(`${urlFunction()}/restaurant/reports/sales`, data, {
@@ -277,10 +299,10 @@ class Graphs extends Component {
     }
   }
   handleChangeCall = (event) => {
-    this.setState({ resturant_id: event.target.value.name_restaurant })
-    if (event.target.value.id_restaurant) {
+    this.setState({ resturant_id: event.label })
+    if (event.value) {
       let data = {
-        rest_id_fk: event.target.value.id_restaurant
+        rest_id_fk: event.value
       }
       axios
         .post(`${urlFunction()}/restaurant/reports/logs`, data, {
@@ -300,10 +322,10 @@ class Graphs extends Component {
     }
   }
   handleChangeZipCode = (event) => {
-    this.setState({ resturant_id: event.target.value.zipcode })
-    if (event.target.value.id_restaurant) {
+    this.setState({ resturant_id: event.label })
+    if (event.label) {
       let data = {
-        zipcode: event.target.value.zipcode
+        zipcode: event.label
       }
       axios
         .post(`${urlFunction()}/restaurant/reports/salesbyzip`, data, {
@@ -323,10 +345,10 @@ class Graphs extends Component {
     }
   }
   handleChangeSalesbyState = (event) => {
-    this.setState({ resturant_id: event.target.value.state })
-    if (event.target.value.id_restaurant) {
+    this.setState({ resturant_id: event.label })
+    if (event.label) {
       let data = {
-        state: event.target.value.state
+        state: event.label
         // state: "Fl"
       }
       axios
@@ -351,10 +373,16 @@ class Graphs extends Component {
     this.setState({ setOpen: !this.state.setOpen })
     console.log('The Value is', value)
   }
-  getDishesValue1 = (value, index) => {
-    this.setState({ setDishValue1: value })
+  getDishesValue1 = (value) => {
+    let answers = value.answers.split(",", 4)
+
+    let questions = value.questions.split(",", 4)
+    this.setState({ reviewAnswers: answers })
+    this.setState({ reviewQuestion: questions })
+
     this.setState({ setOpen1: !this.state.setOpen1 })
-    console.log('The Value is', value)
+    console.log('The Answer is', answers)
+
   }
   handleClose = () => {
     this.setState({ setOpen: !this.state.setOpen })
@@ -365,7 +393,21 @@ class Graphs extends Component {
   renderValue = (value) => {
     return value;
   }
+  ReviewsData = (num) => {
+    console.log(num)
+    const { classes } = this.props;
+    for (let i = 1; i <= num; i++) {
+      return (
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper className={classes.paper12}> <h4>{`Review${i}`}</h4></Paper>
+          </Grid>
+        </Grid>
+      )
+    }
+  }
   render() {
+    console.log("Review Data Length", this.state.reviewAnswers)
     const { classes } = this.props;
     const valueData = this.state.salesData?.map(value => value.price_order)
     const labelData = this.state.salesData?.map(value => value.id_order)
@@ -373,11 +415,11 @@ class Graphs extends Component {
       labels: labelData,
       datasets: [
         {
-          label: 'Annual Sales (X:order_id / Y: order_price)',
+          label: 'Annual Sales ',
           backgroundColor: 'rgba(75,192,192,1)',
           borderColor: 'rgba(0,0,0,1)',
           borderWidth: 2,
-          data: valueData
+          data: valueData,
         }
       ]
     }
@@ -393,7 +435,7 @@ class Graphs extends Component {
       labels: zipLabel,
       datasets: [
         {
-          label: 'Zip Code (X:order_id / Y: order_price)',
+          label: 'Zip Code ',
           backgroundColor: 'rgba(75,192,192,1)',
           borderColor: 'rgba(0,0,0,1)',
           borderWidth: 2,
@@ -408,7 +450,7 @@ class Graphs extends Component {
       labels: cityStateLabel,
       datasets: [
         {
-          label: 'City State (X:order_id / Y: order_price)',
+          label: 'City State ',
           backgroundColor: 'rgba(75,192,192,1)',
           borderColor: 'rgba(0,0,0,1)',
           borderWidth: 2,
@@ -419,7 +461,7 @@ class Graphs extends Component {
     const zipCode = this.state.restaurants.filter((value) => {
       return value.zipcode != undefined && value.zipcode != null && value.zipcode != 'null'
     })
-    console.log("this.zipCode", zipCode)
+
 
     const stateArea = this.state.restaurants.filter((value) => {
       return value.state != undefined && value.state != null && value.state != 'null'
@@ -493,8 +535,24 @@ class Graphs extends Component {
                   <div style={{ display: 'flex', marginTop: '40px' }}>
 
                     <FormControl className={classes.formControl}>
-                      <InputLabel id="demo-customized-select-label">Resturants</InputLabel>
-                      <Select className={classes.formControl}
+                      {/* <InputLabel id="demo-customized-select-label">Resturants</InputLabel> */}
+                      <Searchable
+                        value="" //if value is not item of options array, it would be ignored on mount
+                        placeholder="Search" // by default "Search"
+                        notFoundText="No result found" // by default "No result found"
+                        options={
+                          this.state.restaurants.map(el => (
+                            {
+                              value: el.id_restaurant,
+                              label: el.name_restaurant
+                            }
+                          ))}
+                        onSelect={option => {
+                          this.handleChangeResturant(option); // as example - {value: '', label: 'All'}
+                        }}
+                        listMaxHeight={600} //by default 140
+                      />
+                      {/* <Select className={classes.formControl}
 
                         labelId="demo-customized-select-label"
                         id="demo-customized-select"
@@ -508,7 +566,7 @@ class Graphs extends Component {
                             {el.name_restaurant}
                           </MenuItem>
                         ))}
-                      </Select>
+                      </Select> */}
                     </FormControl>
 
 
@@ -524,21 +582,43 @@ class Graphs extends Component {
                     </div>
                   </div>
                   {
-                    this.state.salesData.length > 0 &&
-                    <Bar
-                      data={Annual_Sales}
-                      options={{
-                        title: {
-                          display: true,
-                          text: 'Annual Sales',
-                          fontSize: 20
-                        },
-                        legend: {
-                          display: true,
-                          position: 'right'
-                        }
-                      }}
-                    />}
+                    this.state.resturant_id ?
+                      this.state.salesData.length > 0 ?
+                        <Bar
+                          data={Annual_Sales}
+                          options={{
+                            title: {
+                              display: true,
+                              text: 'Annual Sales',
+                              fontSize: 20
+                            },
+                            legend: {
+                              display: true,
+                              position: 'right'
+                            },
+                            scales: {
+                              yAxes: [{
+                                scaleLabel: {
+                                  display: true,
+                                  labelString: 'Order Price'
+                                }
+                              }],
+                              xAxes: [{
+                                scaleLabel: {
+                                  display: true,
+                                  labelString: 'Order Number'
+                                }
+                              }]
+                            }
+                          }}
+                        />
+                        :
+                        <h3>NO Order Against this Resturant</h3>
+                      :
+                      <>
+                      </>
+
+                  }
                 </> :
                 this.state.graphUpdate == 3 ?
                   // /3- Average Time of order completion (micro & macro)
@@ -671,12 +751,11 @@ class Graphs extends Component {
                         <>
                           {this.state.reviewData?.map((resto, index) => {
                             return (
-                              <div style={{ cursor: 'pointer', marginTop: '40px' }} onClick={() => this.getDishesValue1(resto, index)}>
+                              <div style={{ cursor: 'pointer', marginTop: '40px' }} onClick={() => this.getDishesValue1(resto)}>
                                 {
-                                  resto.id_question_fk == 5 || resto.id_question_fk == 6 || resto.id_question_fk == 7 || resto.id_question_fk == 8 &&
                                   <Grid container spacing={3}>
                                     <Grid item xs={12}>
-                                      <Paper className={classes.paper}> <h4>{`Review`}</h4></Paper>
+                                      <Paper className={classes.paper}> <h4>{`Review${index}`}</h4></Paper>
                                     </Grid>
                                   </Grid>
                                 }
@@ -684,6 +763,7 @@ class Graphs extends Component {
                             )
                           })
                           }
+
                           <Dialog
                             open={this.state.setOpen1}
 
@@ -691,23 +771,43 @@ class Graphs extends Component {
                             aria-labelledby="alert-dialog-slide-title"
                             aria-describedby="alert-dialog-slide-description"
                           >
-
-                            <div style={{ margin: '10px', width: '900px', height: '100px' }}>
+                            <div style={{ margin: '10px', width: '100%', height: '500px' }}>
+                              <img src={require('../assets/images/logo.png')} style={{ width: "100%", height: '100px' }} />
+                              <div style={{ display: 'flex', marginTop: 20 }}>
+                                <h4>Question: </h4>
+                                <h3 style={{ marginLeft: '20px' }}>{"Was your food ready on time/ Manje a te prepare le'w rive?"}</h3>
+                              </div>
+                              {/* {this.state.reviewAnswers?.map((value) => { */}
                               <div style={{ display: 'flex', marginTop: -20 }}>
-                                <h3>ID: </h3>
-                                <h4 style={{ marginLeft: '20px' }}>{this.state.setDishValue1.id_answer}</h4>
+                                <h3 style={{ color: 'grey' }}>Review : </h3>
+                                <h4 style={{ marginLeft: '20px', color: 'grey' }}>{this.state.reviewAnswers[0]}</h4>
+                              </div>
+                              {/* One */}
+                              <div style={{ display: 'flex', marginTop: -20 }}>
+                                <h4>Question: </h4>
+                                <h3 style={{ marginLeft: '20px' }}>{"How would you rate your experience/ Koman akey la te ye?"}</h3>
                               </div>
                               <div style={{ display: 'flex', marginTop: -20 }}>
-                                <h3>Question: </h3>
-                                <h4 style={{ marginLeft: '20px' }}>{this.state.setDishValue1.id_question_fk == 5 ? "Was your food ready on time/ Manje a te prepare le'w rive?" :
-                                  this.state.setDishValue1.id_question_fk == 6 ? "How would you rate your experience/ Koman akey la te ye?" :
-                                    this.state.setDishValue1.id_question_fk == 7 ? "How was the food/ Koman manje a te ye?" :
-                                      "Please provide any feedback, add your contact info to be contacted/ Pa le nou de eksperyans ou, kite telefon ou si ou vle nou kontakte'w. Mesi!"
-                                }</h4>
+                                <h3 style={{ color: 'grey' }}>Review : </h3>
+                                <h4 style={{ marginLeft: '20px', color: 'grey' }}>{this.state.reviewAnswers[1]}</h4>
+                              </div>
+                              {/* Three */}
+                              <div style={{ display: 'flex', marginTop: -20 }}>
+                                <h4>Question: </h4>
+                                <h3 style={{ marginLeft: '20px' }}>{"How was the food/ Koman manje a te ye?"}</h3>
                               </div>
                               <div style={{ display: 'flex', marginTop: -20 }}>
-                                <h3>Review : </h3>
-                                <h4 style={{ marginLeft: '20px' }}>{this.state.setDishValue1.answer}</h4>
+                                <h3 style={{ color: 'grey' }}>Review : </h3>
+                                <h4 style={{ marginLeft: '20px', color: 'grey' }}>{this.state.reviewAnswers[2]}</h4>
+                              </div>
+                              {/* Four */}
+                              <div style={{ display: 'flex', marginTop: -20 }}>
+                                <h4>Question: </h4>
+                                <h3 style={{ marginLeft: '20px' }}>{"Please provide any feedback, add your contact info to be contacted/ Pa le nou de eksperyans ou, kite telefon ou si ou vle nou kontakte'w. Mesi!"}</h3>
+                              </div>
+                              <div style={{ display: 'flex', marginTop: -20 }}>
+                                <h3 style={{ color: 'grey' }}>Review : </h3>
+                                <h4 style={{ marginLeft: '20px', color: 'grey' }}>{this.state.reviewAnswers[3]}</h4>
                               </div>
                             </div>
                             <DialogActions>
@@ -725,7 +825,7 @@ class Graphs extends Component {
                             <div style={{ marginTop: '40px' }} >
 
                               <FormControl className={classes.formControl}>
-                                <InputLabel id="demo-customized-select-label">Resturants</InputLabel>
+                                {/* <InputLabel id="demo-customized-select-label">Resturants</InputLabel>
                                 <Select className={classes.formControl}
 
                                   labelId="demo-customized-select-label"
@@ -740,7 +840,23 @@ class Graphs extends Component {
                                       {el.name_restaurant}
                                     </MenuItem>
                                   ))}
-                                </Select>
+                                </Select> */}
+                                <Searchable
+                                  value="" //if value is not item of options array, it would be ignored on mount
+                                  placeholder="Search" // by default "Search"
+                                  notFoundText="No result found" // by default "No result found"
+                                  options={
+                                    this.state.restaurants.map(el => (
+                                      {
+                                        value: el.id_restaurant,
+                                        label: el.name_restaurant
+                                      }
+                                    ))}
+                                  onSelect={option => {
+                                    this.handleChangeCall(option); // as example - {value: '', label: 'All'}
+                                  }}
+                                  listMaxHeight={600} //by default 140
+                                />
                               </FormControl>
                               {
                                 this.state.resturant_id != '' ?
@@ -820,7 +936,7 @@ class Graphs extends Component {
                             <>
                               <div style={{ display: 'flex', marginTop: '40px', justifyContent: 'space-around' }}>
                                 <FormControl className={classes.formControl}>
-                                  <InputLabel id="demo-customized-select-label">ZipCode</InputLabel>
+                                  {/* <InputLabel id="demo-customized-select-label">ZipCode</InputLabel>
                                   <Select className={classes.formControl}
 
                                     labelId="demo-customized-select-label"
@@ -835,7 +951,23 @@ class Graphs extends Component {
                                         {el.zipcode}
                                       </MenuItem>
                                     ))}
-                                  </Select>
+                                  </Select> */}
+                                  <Searchable
+                                    value="" //if value is not item of options array, it would be ignored on mount
+                                    placeholder="Search" // by default "Search"
+                                    notFoundText="No result found" // by default "No result found"
+                                    options={
+                                      zipCode.map(el => (
+                                        {
+                                          value: el.id_restaurant,
+                                          label: el.zipcode
+                                        }
+                                      ))}
+                                    onSelect={option => {
+                                      this.handleChangeZipCode(option); // as example - {value: '', label: 'All'}
+                                    }}
+                                    listMaxHeight={600} //by default 140
+                                  />
                                 </FormControl>
                                 <div style={{ marginLeft: '30px', display: 'flex' }}>
                                   <h2>Total sales in this Zip code</h2>
@@ -860,6 +992,20 @@ class Graphs extends Component {
                                         legend: {
                                           display: true,
                                           position: 'right'
+                                        },
+                                        scales: {
+                                          yAxes: [{
+                                            scaleLabel: {
+                                              display: true,
+                                              labelString: 'Order Price'
+                                            }
+                                          }],
+                                          xAxes: [{
+                                            scaleLabel: {
+                                              display: true,
+                                              labelString: 'Order Number'
+                                            }
+                                          }]
                                         }
                                       }}
                                     />
@@ -875,7 +1021,7 @@ class Graphs extends Component {
                                 {this.state.restaurants.length > 0 &&
                                   <>
                                     <div style={{ display: 'flex', marginTop: '40px', justifyContent: 'space-around' }}>
-                                      <FormControl className={classes.formControl}>
+                                      {/* <FormControl className={classes.formControl}>
                                         <InputLabel id="demo-customized-select-label">City/State</InputLabel>
                                         <Select className={classes.formControl}
 
@@ -892,7 +1038,23 @@ class Graphs extends Component {
                                             </MenuItem>
                                           ))}
                                         </Select>
-                                      </FormControl>
+                                      </FormControl> */}
+                                      <Searchable
+                                        value="" //if value is not item of options array, it would be ignored on mount
+                                        placeholder="Search" // by default "Search"
+                                        notFoundText="No result found" // by default "No result found"
+                                        options={
+                                          stateArea.map(el => (
+                                            {
+                                              value: el.id_restaurant,
+                                              label: el.state
+                                            }
+                                          ))}
+                                        onSelect={option => {
+                                          this.handleChangeSalesbyState(option); // as example - {value: '', label: 'All'}
+                                        }}
+                                        listMaxHeight={600} //by default 140
+                                      />
                                       <div style={{ marginLeft: '30px', display: 'flex' }}>
                                         <h2>Total sales in this City/State</h2>
                                         <h2 style={{ marginLeft: '10px' }}>=</h2>
@@ -917,6 +1079,20 @@ class Graphs extends Component {
                                               legend: {
                                                 display: true,
                                                 position: 'right'
+                                              },
+                                              scales: {
+                                                yAxes: [{
+                                                  scaleLabel: {
+                                                    display: true,
+                                                    labelString: 'Order Price'
+                                                  }
+                                                }],
+                                                xAxes: [{
+                                                  scaleLabel: {
+                                                    display: true,
+                                                    labelString: 'Order Number'
+                                                  }
+                                                }]
                                               }
                                             }}
                                           />

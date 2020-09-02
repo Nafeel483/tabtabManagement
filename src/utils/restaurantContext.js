@@ -29,7 +29,17 @@ export let listRestaurantContext = async (limit, offset) => {
    return []
   }
 };
-
+// list of restaurant without pagination
+export let listRestaurantWithoutPaginationGraph = async () => {
+  try {
+    let res = await axios.post(`${urlFunction()}/restaurant/all`)
+    let data = res.data
+    return data.length > 0 ? data : [] 
+ } catch (error) {
+   alert(error.message)
+   return []
+  }
+};
 
 // list of restaurant without pagination
 export let listRestaurantWithoutPagination = async () => {

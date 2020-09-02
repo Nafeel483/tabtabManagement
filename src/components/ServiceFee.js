@@ -20,8 +20,14 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 import {
   userContext, getUserOwnerRestaurant,
-  getUserCount, getUserAll
+  getUserCount, getUserAll,
+
 } from '../utils/userContext';
+import {
+  listRestaurantContext,
+  getRestaurantByIdUsers,
+  listRestaurantCount
+} from '../utils/restaurantContext';
 const styles = theme => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
@@ -121,11 +127,17 @@ class ServiceFee extends Component {
       experience1: "",
       resturantList: [],
       resturantList1: [],
+      resturantlist2: [],
       id_restaurant_fk: '',
       fee: '',
       showProgress: false,
       updateValue: false,
       resturantvalue: '',
+      userTypeID: 0,
+      setPage: 1,
+      setRowsPerPage: 1,
+      countRestaurant: 0,
+
     }
   }
   componentDidMount = async () => {
@@ -134,6 +146,7 @@ class ServiceFee extends Component {
       this.setState({
         user: JSON.parse(user),
         isLogin: true,
+        userTypeID: JSON.parse(user).data.userTypeID
       })
     } else {
       // back him login
@@ -151,6 +164,10 @@ class ServiceFee extends Component {
         resturantList: res.data,
       })
       this.setState({
+        resturantlist2: res.data.slice(0, 20)
+      })
+    
+      this.setState({
         showProgress: false,
       })
 
@@ -160,6 +177,14 @@ class ServiceFee extends Component {
         showProgress: false,
       })
     })
+    let countRestaurant = await listRestaurantCount();
+    if (countRestaurant.length > 0) {
+      this.setState({
+        countRestaurant: countRestaurant[0].restaurantLength
+      }, () => {
+        // console.log(" Count restaurant", countRestaurant[0].restaurantLength )
+      })
+    }
   }
   onSearch = () => {
     let data = this.state.resturantList.filter((value) => {
@@ -235,6 +260,26 @@ class ServiceFee extends Component {
     this.setState({ fee: value.service_fee })
 
   }
+  getPaginationRestaurant = async (amount, newPage) => {
+    let restaurants = this.state.resturantList.slice(amount, 19 * newPage);
+    if (restaurants.length > 0) {
+      this.setState({
+        resturantlist2: restaurants,
+        showProgress: false
+      })
+    }
+  }
+  handleChangePage = (event, newPage) => {
+    this.setState({
+      setPage: newPage
+    });
+    this.getPaginationRestaurant(20, parseInt(newPage))
+  };
+  handleChangeRowsPerPage = event => {
+    this.setState({
+      setRowsPerPage: event.target.value
+    });
+  };
   render() {
     const { classes } = this.props;
     console.log('my user is', this.state.user)
@@ -367,7 +412,7 @@ class ServiceFee extends Component {
               {
                 this.state.resturantList1.length == 0 ?
                   <TableBody>
-                    {this.state.resturantList.map(resto => (
+                    {this.state.resturantlist2.map(resto => (
                       <TableRow className={classes.TableRowDesign}
                       // onClick={this.getRestaurantsDetails.bind(this, resto)}
                       // key={resto.id_restaurant}
@@ -439,6 +484,23 @@ class ServiceFee extends Component {
 
           </div>
         </TableContainer>
+        {this.state.userTypeID == 1 ?
+          <TablePagination
+            rowsPerPageOptions={[20]}
+            component="div"
+            count={Math.ceil(this.state.countRestaurant / 20)}
+            rowsPerPage={1}
+            page={this.state.setPage}
+            backIconButtonProps={{
+              "aria-label": "Previous Page"
+            }}
+            nextIconButtonProps={{
+              "aria-label": "Next Page"
+            }}
+            onChangePage={this.handleChangePage}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+          />
+          : null}
       </>
     )
   }
