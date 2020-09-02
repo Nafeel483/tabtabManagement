@@ -189,7 +189,9 @@ class Graphs extends Component {
       setDishValue1: '',
       reviewDatalength: 3,
       reviewAnswers: [],
-      reviewQuestion: []
+      reviewQuestion: [],
+      resturant_id1: '',
+      resturant_idzip: ''
     }
   }
   updateGraph = (value) => {
@@ -276,7 +278,7 @@ class Graphs extends Component {
   }
   handleChangeResturant = (event) => {
     console.log("The Event is", event)
-    this.setState({ resturant_id: event.label })
+    this.setState({ resturant_id1: event.label })
     if (event.value) {
       let data = {
         rest_id_fk: event.value
@@ -322,7 +324,7 @@ class Graphs extends Component {
     }
   }
   handleChangeZipCode = (event) => {
-    this.setState({ resturant_id: event.label })
+    this.setState({ resturant_idzip: event.label })
     if (event.label) {
       let data = {
         zipcode: event.label
@@ -415,7 +417,7 @@ class Graphs extends Component {
       labels: labelData,
       datasets: [
         {
-          label: 'Annual Sales ',
+          label: this.state.resturant_id1,
           backgroundColor: 'rgba(75,192,192,1)',
           borderColor: 'rgba(0,0,0,1)',
           borderWidth: 2,
@@ -435,7 +437,7 @@ class Graphs extends Component {
       labels: zipLabel,
       datasets: [
         {
-          label: 'Zip Code ',
+          label: this.state.resturant_idzip,
           backgroundColor: 'rgba(75,192,192,1)',
           borderColor: 'rgba(0,0,0,1)',
           borderWidth: 2,
@@ -450,7 +452,7 @@ class Graphs extends Component {
       labels: cityStateLabel,
       datasets: [
         {
-          label: 'City State ',
+          label: this.state.resturant_id,
           backgroundColor: 'rgba(75,192,192,1)',
           borderColor: 'rgba(0,0,0,1)',
           borderWidth: 2,
@@ -582,7 +584,7 @@ class Graphs extends Component {
                     </div>
                   </div>
                   {
-                    this.state.resturant_id ?
+                    this.state.resturant_id1 ?
                       this.state.salesData.length > 0 ?
                         <Bar
                           data={Annual_Sales}
@@ -981,7 +983,7 @@ class Graphs extends Component {
                                 </div>
                               </div>
                               {
-                                this.state.resturant_id != '' ?
+                                this.state.resturant_idzip != '' ?
                                   this.state.salesByZip.length > 0 ?
                                     <Bar
                                       data={Zip_Sales}
@@ -1075,7 +1077,7 @@ class Graphs extends Component {
                                             options={{
                                               title: {
                                                 display: true,
-                                                text: 'City State',
+                                                text: 'City / State',
                                                 fontSize: 20
                                               },
                                               legend: {
