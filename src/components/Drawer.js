@@ -313,6 +313,10 @@ const DrawerSide = (props) => {
       name: " Photos", id: 4, icon: <AddAPhoto />,
       link: "photos"
     },
+    {
+      name: "Order Reports", id: 4, icon: < ShowChart />,
+      link: "OrderReports"
+    },
   ]
 
   return (

@@ -485,7 +485,7 @@ class FormRestaurant extends React.Component {
 							<FormControl variant="outlined" style={{
 											width: '100%',
 										}}>
-											{/* <InputLabel id="demo-simple-select-label">Country</InputLabel> */}
+											<InputLabel id="demo-simple-select-label">Delivery Service</InputLabel>
 											<Select
 												style={{
 													width: '100%'

@@ -120,7 +120,8 @@ class EditRestaurant extends React.Component {
 			timesOpening: [],
 			daysOfWeeks: daysOfWeeks,
 			delivery_service: '',
-			delivery_fee: '',
+      delivery_fee: '',
+      indexvalue:false,
 		};
 	}
 
@@ -179,26 +180,83 @@ class EditRestaurant extends React.Component {
 	};
 
  	_handleSubmit = (e) => {
+     this.setState({indexvalue:false})
+		var d = new Date();
+		var time = d.getHours() + ":" + d.getMinutes()
 		 this.setState({
 			openBackdrop: !this.state.openBackdrop
 		})
-		e.preventDefault();
-		const data = new FormData();
-		data.append('id_restaurant', this.state.restaurant.id_restaurant);
-		data.append('logo_restaurant',this.state.file)
-		data.append('restaurant_name', this.state.name_restaurant);
-		data.append('countryRestID', this.state.country);
-		data.append('tel_restaurant', this.state.tel_restaurant);
-		data.append('adresse_restaurant', this.state.adresse_restaurant);
-		data.append('lat_restaurant', this.state.lat_restaurant.toString());
-		data.append('long_restaurant', this.state.long_restaurant.toString());
-		data.append('adminRestID', this.state.user.data.id_user);
-		data.append('state', this.state.state);
-		data.append('tax', this.state.tax);
-		data.append('zipcode', this.state.zipcode);
-		data.append('open_restaurant', this.state.open_restaurant);
-		data.append('delivery_service', this.state.delivery_service);
-		data.append('delivery_fee', this.state.delivery_fee);
+		// e.preventDefault();
+		// const data = new FormData();
+		// data.append('id_restaurant', this.state.restaurant.id_restaurant);
+		// data.append('logo_restaurant',this.state.file)
+		// data.append('restaurant_name', this.state.name_restaurant);
+		// data.append('countryRestID', this.state.country);
+		// data.append('tel_restaurant', this.state.tel_restaurant);
+		// data.append('adresse_restaurant', this.state.adresse_restaurant);
+		// data.append('lat_restaurant', this.state.lat_restaurant.toString());
+		// data.append('long_restaurant', this.state.long_restaurant.toString());
+		// data.append('adminRestID', this.state.user.data.id_user);
+		// data.append('state', this.state.state);
+		// data.append('tax', this.state.tax);
+		// data.append('zipcode', this.state.zipcode);
+		// data.append('open_restaurant', 
+		// daysOfWeeks[this.state.timesOpening[0]&&this.state.timesOpening[0].weekday]=='Monday'
+		// &&time>=this.state.timesOpening[0].start_hour&&time<=this.state.timesOpening[0].end_hour?1:
+		// daysOfWeeks[this.state.timesOpening[1]&&this.state.timesOpening[1].weekday]=='Tuesday'&&
+		// time>=this.state.timesOpening[1].start_hour
+		// && time<=this.state.timesOpening[1].end_hour?1:
+		// daysOfWeeks[this.state.timesOpening[2]&&this.state.timesOpening[2].weekday]=='Wednesday'
+		// &&time>=this.state.timesOpening[2].start_hour&&time<=
+		// this.state.timesOpening[2].end_hour?1:
+		// daysOfWeeks[this.state.timesOpening[3]&&this.state.timesOpening[3].weekday]=='Thursday'&&
+		// time>=this.state.timesOpening[3].start_hour&&time<=
+		// this.state.timesOpening[3].end_hour?1:
+		// daysOfWeeks[this.state.timesOpening[4]&&this.state.timesOpening[4].weekday]=='Friday'&&
+		// time>=this.state.timesOpening[4].start_hour&&time<=this.state.timesOpening[4].end_hour?1:
+		// daysOfWeeks[this.state.timesOpening[5]&&this.state.timesOpening[5].weekday]=='Saturday'&&
+		// time>=this.state.timesOpening[5].start_hour&&time<=this.state.timesOpening[5].end_hour?1:
+		// daysOfWeeks[this.state.timesOpening[5]&&this.state.timesOpening[6].weekday]=='Sunday'&&
+		// time>=this.state.timesOpening[6].start_hour&&time<=this.state.timesOpening[6].end_hour?1:
+		// 0
+		// );
+		// data.append('delivery_service', this.state.delivery_service);
+    // data.append('delivery_fee', this.state.delivery_fee);
+    let data={
+      id_restaurant: this.state.restaurant.id_restaurant,
+      logo_restaurant:this.state.file,
+      restaurant_name:this.state.name_restaurant,
+      delivery_service:this.state.delivery_service,
+      delivery_fee:this.state.delivery_fee,
+      countryRestID:this.state.country,
+      tel_restaurant:this.state.tel_restaurant,
+      adresse_restaurant:this.state.adresse_restaurant,
+      lat_restaurant:this.state.lat_restaurant.toString(),
+      long_restaurant:this.state.long_restaurant.toString(),
+      adminRestID: this.state.user.data.id_user,
+      state:this.state.state,
+      tax:this.state.tax,
+      zipcode:this.state.zipcode,
+      open_restaurant:	daysOfWeeks[this.state.timesOpening[0]&&this.state.timesOpening[0].weekday]=='Monday'
+      &&parseInt(time)>=parseInt(this.state.timesOpening[0].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[0].end_hour)?1:
+      daysOfWeeks[this.state.timesOpening[1]&&this.state.timesOpening[1].weekday]=='Tuesday'&&
+      parseInt(time)>=parseInt(this.state.timesOpening[1].start_hour)
+      && parseInt(time)<=parseInt(this.state.timesOpening[1].end_hour)?1:
+      daysOfWeeks[this.state.timesOpening[2]&&this.state.timesOpening[2].weekday]=='Wednesday'
+      &&parseInt(time)>=parseInt(this.state.timesOpening[2].start_hour)&&parseInt(time)<=
+      parseInt(this.state.timesOpening[2].end_hour)?1:
+      daysOfWeeks[this.state.timesOpening[3]&&this.state.timesOpening[3].weekday]=='Thursday'&&
+      parseInt(time)>=parseInt(this.state.timesOpening[3].start_hour)&&parseInt(time)<=
+      parseInt(this.state.timesOpening[3].end_hour)?1:
+      daysOfWeeks[this.state.timesOpening[4]&&this.state.timesOpening[4].weekday]=='Friday'&&
+      parseInt(time)>=parseInt(this.state.timesOpening[4].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[4].end_hour)?1:
+      daysOfWeeks[this.state.timesOpening[5]&&this.state.timesOpening[5].weekday]=='Saturday'&&
+      parseInt(time)>=parseInt(this.state.timesOpening[5].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[5].end_hour)?1:
+      daysOfWeeks[this.state.timesOpening[5]&&this.state.timesOpening[6].weekday]=='Sunday'&&
+      parseInt(time)>=parseInt(this.state.timesOpening[6].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[6].end_hour)?1:
+      0,
+
+    }
 		const config = {
 			method  : 'PUT',
 			headers : {
@@ -208,7 +266,7 @@ class EditRestaurant extends React.Component {
 			},
 			body    : data,
 		};
-			
+			console.log("The Update Data is:",data)
 		fetch(`${urlFunction()}/restaurant/update`, config)
 		
 			.then((response) => {
@@ -310,11 +368,12 @@ class EditRestaurant extends React.Component {
 			long_restaurant:  restaurant.long_restaurant,
 			adresse_restaurant: restaurant.adresse_restaurant,
 			logo_restaurant: restaurant.logo_restaurant,
-			open_restaurant: restaurant.open_restaurant,
+			// open_restaurant: restaurant.open_restaurant,
 			country: restaurant.countryRestID,
 			tax: restaurant.tax,
 			delivery_service: restaurant.delivery_service?restaurant.delivery_service : '',
-			delivery_fee: restaurant.delivery_fee?restaurant.delivery_fee : "",	
+      delivery_fee: restaurant.delivery_fee?restaurant.delivery_fee : "",	
+      indexvalue:true
 		})
 		this.getTimeOpening()
 	}
@@ -338,6 +397,16 @@ class EditRestaurant extends React.Component {
 		return value;
 	  }
 	render() {
+		var d = new Date();
+		var time = d.getHours() + ":" + d.getMinutes()
+		var n = d.getDay()
+		const end_hour=this.state.timesOpening.filter((value)=>{
+		if(value.weekday==1)
+		{
+			return value.end_hour
+		}})
+		
+			console.log("The Time is:",this.state.timesOpening,time)
 		if (this.state.isLogin == false ) {
 			return  <Redirect to='/' />
 		}
@@ -426,8 +495,62 @@ class EditRestaurant extends React.Component {
 								}	
 								<Grid item xs={12}>
 
-										<h3>	Change the status </h3>
-									<Select
+										<h3>Resturant status </h3>
+										
+										{
+										this.state.timesOpening.length==0?
+										<h4>	Close</h4>:
+										// this.state.timesOpening.map(el =>
+											daysOfWeeks[this.state.timesOpening[0]&&this.state.timesOpening?.[0].weekday]=='Monday'
+											&&parseInt(time)>=parseInt(this.state.timesOpening[0].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[0].end_hour)?
+											<>
+											<h4>	Open </h4>
+
+                      {this.state.indexvalue&&
+                      this._handleSubmit()}
+											</>
+											:
+											daysOfWeeks[this.state.timesOpening[1]&&this.state.timesOpening?.[1].weekday]=='Tuesday'&&parseInt(time)>=parseInt(this.state.timesOpening[1].start_hour)
+											&&parseInt(time)<=parseInt(this.state.timesOpening[1].end_hour)?
+											<>
+											<h4>	Open </h4>
+											{this.state.indexvalue&&this._handleSubmit()}
+											</>:
+											daysOfWeeks[this.state.timesOpening[2]&&this.state.timesOpening?.[2].weekday]=='Wednesday'&&parseInt(time)>=parseInt(this.state.timesOpening[2].start_hour)&&
+											parseInt(time)<=parseInt(this.state.timesOpening[2].end_hour)?
+											<>
+											<h4>	Open </h4>
+											{this.state.indexvalue&&this._handleSubmit()}
+											</>:
+											daysOfWeeks[this.state.timesOpening[3]&&this.state.timesOpening?.[3].weekday]=='Thursday'&&parseInt(time)>=parseInt(this.state.timesOpening[3].start_hour)&&
+											parseInt(time)<=parseInt(this.state.timesOpening[3].end_hour)?
+											<>
+											<h4>	Open </h4>
+											{this.state.indexvalue&&this._handleSubmit()}
+											</>:
+											daysOfWeeks[this.state.timesOpening[4]&&this.state.timesOpening?.[4].weekday]=='Friday'&&
+											parseInt(time)>=parseInt(this.state.timesOpening[4].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[4].end_hour)?
+											<>
+											<h4>	Open </h4>
+											{this.state.indexvalue&&this._handleSubmit()}
+											</>:
+											daysOfWeeks[this.state.timesOpening[5]&&this.state.timesOpening?.[5].weekday]=='Saturday'&&parseInt(time)>=parseInt(this.state.timesOpening[5].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[5].end_hour)?
+											<>
+											<h4>	Open </h4>
+											{this.state.indexvalue&&this._handleSubmit()}
+											</>:
+											daysOfWeeks[this.state.timesOpening[6]&&this.state.timesOpening?.[6].weekday]=='Sunday'&&parseInt(time)>=parseInt(this.state.timesOpening[6].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[6].end_hour)?
+											<>
+											<h4>	Open </h4>
+											{this.state.indexvalue&&this._handleSubmit()}
+											</>:
+											<>
+											<h4>	Close </h4>
+											{this.state.indexvalue&&this._handleSubmit()}
+											</>
+										// )
+										}	
+									{/* <Select
 										style={{
 											width: '96%',
 											background: "#fff",
@@ -441,7 +564,7 @@ class EditRestaurant extends React.Component {
 										>
 										<MenuItem value={1}>Open</MenuItem>
 										<MenuItem value={0}>Close</MenuItem>
-									</Select>
+									</Select> */}
 								</Grid>
 										
 								<Grid container spacing={2} item xs={12}>
@@ -624,7 +747,8 @@ class EditRestaurant extends React.Component {
 									  <FormControl variant="outlined" style={{
 											width: '100%',
 										}}>
-											{/* <InputLabel id="demo-simple-select-label">Country</InputLabel> */}
+										<InputLabel id="demo-simple-select-label">Delivery Service</InputLabel>
+
 											<Select
 												style={{
 													width: '100%'

@@ -245,7 +245,9 @@ class Customer extends React.Component {
       countUser: 0,
       valueTabs: 0,
       restaurant_search_value: '',
-      customerToCsv: []
+      customerToCsv: [],
+      userTypeID: 0,
+
     }
   }
 
@@ -259,6 +261,7 @@ class Customer extends React.Component {
       this.setState({
         user: JSON.parse(user),
         isLogin: true,
+        userTypeID: JSON.parse(user).data.userTypeID
       })
     } else {
       // back him login
@@ -708,40 +711,44 @@ class Customer extends React.Component {
                        </Button>
                         </Link>
                       </TableCell>
-                      <TableCell align="left">
-                        <Button variant="contained" color="secondary" onClick={() => { this.deleteCustomer(user) }}>
-                          Delete
+                      {this.state.userTypeID == 1&&
+                        <>
+                        <TableCell align="left">
+                          <Button variant="contained" color="secondary" onClick={() => { this.deleteCustomer(user) }}>
+                            Delete
                        </Button>
-                      </TableCell>
-                      <TableCell align="left">
-                        <Button variant="contained" color="primary" onClick={() => { this.Suspend(user) }}>
-                          Suspend
+                        </TableCell>
+                        <TableCell align="left">
+                          <Button variant="contained" color="primary" onClick={() => { this.Suspend(user) }}>
+                            Suspend
                        </Button>
-                      </TableCell>
-                      <TableCell align="left">
-                        <Button variant="contained" color="primary" onClick={() => { this.CancelUser(user) }}>
-                          Cancel
+                        </TableCell>
+                        <TableCell align="left">
+                          <Button variant="contained" color="primary" onClick={() => { this.CancelUser(user) }}>
+                            Cancel
                        </Button>
-                      </TableCell>
+                        </TableCell>
+                      </>
+                      }
                     </TableRow>
                   ))}
                 </TableBody>
-              </Table>
-              <TablePagination
-                rowsPerPageOptions={[20]}
-                component="div"
-                count={Math.ceil(countUser / 20)}
-                rowsPerPage={1}
-                page={this.state.setPage}
-                backIconButtonProps={{
-                  "aria-label": "Previous Page"
-                }}
-                nextIconButtonProps={{
-                  "aria-label": "Next Page"
-                }}
-                onChangePage={this.handleChangePage}
-                onChangeRowsPerPage={this.handleChangeRowsPerPage}
-              />
+            </Table>
+            <TablePagination
+              rowsPerPageOptions={[20]}
+              component="div"
+              count={Math.ceil(countUser / 20)}
+              rowsPerPage={1}
+              page={this.state.setPage}
+              backIconButtonProps={{
+                "aria-label": "Previous Page"
+              }}
+              nextIconButtonProps={{
+                "aria-label": "Next Page"
+              }}
+              onChangePage={this.handleChangePage}
+              onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            />
             </>
           ) :
 
@@ -749,130 +756,131 @@ class Customer extends React.Component {
 
           }
         </TableContainer>
-        <Modal
-          open={open}
-          onClose={this.handleOpen}
+      <Modal
+        open={open}
+        onClose={this.handleOpen}
+        style={{
+          boxShadow: '0px 2px 0px 3px #ccc',
+        }}
+      >
+
+        <div className={classes.paperModal}
           style={{
-            boxShadow: '0px 2px 0px 3px #ccc',
-          }}
-        >
-
-          <div className={classes.paperModal}
-            style={{
-              boxShadow: '0px 0px 2px #eee',
-            }}>
-            <div style={{
-              backgroundColor: '#0f4c9b',
-              padding: 12,
-            }}>
+            boxShadow: '0px 0px 2px #eee',
+          }}>
+          <div style={{
+            backgroundColor: '#0f4c9b',
+            padding: 12,
+          }}>
 
 
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
 
-                <div className={classes.search1}>
-                  <div className={classes.searchIcon}>
-                    <SearchIcon />
-                  </div>
-                  <InputBase
-                    placeholder="Search restaurant by name"
-                    name='restaurant_search_value'
-                    classes={{
-                      root: classes.inputRoot,
-                      input: classes.inputInput1,
-                    }}
-                    inputProps={{ 'aria-label': 'search' }}
-                    onChange={this.handleInputChange}
-                  />
+              <div className={classes.search1}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
                 </div>
+                <InputBase
+                  placeholder="Search restaurant by name"
+                  name='restaurant_search_value'
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput1,
+                  }}
+                  inputProps={{ 'aria-label': 'search' }}
+                  onChange={this.handleInputChange}
+                />
+              </div>
 
-                <Button variant="contained" color="primary"
-                  onClick={this.onSearchRestaurant}>
-                  SEARCH
+              <Button variant="contained" color="primary"
+                onClick={this.onSearchRestaurant}>
+                SEARCH
               </Button>
 
-              </div>
-            </div>
-            <div>
-              <Typography variant="h5" component="h2"
-                style={{
-                  marginLeft: 32,
-                  marginTop: 8,
-                  color: '#333'
-                }}>
-                You're on the way to set a restaurant to {this.state.currentUser.name_user}
-              </Typography>
-              <List className={classes.rootList}>
-                {
-                  restaurants.map(resto => (
-                    <ListItem key={resto.restaurant_name}
-                      className={classes.ListItemStyle}
-                      onClick={this.currentRestaurant.bind(this, resto)}
-
-                    >
-                      <ListItemAvatar>
-                        <Avatar style={{ width: 60, height: 60 }}>
-                          <img src={`http://localhost:3001/api/v2/api/path?img_restaurant=${resto.logo_restaurant}`
-                          }
-                            style={{ width: 60, height: 60 }} />
-                        </Avatar>
-
-                      </ListItemAvatar>
-                      <ListItemText primary={resto.name_restaurant} secondary={resto.adresse_restaurant} />
-
-                    </ListItem>
-                  ))
-                }
-              </List>
             </div>
           </div>
-        </Modal>
+          <div>
+            <Typography variant="h5" component="h2"
+              style={{
+                marginLeft: 32,
+                marginTop: 8,
+                color: '#333'
+              }}>
+              You're on the way to set a restaurant to {this.state.currentUser.name_user}
+            </Typography>
+            <List className={classes.rootList}>
+              {
+                restaurants.map(resto => (
+                  <ListItem key={resto.restaurant_name}
+                    className={classes.ListItemStyle}
+                    onClick={this.currentRestaurant.bind(this, resto)}
+
+                  >
+                    <ListItemAvatar>
+                      <Avatar style={{ width: 60, height: 60 }}>
+                        <img src={`http://localhost:3001/api/v2/api/path?img_restaurant=${resto.logo_restaurant}`
+                        }
+                          style={{ width: 60, height: 60 }} />
+                      </Avatar>
+
+                    </ListItemAvatar>
+                    <ListItemText primary={resto.name_restaurant} secondary={resto.adresse_restaurant} />
+
+                  </ListItem>
+                ))
+              }
+            </List>
+          </div>
+        </div>
+      </Modal>
 
 
-        <Dialog
-          disableBackdropClick={true}
-          open={this.state.openDialog}
-          onClose={this.handleOpenDialog}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title"> Give  {this.state.currentUser.name_user} full access  to {this.state.currentRestaurant.name_restaurant}  </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Are you really want to set {this.state.currentUser.name_user} as admin of {this.state.currentRestaurant.name_restaurant} restaurant
+      <Dialog
+        disableBackdropClick={true}
+        open={this.state.openDialog}
+        onClose={this.handleOpenDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title"> Give  {this.state.currentUser.name_user} full access  to {this.state.currentRestaurant.name_restaurant}  </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you really want to set {this.state.currentUser.name_user} as admin of {this.state.currentRestaurant.name_restaurant} restaurant
           </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleOpenDialog} color="primary">
-              Disagree
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleOpenDialog} color="primary">
+            Disagree
           </Button>
-            <Button onClick={this.agreeToSetRestaurant} color="primary" autoFocus>
-              Agree
+          <Button onClick={this.agreeToSetRestaurant} color="primary" autoFocus>
+            Agree
           </Button>
-          </DialogActions>
-        </Dialog>
+        </DialogActions>
+      </Dialog>
 
-        {successOperation == true ?
+        {
+      successOperation == true ?
 
-          <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={this.handleCloseSnackbar}>
-            <Alert onClose={this.handleCloseSnackbar} severity="success">
-              Congrats {this.state.currentRestaurant.name_restaurant} have been set to  {this.state.currentUser.name_user}  {this.state.currentUser.lastname}
+      <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={this.handleCloseSnackbar}>
+        <Alert onClose={this.handleCloseSnackbar} severity="success">
+          Congrats {this.state.currentRestaurant.name_restaurant} have been set to  {this.state.currentUser.name_user}  {this.state.currentUser.lastname}
+        </Alert>
+      </Snackbar>
+      :
+      <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={this.handleCloseSnackbar}>
+        <Alert onClose={this.handleCloseSnackbar} severity="error">
+          This is a error message!
             </Alert>
-          </Snackbar>
-          :
-          <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={this.handleCloseSnackbar}>
-            <Alert onClose={this.handleCloseSnackbar} severity="error">
-              This is a error message!
-            </Alert>
-          </Snackbar>
-        }
+      </Snackbar>
+    }
 
-      </div>
+      </div >
     )
   }
 
