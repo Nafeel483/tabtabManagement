@@ -247,7 +247,8 @@ class AlertPage extends React.Component {
       countRestaurant: 0,
       user: {},
       userTypeID: 0,
-      dataPaymentToPaid: []
+      dataPaymentToPaid: [],
+      notification_test: ''
     }
   }
 
@@ -444,6 +445,7 @@ class AlertPage extends React.Component {
     console.log("The Alert Send is: ", value)
     let data = {
       rest_id: value.id_restaurant,
+      message: this.state.notification_test
     }
     this.setState({ showProgress: true })
     axios
@@ -462,6 +464,9 @@ class AlertPage extends React.Component {
         })
         console.log(error)
       })
+  }
+  handleInputChange1 = (event) => {
+    this.setState({ notification_test: event.target.value })
   }
   render() {
     if (this.state.isLogin == false) {
@@ -564,6 +569,7 @@ class AlertPage extends React.Component {
                 <TableCell>  Name </TableCell>
 
 
+                <TableCell >Add Description</TableCell>
                 <TableCell align="left">Actions</TableCell>
 
 
@@ -591,14 +597,30 @@ class AlertPage extends React.Component {
                       </div>
                     </TableCell>
                     <TableCell align="left">
+                      <InputBase
+                        type="text"
+                        name="Description"
+
+                        placeholder="Notification Description"
+                        classes={{
+                          root: classes.inputRoot,
+                          input: classes.inputInput1,
+                        }}
+                        inputProps={{ 'aria-label': 'search' }}
+                        onChange={this.handleInputChange1}
+
+                      />
+                    </TableCell>
+                    <TableCell align="left">
                       <ThemeProvider theme={theme}>
                         <Button variant="contained" color="secondary" className={classes.margin}
                           onClick={() => this.sendAlert(resto)}
                         >
-                          Alert
+                          Send Notification
                         </Button>
                       </ThemeProvider>
                     </TableCell>
+                   
                   </TableRow>
                 ))}
               </TableBody>
