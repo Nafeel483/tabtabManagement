@@ -221,7 +221,7 @@ class FormCreateInvoice extends Component {
     })     
     
 
-    let bank_info_data = await getBankInfoByUserId( restaurant[0].id_user, JSON.parse(user).token);
+    let bank_info_data = await getBankInfoByUserId( restaurant[0]?.id_user, JSON.parse(user).token);
     if (bank_info_data.length > 0) { 
       this.setState({
         bank_info: bank_info_data[0]

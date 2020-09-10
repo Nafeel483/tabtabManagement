@@ -120,6 +120,7 @@ class EditRestaurant extends React.Component {
 			timesOpening: [],
 			daysOfWeeks: daysOfWeeks,
 			delivery_service: '',
+			menus:[],
       delivery_fee: '',
       indexvalue:false,
 		};
@@ -183,6 +184,7 @@ class EditRestaurant extends React.Component {
      this.setState({indexvalue:false})
 		var d = new Date();
 		var time = d.getHours() + ":" + d.getMinutes()
+		var n = d.getDay()
 		 this.setState({
 			openBackdrop: !this.state.openBackdrop
 		})
@@ -231,28 +233,44 @@ class EditRestaurant extends React.Component {
       countryRestID:this.state.country,
       tel_restaurant:this.state.tel_restaurant,
       adresse_restaurant:this.state.adresse_restaurant,
-      lat_restaurant:this.state.lat_restaurant.toString(),
-      long_restaurant:this.state.long_restaurant.toString(),
+      lat_restaurant:this.state.lat_restaurant?.toString(),
+      long_restaurant:this.state.long_restaurant?.toString(),
       adminRestID: this.state.user.data.id_user,
       state:this.state.state,
       tax:this.state.tax,
       zipcode:this.state.zipcode,
-      open_restaurant:	daysOfWeeks[this.state.timesOpening[0]&&this.state.timesOpening[0].weekday]=='Monday'
+	  open_restaurant:		
+	  this.state.timesOpening[0]&&this.state.timesOpening?.[0].weekday==n.toString()
       &&parseInt(time)>=parseInt(this.state.timesOpening[0].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[0].end_hour)?1:
-      daysOfWeeks[this.state.timesOpening[1]&&this.state.timesOpening[1].weekday]=='Tuesday'&&
+	 
+	  this.state.timesOpening[1]&&this.state.timesOpening?.[1].weekday==n.toString()
+	 
+	  &&
       parseInt(time)>=parseInt(this.state.timesOpening[1].start_hour)
-      && parseInt(time)<=parseInt(this.state.timesOpening[1].end_hour)?1:
-      daysOfWeeks[this.state.timesOpening[2]&&this.state.timesOpening[2].weekday]=='Wednesday'
+	  && parseInt(time)<=parseInt(this.state.timesOpening[1].end_hour)?1:
+	  
+	  this.state.timesOpening[2]&&this.state.timesOpening?.[2].weekday==n.toString()
+	 
+
       &&parseInt(time)>=parseInt(this.state.timesOpening[2].start_hour)&&parseInt(time)<=
-      parseInt(this.state.timesOpening[2].end_hour)?1:
-      daysOfWeeks[this.state.timesOpening[3]&&this.state.timesOpening[3].weekday]=='Thursday'&&
+	  parseInt(this.state.timesOpening[2].end_hour)?1:
+	  
+
+	  this.state.timesOpening[3]&&this.state.timesOpening?.[3].weekday==n.toString()
+	  &&
+	  
       parseInt(time)>=parseInt(this.state.timesOpening[3].start_hour)&&parseInt(time)<=
       parseInt(this.state.timesOpening[3].end_hour)?1:
-      daysOfWeeks[this.state.timesOpening[4]&&this.state.timesOpening[4].weekday]=='Friday'&&
+	  this.state.timesOpening[4]&&this.state.timesOpening?.[4].weekday==n.toString() 
+	 
+	  &&
       parseInt(time)>=parseInt(this.state.timesOpening[4].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[4].end_hour)?1:
-      daysOfWeeks[this.state.timesOpening[5]&&this.state.timesOpening[5].weekday]=='Saturday'&&
+	  this.state.timesOpening[5]&&this.state.timesOpening?.[5].weekday==n.toString() 
+	 
+	  &&
       parseInt(time)>=parseInt(this.state.timesOpening[5].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[5].end_hour)?1:
-      daysOfWeeks[this.state.timesOpening[5]&&this.state.timesOpening[6].weekday]=='Sunday'&&
+	  this.state.timesOpening[6]&&this.state.timesOpening?.[6].weekday==n.toString()
+	  &&
       parseInt(time)>=parseInt(this.state.timesOpening[6].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[6].end_hour)?1:
       0,
 
@@ -360,24 +378,39 @@ class EditRestaurant extends React.Component {
 		console.log("My Resturant",restaurant)
 		this.setState({
 			restaurant: restaurant || [],
-			name_restaurant: restaurant.name_restaurant,
-			tel_restaurant:  restaurant.tel_restaurant,
-			zipcode:  restaurant.zipcode,
-			state:  restaurant.state,
-			lat_restaurant:  restaurant.lat_restaurant,
-			long_restaurant:  restaurant.long_restaurant,
-			adresse_restaurant: restaurant.adresse_restaurant,
-			logo_restaurant: restaurant.logo_restaurant,
+			name_restaurant: restaurant?.name_restaurant,
+			tel_restaurant:  restaurant?.tel_restaurant,
+			zipcode:  restaurant?.zipcode,
+			state:  restaurant?.state,
+			lat_restaurant:  restaurant?.lat_restaurant,
+			long_restaurant:  restaurant?.long_restaurant,
+			adresse_restaurant: restaurant?.adresse_restaurant,
+			logo_restaurant: restaurant?.logo_restaurant,
 			// open_restaurant: restaurant.open_restaurant,
-			country: restaurant.countryRestID,
-			tax: restaurant.tax,
-			delivery_service: restaurant.delivery_service?restaurant.delivery_service : '',
-      delivery_fee: restaurant.delivery_fee?restaurant.delivery_fee : "",	
+			country: restaurant?.countryRestID,
+			tax: restaurant?.tax,
+			delivery_service: restaurant?.delivery_service?restaurant.delivery_service : '',
+      delivery_fee: restaurant?.delivery_fee?restaurant.delivery_fee : "",	
       indexvalue:true
 		})
 		this.getTimeOpening()
+		this.getMenusForRestaurant()
 	}
-
+	getMenusForRestaurant = async () => {
+		let res = await axios.get(`${urlFunction()}/menu/${this.props.idRestaurant}`);
+		let data = res.data
+		if (data) {
+		  this.setState({
+			showProgress: false,
+			menus: res.data.reverse()
+		  })
+		} else {
+		  this.setState({
+			showProgress: false,
+		  })
+		  alert(res.message)
+		}
+	  }
 	getTimeOpening = async () => {
 		let timesOpening = await axios.get(`${urlFunction()}/restaurant/opening/${this.props.idRestaurant}`)
 		timesOpening = timesOpening.data;
@@ -406,7 +439,7 @@ class EditRestaurant extends React.Component {
 			return value.end_hour
 		}})
 		
-			console.log("The Time is:",this.state.timesOpening,time)
+			console.log("The Time is:",this.state.timesOpening,time,n)
 		if (this.state.isLogin == false ) {
 			return  <Redirect to='/' />
 		}
@@ -498,50 +531,65 @@ class EditRestaurant extends React.Component {
 										<h3>Resturant status </h3>
 										
 										{
+										this.state.menus.length>0&&<>{
 										this.state.timesOpening.length==0?
 										<h4>	Close</h4>:
 										// this.state.timesOpening.map(el =>
-											daysOfWeeks[this.state.timesOpening[0]&&this.state.timesOpening?.[0].weekday]=='Monday'
-											&&parseInt(time)>=parseInt(this.state.timesOpening[0].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[0].end_hour)?
+										this.state.timesOpening[1]&&this.state.timesOpening?.[1].weekday==n.toString()
+
+										
+											&&parseInt(time)>=parseInt(this.state.timesOpening[1].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[1].end_hour)?
 											<>
 											<h4>	Open </h4>
-
-                      {this.state.indexvalue&&
-                      this._handleSubmit()}
+                      						{this.state.indexvalue&&
+                      						this._handleSubmit()}
 											</>
 											:
-											daysOfWeeks[this.state.timesOpening[1]&&this.state.timesOpening?.[1].weekday]=='Tuesday'&&parseInt(time)>=parseInt(this.state.timesOpening[1].start_hour)
-											&&parseInt(time)<=parseInt(this.state.timesOpening[1].end_hour)?
+											this.state.timesOpening[2]&&this.state.timesOpening?.[2].weekday==n.toString()
+										
+											&&parseInt(time)>=parseInt(this.state.timesOpening[2].start_hour)
+											&&parseInt(time)<=parseInt(this.state.timesOpening[2].end_hour)?
 											<>
 											<h4>	Open </h4>
 											{this.state.indexvalue&&this._handleSubmit()}
 											</>:
-											daysOfWeeks[this.state.timesOpening[2]&&this.state.timesOpening?.[2].weekday]=='Wednesday'&&parseInt(time)>=parseInt(this.state.timesOpening[2].start_hour)&&
-											parseInt(time)<=parseInt(this.state.timesOpening[2].end_hour)?
-											<>
-											<h4>	Open </h4>
-											{this.state.indexvalue&&this._handleSubmit()}
-											</>:
-											daysOfWeeks[this.state.timesOpening[3]&&this.state.timesOpening?.[3].weekday]=='Thursday'&&parseInt(time)>=parseInt(this.state.timesOpening[3].start_hour)&&
+											this.state.timesOpening[3]&&this.state.timesOpening?.[3].weekday==n.toString()
+											
+											&&parseInt(time)>=parseInt(this.state.timesOpening[3].start_hour)&&
 											parseInt(time)<=parseInt(this.state.timesOpening[3].end_hour)?
 											<>
 											<h4>	Open </h4>
 											{this.state.indexvalue&&this._handleSubmit()}
 											</>:
-											daysOfWeeks[this.state.timesOpening[4]&&this.state.timesOpening?.[4].weekday]=='Friday'&&
-											parseInt(time)>=parseInt(this.state.timesOpening[4].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[4].end_hour)?
+											this.state.timesOpening[4]&&this.state.timesOpening?.[4].weekday==n.toString()
+											
+										
+											&&parseInt(time)>=parseInt(this.state.timesOpening[4].start_hour)&&
+											parseInt(time)<=parseInt(this.state.timesOpening[4].end_hour)?
 											<>
 											<h4>	Open </h4>
 											{this.state.indexvalue&&this._handleSubmit()}
 											</>:
-											daysOfWeeks[this.state.timesOpening[5]&&this.state.timesOpening?.[5].weekday]=='Saturday'&&parseInt(time)>=parseInt(this.state.timesOpening[5].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[5].end_hour)?
+											this.state.timesOpening[5]&&this.state.timesOpening?.[5].weekday==n.toString()
+					
+											&&
+											parseInt(time)>=parseInt(this.state.timesOpening[5].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[5].end_hour)?
 											<>
 											<h4>	Open </h4>
 											{this.state.indexvalue&&this._handleSubmit()}
 											</>:
-											daysOfWeeks[this.state.timesOpening[6]&&this.state.timesOpening?.[6].weekday]=='Sunday'&&parseInt(time)>=parseInt(this.state.timesOpening[6].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[6].end_hour)?
+											this.state.timesOpening[6]&&this.state.timesOpening?.[6].weekday==n.toString()
+											
+											&&parseInt(time)>=parseInt(this.state.timesOpening[6].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[6].end_hour)?
 											<>
 											<h4>	Open </h4>
+											{this.state.indexvalue&&this._handleSubmit()}
+											</>:
+											
+											this.state.timesOpening[0]&&this.state.timesOpening?.[0].weekday==n.toString()
+											&&parseInt(time)>=parseInt(this.state.timesOpening[0].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[0].end_hour)?
+											<>
+											<h4>	Open1 </h4>
 											{this.state.indexvalue&&this._handleSubmit()}
 											</>:
 											<>
@@ -549,6 +597,8 @@ class EditRestaurant extends React.Component {
 											{this.state.indexvalue&&this._handleSubmit()}
 											</>
 										// )
+											  }
+										</>
 										}	
 									{/* <Select
 										style={{
@@ -890,7 +940,8 @@ class EditRestaurant extends React.Component {
 											alignItems: "center",
 											justifyContent: "space-between",
 									}}>
-									
+									{this.state.menus.length>0?<>
+								
 									<div item xs={4}>       
 										<InputLabel id="demo-simple-select-label"> Day of weeks </InputLabel>
 										<Select
@@ -949,12 +1000,20 @@ class EditRestaurant extends React.Component {
 												<AddIcon />
 											</Fab>
 										</div>
+										</>
+										:
+	<h2>First Add Menu</h2>  
+										}
 							</div>
 									
 							{/* List of open times */}
+							{this.state.menus.length>0&&<>
 							<h3> List of opening times </h3>
+							</>
+	}
 									
 							<div>
+							{this.state.menus.length>0&&<>
 					
 							{
 								this.state.timesOpening.map(el =>
@@ -980,7 +1039,9 @@ class EditRestaurant extends React.Component {
 											</ListItem>
 										</div>
 									)
-								}													
+								}
+									</>
+	}													
 							</div>
 						</Grid>
 					</Grid>
