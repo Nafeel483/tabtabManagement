@@ -589,7 +589,7 @@ class EditRestaurant extends React.Component {
 											this.state.timesOpening[0]&&this.state.timesOpening?.[0].weekday==n.toString()
 											&&parseInt(time)>=parseInt(this.state.timesOpening[0].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[0].end_hour)?
 											<>
-											<h4>	Open1 </h4>
+											<h4>	Open </h4>
 											{this.state.indexvalue&&this._handleSubmit()}
 											</>:
 											<>
