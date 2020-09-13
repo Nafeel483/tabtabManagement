@@ -191,7 +191,18 @@ class Graphs extends Component {
       reviewAnswers: [],
       reviewQuestion: [],
       resturant_id1: '',
-      resturant_idzip: ''
+      resturant_idzip: '',
+      userTypeID: 0
+    }
+  }
+  componentDidMount = async () => {
+    let user = await userContext();
+    if (user !== null) {
+      this.setState({
+        // user: JSON.parse(user),
+        // isLogin: true,
+        userTypeID: JSON.parse(user).data.userTypeID
+      })
     }
   }
   updateGraph = (value) => {
@@ -489,7 +500,9 @@ class Graphs extends Component {
               {/* <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(5)}>Order Cancellation</li> */}
               <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(6)}>Reviews</li>
               <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(9)}>Area Zip Code</li>
-              <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(10)}>Total Sale by State</li>
+              {this.state.userTypeID == 1 &&
+                <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(10)}>Total Sale by State</li>
+              }
               <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(11)}>Call Logs</li>
               <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(13)}>Report on individual dish- To determine which is best seller on what day of the week</li>
 

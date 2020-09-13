@@ -95,6 +95,7 @@ let daysOfWeeks = ['Sunday', 'Monday','Tuesday', 'Wednesday','Thursday', 'Friday
 class EditRestaurant extends React.Component {
 	constructor (props) {
 		super(props);
+		this.moved = false;
 		this.state = {
 			error           : false,
 			button          : false,
@@ -188,93 +189,108 @@ class EditRestaurant extends React.Component {
 		 this.setState({
 			openBackdrop: !this.state.openBackdrop
 		})
-		// e.preventDefault();
-		// const data = new FormData();
-		// data.append('id_restaurant', this.state.restaurant.id_restaurant);
-		// data.append('logo_restaurant',this.state.file)
-		// data.append('restaurant_name', this.state.name_restaurant);
-		// data.append('countryRestID', this.state.country);
-		// data.append('tel_restaurant', this.state.tel_restaurant);
-		// data.append('adresse_restaurant', this.state.adresse_restaurant);
-		// data.append('lat_restaurant', this.state.lat_restaurant.toString());
-		// data.append('long_restaurant', this.state.long_restaurant.toString());
-		// data.append('adminRestID', this.state.user.data.id_user);
-		// data.append('state', this.state.state);
-		// data.append('tax', this.state.tax);
-		// data.append('zipcode', this.state.zipcode);
-		// data.append('open_restaurant', 
-		// daysOfWeeks[this.state.timesOpening[0]&&this.state.timesOpening[0].weekday]=='Monday'
-		// &&time>=this.state.timesOpening[0].start_hour&&time<=this.state.timesOpening[0].end_hour?1:
-		// daysOfWeeks[this.state.timesOpening[1]&&this.state.timesOpening[1].weekday]=='Tuesday'&&
-		// time>=this.state.timesOpening[1].start_hour
-		// && time<=this.state.timesOpening[1].end_hour?1:
-		// daysOfWeeks[this.state.timesOpening[2]&&this.state.timesOpening[2].weekday]=='Wednesday'
-		// &&time>=this.state.timesOpening[2].start_hour&&time<=
-		// this.state.timesOpening[2].end_hour?1:
-		// daysOfWeeks[this.state.timesOpening[3]&&this.state.timesOpening[3].weekday]=='Thursday'&&
-		// time>=this.state.timesOpening[3].start_hour&&time<=
-		// this.state.timesOpening[3].end_hour?1:
-		// daysOfWeeks[this.state.timesOpening[4]&&this.state.timesOpening[4].weekday]=='Friday'&&
-		// time>=this.state.timesOpening[4].start_hour&&time<=this.state.timesOpening[4].end_hour?1:
-		// daysOfWeeks[this.state.timesOpening[5]&&this.state.timesOpening[5].weekday]=='Saturday'&&
-		// time>=this.state.timesOpening[5].start_hour&&time<=this.state.timesOpening[5].end_hour?1:
-		// daysOfWeeks[this.state.timesOpening[5]&&this.state.timesOpening[6].weekday]=='Sunday'&&
-		// time>=this.state.timesOpening[6].start_hour&&time<=this.state.timesOpening[6].end_hour?1:
-		// 0
-		// );
-		// data.append('delivery_service', this.state.delivery_service);
-    // data.append('delivery_fee', this.state.delivery_fee);
-    let data={
-      id_restaurant: this.state.restaurant.id_restaurant,
-      logo_restaurant:this.state.file,
-      restaurant_name:this.state.name_restaurant,
-      delivery_service:this.state.delivery_service,
-      delivery_fee:this.state.delivery_fee,
-      countryRestID:this.state.country,
-      tel_restaurant:this.state.tel_restaurant,
-      adresse_restaurant:this.state.adresse_restaurant,
-      lat_restaurant:this.state.lat_restaurant?.toString(),
-      long_restaurant:this.state.long_restaurant?.toString(),
-      adminRestID: this.state.user.data.id_user,
-      state:this.state.state,
-      tax:this.state.tax,
-      zipcode:this.state.zipcode,
-	  open_restaurant:		
-	  this.state.timesOpening[0]&&this.state.timesOpening?.[0].weekday==n.toString()
-      &&parseInt(time)>=parseInt(this.state.timesOpening[0].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[0].end_hour)?1:
+		e.preventDefault();
+		const data = new FormData();
+		data.append('id_restaurant', this.state.restaurant.id_restaurant);
+		data.append('logo_restaurant',this.state.file)
+		data.append('restaurant_name', this.state.name_restaurant);
+		data.append('countryRestID', this.state.country);
+		data.append('tel_restaurant', this.state.tel_restaurant);
+		data.append('adresse_restaurant', this.state.adresse_restaurant);
+		data.append('lat_restaurant', this.state.lat_restaurant.toString());
+		data.append('long_restaurant', this.state.long_restaurant.toString());
+		data.append('adminRestID', this.state.user.data.id_user);
+		data.append('state', this.state.state);
+		data.append('tax', this.state.tax);
+		data.append('zipcode', this.state.zipcode);
+		data.append('open_restaurant', 
+		  this.state.timesOpening[0]&&this.state.timesOpening?.[0].weekday==n.toString()
+      &&parseFloat(time)>=parseFloat(this.state.timesOpening[0].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[0].end_hour)?1:
 	 
 	  this.state.timesOpening[1]&&this.state.timesOpening?.[1].weekday==n.toString()
 	 
 	  &&
-      parseInt(time)>=parseInt(this.state.timesOpening[1].start_hour)
-	  && parseInt(time)<=parseInt(this.state.timesOpening[1].end_hour)?1:
+      parseFloat(time)>=parseFloat(this.state.timesOpening[1].start_hour)
+	  && parseFloat(time)<=parseFloat(this.state.timesOpening[1].end_hour)?1:
 	  
 	  this.state.timesOpening[2]&&this.state.timesOpening?.[2].weekday==n.toString()
 	 
 
-      &&parseInt(time)>=parseInt(this.state.timesOpening[2].start_hour)&&parseInt(time)<=
-	  parseInt(this.state.timesOpening[2].end_hour)?1:
+      &&parseFloat(time)>=parseFloat(this.state.timesOpening[2].start_hour)&&parseFloat(time)<=
+	  parseFloat(this.state.timesOpening[2].end_hour)?1:
 	  
 
 	  this.state.timesOpening[3]&&this.state.timesOpening?.[3].weekday==n.toString()
 	  &&
-	  
-      parseInt(time)>=parseInt(this.state.timesOpening[3].start_hour)&&parseInt(time)<=
-      parseInt(this.state.timesOpening[3].end_hour)?1:
+	   
+      parseFloat(time)>=parseFloat(this.state.timesOpening[3].start_hour)&&parseFloat(time)<=
+      parseFloat(this.state.timesOpening[3].end_hour)?1:
 	  this.state.timesOpening[4]&&this.state.timesOpening?.[4].weekday==n.toString() 
 	 
 	  &&
-      parseInt(time)>=parseInt(this.state.timesOpening[4].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[4].end_hour)?1:
+      parseFloat(time)>=parseFloat(this.state.timesOpening[4].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[4].end_hour)?1:
 	  this.state.timesOpening[5]&&this.state.timesOpening?.[5].weekday==n.toString() 
 	 
 	  &&
-      parseInt(time)>=parseInt(this.state.timesOpening[5].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[5].end_hour)?1:
+      parseFloat(time)>=parseFloat(this.state.timesOpening[5].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[5].end_hour)?1:
 	  this.state.timesOpening[6]&&this.state.timesOpening?.[6].weekday==n.toString()
 	  &&
-      parseInt(time)>=parseInt(this.state.timesOpening[6].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[6].end_hour)?1:
+      parseFloat(time)>=parseFloat(this.state.timesOpening[6].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[6].end_hour)?1:
       0,
+		);
+		data.append('delivery_service', this.state.delivery_service);
+    // data.append('delivery_fee', this.state.delivery_fee);
+    // let data={
+    //   id_restaurant: this.state.restaurant.id_restaurant,
+    //   logo_restaurant:this.state.file,
+    //   restaurant_name:this.state.name_restaurant,
+    //   delivery_service:this.state.delivery_service,
+    //   delivery_fee:this.state.delivery_fee,
+    //   countryRestID:this.state.country,
+    //   tel_restaurant:this.state.tel_restaurant,
+    //   adresse_restaurant:this.state.adresse_restaurant,
+    //   lat_restaurant:this.state.lat_restaurant?.toString(),
+    //   long_restaurant:this.state.long_restaurant?.toString(),
+    //   adminRestID: this.state.user.data.id_user,
+    //   state:this.state.state,
+    //   tax:this.state.tax,
+    //   zipcode:this.state.zipcode,
+	//   open_restaurant:		
+	//   this.state.timesOpening[0]&&this.state.timesOpening?.[0].weekday==n.toString()
+    //   &&parseFloat(time)>=parseFloat(this.state.timesOpening[0].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[0].end_hour)?1:
+	 
+	//   this.state.timesOpening[1]&&this.state.timesOpening?.[1].weekday==n.toString()
+	 
+	//   &&
+    //   parseFloat(time)>=parseFloat(this.state.timesOpening[1].start_hour)
+	//   && parseFloat(time)<=parseFloat(this.state.timesOpening[1].end_hour)?1:
+	  
+	//   this.state.timesOpening[2]&&this.state.timesOpening?.[2].weekday==n.toString()
+	 
 
-    }
+    //   &&parseFloat(time)>=parseFloat(this.state.timesOpening[2].start_hour)&&parseFloat(time)<=
+	//   parseFloat(this.state.timesOpening[2].end_hour)?1:
+	  
+
+	//   this.state.timesOpening[3]&&this.state.timesOpening?.[3].weekday==n.toString()
+	//   &&
+	   
+    //   parseFloat(time)>=parseFloat(this.state.timesOpening[3].start_hour)&&parseFloat(time)<=
+    //   parseFloat(this.state.timesOpening[3].end_hour)?1:
+	//   this.state.timesOpening[4]&&this.state.timesOpening?.[4].weekday==n.toString() 
+	 
+	//   &&
+    //   parseFloat(time)>=parseFloat(this.state.timesOpening[4].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[4].end_hour)?1:
+	//   this.state.timesOpening[5]&&this.state.timesOpening?.[5].weekday==n.toString() 
+	 
+	//   &&
+    //   parseFloat(time)>=parseFloat(this.state.timesOpening[5].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[5].end_hour)?1:
+	//   this.state.timesOpening[6]&&this.state.timesOpening?.[6].weekday==n.toString()
+	//   &&
+    //   parseFloat(time)>=parseFloat(this.state.timesOpening[6].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[6].end_hour)?1:
+    //   0,
+
+    // }
 		const config = {
 			method  : 'PUT',
 			headers : {
@@ -285,23 +301,21 @@ class EditRestaurant extends React.Component {
 			body    : data,
 		};
 			console.log("The Update Data is:",data)
+			if(data){
 		fetch(`${urlFunction()}/restaurant/update`, config)
 		
 			.then((response) => {
-				return response.json();
-			})
-			.then((data) => {
-				console.log('update restaurant', data);
-				if (data) {
-					this.setState({
+				console.log('update restaurant', response);
+				
+				this.setState({
 						
-						showProgress: false,
-						error: false,
-						showSucess: true,
-						openBackdrop: !this.state.openBackdrop
-					});
-				}
+					showProgress: false,
+					error: false,
+					showSucess: true,
+					openBackdrop: !this.state.openBackdrop
+				});
 			})
+			
 			.catch((err) => {
 				console.log('Show the error on create restaurant ', err);
 				this.setState({
@@ -311,8 +325,15 @@ class EditRestaurant extends React.Component {
 					openBackdrop: !this.state.openBackdrop
 				});
 			});
+		}
 	}
-
+myValueChange=()=>{
+	setTimeout(() => {
+		if (!this.moved) {
+			this._handleSubmit(this)
+		}
+	}, 3000);
+}
 	handleInputChange = event => {
 		this.setState({ [event.target.name]: event.target.value });
 	};
@@ -439,13 +460,13 @@ class EditRestaurant extends React.Component {
 			return value.end_hour
 		}})
 		
-			console.log("The Time is:",this.state.timesOpening,time,n)
+			console.log("The Time is:",time)
 		if (this.state.isLogin == false ) {
 			return  <Redirect to='/' />
 		}
 		let { classes, selectedDate } = this.props;
 		let {name_restaurant, tax,open_restaurant,logo_restaurant,user,imagePreviewUrl ,country, countryList,openBackdrop} = this.state;
-		 console.log('The this.state.delivery_service',this.state.delivery_service)
+		 console.log('The this.state.delivery_service',this.props.idRestaurant)
 		return (	
 			<div>
 				<Backdrop className={classes.backdrop} open={openBackdrop} >
@@ -536,65 +557,63 @@ class EditRestaurant extends React.Component {
 										<h4>	Close</h4>:
 										// this.state.timesOpening.map(el =>
 										this.state.timesOpening[1]&&this.state.timesOpening?.[1].weekday==n.toString()
-
-										
-											&&parseInt(time)>=parseInt(this.state.timesOpening[1].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[1].end_hour)?
+											&&parseFloat(time)>parseFloat(this.state.timesOpening[1].start_hour)
+											&&parseFloat(time)<parseFloat(this.state.timesOpening[1].end_hour)?
 											<>
 											<h4>	Open </h4>
-                      						{this.state.indexvalue&&
-                      						this._handleSubmit()}
+                      						{/* {this.state.indexvalue&&this.myValueChange()} */}
+										
 											</>
 											:
 											this.state.timesOpening[2]&&this.state.timesOpening?.[2].weekday==n.toString()
-										
-											&&parseInt(time)>=parseInt(this.state.timesOpening[2].start_hour)
-											&&parseInt(time)<=parseInt(this.state.timesOpening[2].end_hour)?
+											&&parseFloat(time)>parseFloat(this.state.timesOpening[2].start_hour)
+											&&parseFloat(time)<parseFloat(this.state.timesOpening[2].end_hour)?
 											<>
 											<h4>	Open </h4>
-											{this.state.indexvalue&&this._handleSubmit()}
+											{/* {this.state.indexvalue&&this.myValueChange()} */}
 											</>:
 											this.state.timesOpening[3]&&this.state.timesOpening?.[3].weekday==n.toString()
 											
-											&&parseInt(time)>=parseInt(this.state.timesOpening[3].start_hour)&&
-											parseInt(time)<=parseInt(this.state.timesOpening[3].end_hour)?
+											&&parseFloat(time)>=parseFloat(this.state.timesOpening[3].start_hour)&&
+											parseFloat(time)<=parseFloat(this.state.timesOpening[3].end_hour)?
 											<>
 											<h4>	Open </h4>
-											{this.state.indexvalue&&this._handleSubmit()}
+											{/* {this.state.indexvalue&&this.myValueChange()} */}
 											</>:
 											this.state.timesOpening[4]&&this.state.timesOpening?.[4].weekday==n.toString()
 											
 										
-											&&parseInt(time)>=parseInt(this.state.timesOpening[4].start_hour)&&
-											parseInt(time)<=parseInt(this.state.timesOpening[4].end_hour)?
+											&&parseFloat(time)>=parseFloat(this.state.timesOpening[4].start_hour)&&
+											parseFloat(time)<=parseFloat(this.state.timesOpening[4].end_hour)?
 											<>
 											<h4>	Open </h4>
-											{this.state.indexvalue&&this._handleSubmit()}
+											{/* {this.state.indexvalue&&this.myValueChange()} */}
 											</>:
 											this.state.timesOpening[5]&&this.state.timesOpening?.[5].weekday==n.toString()
 					
 											&&
-											parseInt(time)>=parseInt(this.state.timesOpening[5].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[5].end_hour)?
+											parseFloat(time)>=parseFloat(this.state.timesOpening[5].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[5].end_hour)?
 											<>
 											<h4>	Open </h4>
-											{this.state.indexvalue&&this._handleSubmit()}
+											{/* {this.state.indexvalue&&this.myValueChange()} */}
 											</>:
 											this.state.timesOpening[6]&&this.state.timesOpening?.[6].weekday==n.toString()
 											
-											&&parseInt(time)>=parseInt(this.state.timesOpening[6].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[6].end_hour)?
+											&&parseFloat(time)>=parseFloat(this.state.timesOpening[6].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[6].end_hour)?
 											<>
 											<h4>	Open </h4>
-											{this.state.indexvalue&&this._handleSubmit()}
+											{/* {this.state.indexvalue&&this.myValueChange()} */}
 											</>:
 											
 											this.state.timesOpening[0]&&this.state.timesOpening?.[0].weekday==n.toString()
-											&&parseInt(time)>=parseInt(this.state.timesOpening[0].start_hour)&&parseInt(time)<=parseInt(this.state.timesOpening[0].end_hour)?
+											&&parseFloat(time)>=parseFloat(this.state.timesOpening[0].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[0].end_hour)?
 											<>
 											<h4>	Open </h4>
-											{this.state.indexvalue&&this._handleSubmit()}
+											{/* {this.state.indexvalue&&this.myValueChange()} */}
 											</>:
 											<>
 											<h4>	Close </h4>
-											{this.state.indexvalue&&this._handleSubmit()}
+											{/* {this.state.indexvalue&&this.myValueChange()} */}
 											</>
 										// )
 											  }
@@ -908,7 +927,7 @@ class EditRestaurant extends React.Component {
 
 								</Grid>
 									<Button
-										type="submit"
+										// type="submit"
 										fullWidth
 										variant="contained"
 										color="primary"
