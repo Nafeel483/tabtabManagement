@@ -123,7 +123,8 @@ class EditRestaurant extends React.Component {
 			delivery_service: '',
 			menus:[],
       delivery_fee: '',
-      indexvalue:false,
+	  indexvalue:false,
+	  stripeId:''
 		};
 	}
 
@@ -239,7 +240,8 @@ class EditRestaurant extends React.Component {
       0,
 		);
 		data.append('delivery_service', this.state.delivery_service);
-    // data.append('delivery_fee', this.state.delivery_fee);
+		data.append('delivery_fee', this.state.delivery_fee);
+		data.append("stripeId",this.state.stripeId)
     // let data={
     //   id_restaurant: this.state.restaurant.id_restaurant,
     //   logo_restaurant:this.state.file,
@@ -394,7 +396,9 @@ myValueChange=()=>{
 			})
 		}
 		// Get restaurant by id 
+		console.log("The Resturant ID IS:",this.props.idRestaurant)
 		let restaurant = await getRestaurantById(this.props.idRestaurant);
+		console.log("The Resturant ID IS:",this.props.idRestaurant)
 		restaurant = restaurant[0]
 		console.log("My Resturant",restaurant)
 		this.setState({
@@ -410,6 +414,7 @@ myValueChange=()=>{
 			// open_restaurant: restaurant.open_restaurant,
 			country: restaurant?.countryRestID,
 			tax: restaurant?.tax,
+			stripeId:restaurant?.stripeId,
 			delivery_service: restaurant?.delivery_service?restaurant.delivery_service : '',
       delivery_fee: restaurant?.delivery_fee?restaurant.delivery_fee : "",	
       indexvalue:true
@@ -465,7 +470,7 @@ myValueChange=()=>{
 			return  <Redirect to='/' />
 		}
 		let { classes, selectedDate } = this.props;
-		let {name_restaurant, tax,open_restaurant,logo_restaurant,user,imagePreviewUrl ,country, countryList,openBackdrop} = this.state;
+		let {name_restaurant, tax,stripeId,logo_restaurant,user,imagePreviewUrl ,country, countryList,openBackdrop} = this.state;
 		 console.log('The this.state.delivery_service',this.props.idRestaurant)
 		return (	
 			<div>
@@ -906,7 +911,19 @@ myValueChange=()=>{
 										helperText={`Value % example: 10 %`}
 									/>
 								</Grid>
-												
+								<Grid item xs={6} >
+									<TextField
+										name="stripeId"
+										variant="outlined"
+										required
+										fullWidth
+										id="stripeId"
+										label="Stripe Id"
+										onChange={this.handleInputChange}	
+										value={stripeId}			
+										helperText={`Enter Stripe`}
+									/>
+								</Grid>					
 								<Grid item xs={12}>					
 									<input
 										variant="outlined"

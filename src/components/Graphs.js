@@ -192,7 +192,8 @@ class Graphs extends Component {
       reviewQuestion: [],
       resturant_id1: '',
       resturant_idzip: '',
-      userTypeID: 0
+      userTypeID: 0,
+      user_ID: ''
     }
   }
   componentDidMount = async () => {
@@ -201,7 +202,8 @@ class Graphs extends Component {
       this.setState({
         // user: JSON.parse(user),
         // isLogin: true,
-        userTypeID: JSON.parse(user).data.userTypeID
+        userTypeID: JSON.parse(user).data.userTypeID,
+        user_ID: JSON.parse(user).data.id_user
       })
     }
   }
@@ -245,15 +247,28 @@ class Graphs extends Component {
   }
   getAnnualSale = async () => {
     this.setState({ showProgress: true })
+
     axios
       .get(`${urlFunction()}/restaurant/get/all`)
       .then((res) => {
         console.log("Resturants", res)
-        if (res.data.length > 0) {
+        if (this.state.userTypeID != 1) {
+          const allResturants = res.data.filter((value) => {
+            return value.adminRestID == this.state.user_ID
+          })
+          console.log("The Resturant ID is: ", allResturants)
           this.setState({
-            restaurants: res.data.sort((a, b) => (a.name_restaurant > b.name_restaurant) ? 1 : -1),
+            restaurants: allResturants.sort((a, b) => (a.name_restaurant > b.name_restaurant) ? 1 : -1),
             showProgress: false
           })
+        }
+        else {
+          if (res.data.length > 0) {
+            this.setState({
+              restaurants: res.data.sort((a, b) => (a.name_restaurant > b.name_restaurant) ? 1 : -1),
+              showProgress: false
+            })
+          }
         }
       })
       .catch((error) => {
