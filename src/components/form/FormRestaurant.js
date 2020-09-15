@@ -100,7 +100,8 @@ class FormRestaurant extends React.Component {
 			openBackdrop: false,
 			user:{},
 			delivery_service: '',
-			delivery_fee: ''
+			delivery_fee: '',
+			stripeId:''
 		};
 	}
 	 
@@ -175,6 +176,8 @@ class FormRestaurant extends React.Component {
 		data.append('zipcode', this.state.zipcode);
 		data.append('delivery_service', this.state.delivery_service);
 		data.append('delivery_fee', this.state.delivery_fee);
+		data.append("stripeId",this.state.stripeId)
+		console.log('Initial restaurant dats', data,this.state.stripeId);
 		const config = {
 			method  : 'POST',
 			headers : {
@@ -203,6 +206,7 @@ class FormRestaurant extends React.Component {
 						adresse_restaurant:'',
 						delivery_service: '',
 						delivery_fee: '',
+						stripeId:'',
 						showProgress: false,
 						error: false,
 						showSucess: true,
@@ -579,7 +583,20 @@ class FormRestaurant extends React.Component {
 									onChange={this.handleInputChange}
 								/>
 							</Grid>
-					
+							<Grid item xs={12} >
+									
+							<TextField
+							variant="outlined"
+							required
+							fullWidth
+							value={this.state.stripeId}
+							name="stripeId"
+							label="Stripe Id"
+							type="text"
+							id="stripeId"
+							onChange={this.handleInputChange}
+						/>					
+								</Grid>	
 							<Grid item xs={6}>					
 								<input
 									variant="outlined"
