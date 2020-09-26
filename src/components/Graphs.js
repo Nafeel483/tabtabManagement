@@ -509,7 +509,7 @@ class Graphs extends Component {
           <div>
             <ul>
               {/* <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(1)}>Distance Driving</li> */}
-              <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(2)}>Hourly/Daily/ Weekly/Monthly/Quarterly/ Annual Sales</li>
+              <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(2)}>Annual Sales</li>
               {/* <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(3)}>Average Time of order completion</li> */}
               {/* <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(4)}>Average expenses per order</li> */}
               {/* <li style={{ fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', }} onClick={() => this.updateGraph(5)}>Order Cancellation</li> */}

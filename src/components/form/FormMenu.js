@@ -167,7 +167,6 @@ class FormMenu extends React.Component {
     data.append('amount_serve', this.state.amount_serve);
     data.append('restaurantMenuID', this.props.idRestaurant);
     data.append('id_menu', this.state.id_menu);
-
     const config = {
       method: 'PUT',
       headers: {
@@ -234,6 +233,7 @@ class FormMenu extends React.Component {
       },
       body: data,
     };
+
 
     fetch(`${urlFunction()}/menu`, config)
       .then((response) => {
@@ -322,9 +322,10 @@ class FormMenu extends React.Component {
     let { classes } = this.props;
     let { imagePreviewUrl, openBackdrop, menus } = this.state;
     console.log("My Menu are", menus)
-    console.log("My imagePreviewUrl are", imagePreviewUrl)
+    console.log("The  this.props.idRestaurant", this.props.idRestaurant)
 
-    
+
+
 
     return (
       <div>

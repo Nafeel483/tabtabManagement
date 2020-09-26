@@ -187,7 +187,6 @@ class FormRestaurant extends React.Component {
 			},
 			body    : data,
 		};
-			
 		fetch(`${urlFunction()}/restaurant`, config)
 		
 			.then((response) => {
@@ -233,7 +232,7 @@ class FormRestaurant extends React.Component {
 		e.preventDefault();
 		let reader = new FileReader();
 		let file = e.target.files[0];
-
+		console.log("Pick Image is: ",file,reader)
 		if (file) {
 			reader.readAsDataURL(file);
 			reader.onloadend = () => {
@@ -277,7 +276,7 @@ class FormRestaurant extends React.Component {
 		}
 		let { classes, selectedDate } = this.props;
 		let { user,imagePreviewUrl ,country, countryList,openBackdrop} = this.state;
-		 
+		 console.log("The Local Url: ",this.state.file)
 		return (	
 			<div>
 				<Backdrop className={classes.backdrop} open={openBackdrop} >

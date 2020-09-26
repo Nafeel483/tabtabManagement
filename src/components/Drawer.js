@@ -271,23 +271,23 @@ const DrawerSide = (props) => {
       link: "interest"
     },
     {
-      name: " Photos", id: 4, icon: <AddAPhoto />,
+      name: " Photos", id: 6, icon: <AddAPhoto />,
       link: "photos"
     },
     {
-      name: " Suspend User", id: 4, icon: < PersonAddIcon />,
+      name: " Suspend User", id: 7, icon: < PersonAddIcon />,
       link: "Suspend"
     },
     {
-      name: " Service Fee", id: 4, icon: < RestaurantMenuIcon />,
+      name: " Service Fee", id: 8, icon: < RestaurantMenuIcon />,
       link: "ServiceFee"
     },
     {
-      name: "Order Reports", id: 4, icon: < ShowChart />,
+      name: "Order Reports", id: 9, icon: < ShowChart />,
       link: "OrderReports"
     },
     {
-      name: "Send Notification", id: 4, icon: <Notifications />,
+      name: "Send Notification", id: 10, icon: <Notifications />,
       link: "AlertPage"
     },
   ]
@@ -310,11 +310,11 @@ const DrawerSide = (props) => {
       link: `customer_details/${id_user}`
     },
     {
-      name: " Photos", id: 4, icon: <AddAPhoto />,
+      name: " Photos", id: 5, icon: <AddAPhoto />,
       link: "photos"
     },
     {
-      name: "Order Reports", id: 4, icon: < ShowChart />,
+      name: "Order Reports", id: 6, icon: < ShowChart />,
       link: "OrderReports"
     },
   ]

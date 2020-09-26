@@ -40,6 +40,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import { restaurantPath } from '../../utils/img_link';
 import {
 	geocodeByAddress,
 	geocodeByPlaceId,
@@ -540,7 +541,9 @@ myValueChange=()=>{
 										alt="Click to add image"
 									/> :
 									<img
-										src={imagePreviewUrl == '' ? `http://localhost:3001/api/v2/api/path?img_restaurant=${logo_restaurant}`:imagePreviewUrl }
+									// src={imagePreviewUrl == '' ? `http://localhost:3001/api/v2/api/path?img_restaurant=${logo_restaurant}`:imagePreviewUrl }
+										
+									src={imagePreviewUrl == '' ? `${restaurantPath}${logo_restaurant}`:imagePreviewUrl }
 										style={{
 											height       : 100,
 											width        : 100,
