@@ -276,7 +276,7 @@ class FormRestaurant extends React.Component {
 		}
 		let { classes, selectedDate } = this.props;
 		let { user,imagePreviewUrl ,country, countryList,openBackdrop} = this.state;
-		 console.log("The Local Url: ",this.state.file)
+		 console.log("The Local Url: ",this.state.delivery_fee)
 		return (	
 			<div>
 				<Backdrop className={classes.backdrop} open={openBackdrop} >
