@@ -166,7 +166,7 @@ class ServiceFee extends Component {
       this.setState({
         resturantlist2: res.data.slice(0, 20)
       })
-    
+
       this.setState({
         showProgress: false,
       })
@@ -230,8 +230,9 @@ class ServiceFee extends Component {
   updateResturant = () => {
     let data = {
       id_restaurant: this.state.id_restaurant_fk,
-      service_fee: this.state.fee,
+      service_fee: this.state.fee.toString(),
     }
+    console.log("the data is: ", data)
     this.setState({ showProgress: true })
     axios
       .post(`${urlFunction()}/restaurant/payment/admin/updatefee`, data, {
@@ -282,7 +283,7 @@ class ServiceFee extends Component {
   };
   render() {
     const { classes } = this.props;
-    console.log('my user is', this.state.user)
+    console.log('my user is', this.state.resturantlist2)
     return (
       <>
         <TableContainer style={{
@@ -432,7 +433,7 @@ class ServiceFee extends Component {
                             </div>
                           </div>
                         </TableCell>
-                        <TableCell align="left">{`${resto.service_fee}$`} </TableCell>
+                        <TableCell align="left">{`${resto.service_fee.toString()}$`} </TableCell>
                         <TableCell align="left">
                           <Button variant="contained" color="primary"
                             onClick={() => this.updateFee(resto)}
@@ -466,7 +467,7 @@ class ServiceFee extends Component {
                             </div>
                           </div>
                         </TableCell>
-                        <TableCell align="left">{`${resto.service_fee}$`} </TableCell>
+                        <TableCell align="left">{`${resto.service_fee.toString()}$`} </TableCell>
                         <TableCell align="left">
                           <Button variant="contained" color="primary"
                             onClick={() => this.updateFee(resto)}
