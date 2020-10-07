@@ -205,40 +205,40 @@ class EditRestaurant extends React.Component {
 		data.append('state', this.state.state);
 		data.append('tax', this.state.tax);
 		data.append('zipcode', this.state.zipcode);
-		data.append('open_restaurant', 
-		  this.state.timesOpening[0]&&this.state.timesOpening?.[0].weekday==n.toString()
-      &&parseFloat(time)>=parseFloat(this.state.timesOpening[0].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[0].end_hour)?1:
+		data.append('open_restaurant', this.state.open_restaurant
+	// 	  this.state.timesOpening[0]&&this.state.timesOpening?.[0].weekday==n.toString()
+    //   &&parseFloat(time)>=parseFloat(this.state.timesOpening[0].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[0].end_hour)?1:
 	 
-	  this.state.timesOpening[1]&&this.state.timesOpening?.[1].weekday==n.toString()
+	//   this.state.timesOpening[1]&&this.state.timesOpening?.[1].weekday==n.toString()
 	 
-	  &&
-      parseFloat(time)>=parseFloat(this.state.timesOpening[1].start_hour)
-	  && parseFloat(time)<=parseFloat(this.state.timesOpening[1].end_hour)?1:
+	//   &&
+    //   parseFloat(time)>=parseFloat(this.state.timesOpening[1].start_hour)
+	//   && parseFloat(time)<=parseFloat(this.state.timesOpening[1].end_hour)?1:
 	  
-	  this.state.timesOpening[2]&&this.state.timesOpening?.[2].weekday==n.toString()
+	//   this.state.timesOpening[2]&&this.state.timesOpening?.[2].weekday==n.toString()
 	 
 
-      &&parseFloat(time)>=parseFloat(this.state.timesOpening[2].start_hour)&&parseFloat(time)<=
-	  parseFloat(this.state.timesOpening[2].end_hour)?1:
+    //   &&parseFloat(time)>=parseFloat(this.state.timesOpening[2].start_hour)&&parseFloat(time)<=
+	//   parseFloat(this.state.timesOpening[2].end_hour)?1:
 	  
 
-	  this.state.timesOpening[3]&&this.state.timesOpening?.[3].weekday==n.toString()
-	  &&
+	//   this.state.timesOpening[3]&&this.state.timesOpening?.[3].weekday==n.toString()
+	//   &&
 	   
-      parseFloat(time)>=parseFloat(this.state.timesOpening[3].start_hour)&&parseFloat(time)<=
-      parseFloat(this.state.timesOpening[3].end_hour)?1:
-	  this.state.timesOpening[4]&&this.state.timesOpening?.[4].weekday==n.toString() 
+    //   parseFloat(time)>=parseFloat(this.state.timesOpening[3].start_hour)&&parseFloat(time)<=
+    //   parseFloat(this.state.timesOpening[3].end_hour)?1:
+	//   this.state.timesOpening[4]&&this.state.timesOpening?.[4].weekday==n.toString() 
 	 
-	  &&
-      parseFloat(time)>=parseFloat(this.state.timesOpening[4].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[4].end_hour)?1:
-	  this.state.timesOpening[5]&&this.state.timesOpening?.[5].weekday==n.toString() 
+	//   &&
+    //   parseFloat(time)>=parseFloat(this.state.timesOpening[4].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[4].end_hour)?1:
+	//   this.state.timesOpening[5]&&this.state.timesOpening?.[5].weekday==n.toString() 
 	 
-	  &&
-      parseFloat(time)>=parseFloat(this.state.timesOpening[5].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[5].end_hour)?1:
-	  this.state.timesOpening[6]&&this.state.timesOpening?.[6].weekday==n.toString()
-	  &&
-      parseFloat(time)>=parseFloat(this.state.timesOpening[6].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[6].end_hour)?1:
-      0,
+	//   &&
+    //   parseFloat(time)>=parseFloat(this.state.timesOpening[5].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[5].end_hour)?1:
+	//   this.state.timesOpening[6]&&this.state.timesOpening?.[6].weekday==n.toString()
+	//   &&
+    //   parseFloat(time)>=parseFloat(this.state.timesOpening[6].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[6].end_hour)?1:
+    //   0,
 		);
 		data.append('delivery_service', this.state.delivery_service);
 		data.append('delivery_fee', this.state.delivery_fee);
