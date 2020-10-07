@@ -412,7 +412,7 @@ myValueChange=()=>{
 			long_restaurant:  restaurant?.long_restaurant,
 			adresse_restaurant: restaurant?.adresse_restaurant,
 			logo_restaurant: restaurant?.logo_restaurant,
-			// open_restaurant: restaurant.open_restaurant,
+			open_restaurant: restaurant.open_restaurant,
 			country: restaurant?.countryRestID,
 			tax: restaurant?.tax,
 			stripeId:restaurant?.stripeId,
@@ -559,17 +559,15 @@ myValueChange=()=>{
 
 										<h3>Resturant status </h3>
 										
-										{
+										{/* {
 										this.state.menus.length>0&&<>{
 										this.state.timesOpening.length==0?
 										<h4>	Close</h4>:
-										// this.state.timesOpening.map(el =>
 										this.state.timesOpening[1]&&this.state.timesOpening?.[1].weekday==n.toString()
 											&&parseFloat(time)>parseFloat(this.state.timesOpening[1].start_hour)
 											&&parseFloat(time)<parseFloat(this.state.timesOpening[1].end_hour)?
 											<>
 											<h4>	Open </h4>
-                      						{/* {this.state.indexvalue&&this.myValueChange()} */}
 										
 											</>
 											:
@@ -578,7 +576,6 @@ myValueChange=()=>{
 											&&parseFloat(time)<parseFloat(this.state.timesOpening[2].end_hour)?
 											<>
 											<h4>	Open </h4>
-											{/* {this.state.indexvalue&&this.myValueChange()} */}
 											</>:
 											this.state.timesOpening[3]&&this.state.timesOpening?.[3].weekday==n.toString()
 											
@@ -586,7 +583,6 @@ myValueChange=()=>{
 											parseFloat(time)<=parseFloat(this.state.timesOpening[3].end_hour)?
 											<>
 											<h4>	Open </h4>
-											{/* {this.state.indexvalue&&this.myValueChange()} */}
 											</>:
 											this.state.timesOpening[4]&&this.state.timesOpening?.[4].weekday==n.toString()
 											
@@ -595,7 +591,6 @@ myValueChange=()=>{
 											parseFloat(time)<=parseFloat(this.state.timesOpening[4].end_hour)?
 											<>
 											<h4>	Open </h4>
-											{/* {this.state.indexvalue&&this.myValueChange()} */}
 											</>:
 											this.state.timesOpening[5]&&this.state.timesOpening?.[5].weekday==n.toString()
 					
@@ -603,30 +598,30 @@ myValueChange=()=>{
 											parseFloat(time)>=parseFloat(this.state.timesOpening[5].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[5].end_hour)?
 											<>
 											<h4>	Open </h4>
-											{/* {this.state.indexvalue&&this.myValueChange()} */}
 											</>:
 											this.state.timesOpening[6]&&this.state.timesOpening?.[6].weekday==n.toString()
 											
 											&&parseFloat(time)>=parseFloat(this.state.timesOpening[6].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[6].end_hour)?
 											<>
 											<h4>	Open </h4>
-											{/* {this.state.indexvalue&&this.myValueChange()} */}
 											</>:
 											
 											this.state.timesOpening[0]&&this.state.timesOpening?.[0].weekday==n.toString()
 											&&parseFloat(time)>=parseFloat(this.state.timesOpening[0].start_hour)&&parseFloat(time)<=parseFloat(this.state.timesOpening[0].end_hour)?
 											<>
 											<h4>	Open </h4>
-											{/* {this.state.indexvalue&&this.myValueChange()} */}
 											</>:
 											<>
 											<h4>	Close </h4>
-											{/* {this.state.indexvalue&&this.myValueChange()} */}
 											</>
-										// )
-											  }
-										</>
-										}	
+											  } */}
+
+										{/* </>
+										}	 */}
+										{this.state.open_restaurant==0?
+										<h4>	Close </h4>:
+										<h4>	Open </h4>
+	}
 									{/* <Select
 										style={{
 											width: '96%',
